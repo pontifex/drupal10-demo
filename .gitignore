@@ -14,12 +14,14 @@
 /web/sites/*/settings.local.php
 /web/sites/*/services.php
 /web/sites/*/services.local.php
-/web/sites/*/files/
+/web/sites/*/files/*
+!/web/sites/default/files/projects/
 /web/sites/*/private/
 /web/sites/simpletest/
 
 # Keep template and scaffold config files
 !/web/sites/default/default.settings.php
+!/web/sites/default/settings.php
 !/web/sites/default/default.services.yml
 !/web/sites/example.settings.local.php
 !/web/sites/example.sites.php
