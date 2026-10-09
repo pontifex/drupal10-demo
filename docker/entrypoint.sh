@@ -67,4 +67,9 @@ fi
 mkdir -p /opt/drupal/web/sites/default/files
 chown -R www-data:www-data /opt/drupal/web/sites/default/files
 
+# Ensure robots.txt contains sitemap
+if [ -f /opt/drupal/web/robots.txt ] && ! grep -qi "sitemap:" /opt/drupal/web/robots.txt; then
+  echo -e "\n# Sitemap XML\nSitemap: /sitemap.xml" >> /opt/drupal/web/robots.txt
+fi
+
 exec "$@"

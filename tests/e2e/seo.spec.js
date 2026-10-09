@@ -100,7 +100,6 @@ test.describe('Optymalizacja SEO i Pozycjonowanie Lokalne (Kraśnik, Annopol)', 
     expect(response?.status()).toBe(200);
 
     const text = await response?.text();
-    expect(text).toContain('Sitemap: /sitemap.xml');
+    expect(text).toMatch(/sitemap:\s*.*sitemap\.xml/i);
   });
-
 });
