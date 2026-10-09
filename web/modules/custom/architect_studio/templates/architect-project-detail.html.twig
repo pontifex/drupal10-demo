@@ -20,7 +20,7 @@
       <div class="media-card">
         <h3>{{ 'Wizualizacja 3D'|t }}</h3>
         <div class="zoomable-image-wrapper" role="button" tabindex="0" aria-label="{{ 'Powiększ wizualizację 3D'|t }}" data-title="{{ 'Wizualizacja 3D'|t }} – {{ project.title }}" data-full-src="{{ project.image_url }}">
-          <img src="{{ project.image_url }}" alt="{{ project.title }}" class="detail-img zoomable-img">
+          <img src="{{ project.image_url }}" alt="{{ project.title }}" class="detail-img zoomable-img" width="800" height="533" fetchpriority="high" decoding="async">
           <span class="zoom-badge">🔍 {{ 'Kliknij, aby powiększyć'|t }}</span>
         </div>
       </div>
@@ -29,7 +29,7 @@
       <div class="media-card blueprint-card">
         <h3>{{ 'Rzut kondygnacji i wymiary [Rysunek techniczny]'|t }}</h3>
         <div class="zoomable-image-wrapper" role="button" tabindex="0" aria-label="{{ 'Powiększ rzut techniczny'|t }}" data-title="{{ 'Rzut kondygnacji i wymiary'|t }} – {{ project.title }} ({{ project.code }})" data-full-src="{{ project.floor_plan_url }}">
-          <img src="{{ project.floor_plan_url }}" alt="Rzut {{ project.title }}" class="detail-img zoomable-img">
+          <img src="{{ project.floor_plan_url }}" alt="Rzut {{ project.title }}" class="detail-img zoomable-img" width="800" height="533" loading="lazy" decoding="async">
           <span class="zoom-badge">🔍 {{ 'Kliknij, aby powiększyć'|t }}</span>
         </div>
       </div>

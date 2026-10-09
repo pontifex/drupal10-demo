@@ -31,8 +31,8 @@ RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
     echo '<Directory /opt/drupal/web>\n    AllowOverride All\n    Require all granted\n</Directory>' >> /etc/apache2/apache2.conf
 
-# Ensure only mpm_prefork is active and enable mod_rewrite
-RUN a2dismod -f mpm_event mpm_worker || true && a2enmod mpm_prefork rewrite
+# Ensure only mpm_prefork is active and enable mod_rewrite, expires, headers, deflate
+RUN a2dismod -f mpm_event mpm_worker || true && a2enmod mpm_prefork rewrite expires headers deflate
 
 # Prepare files directory and permissions
 RUN mkdir -p /opt/drupal/web/sites/default/files && \
