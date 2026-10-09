@@ -46,6 +46,11 @@ final class ShowcaseController extends ControllerBase {
           'architect_studio/studio-styles',
         ],
       ],
+      '#cache' => [
+        'tags' => [
+          'architect_projects_list',
+        ],
+      ],
     ];
   }
 

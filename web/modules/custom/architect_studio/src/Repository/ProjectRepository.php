@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\architect_studio\Repository;
 
 use Drupal\Component\Datetime\TimeInterface;
+use Drupal\Core\Cache\CacheTagsInvalidatorInterface;
 use Drupal\Core\Database\Connection;
 
 /**
@@ -15,6 +16,7 @@ class ProjectRepository {
   public function __construct(
     protected Connection $database,
     protected TimeInterface $time,
+    protected ?CacheTagsInvalidatorInterface $cacheTagsInvalidator = NULL,
   ) {}
 
   /**
@@ -168,6 +170,8 @@ class ProjectRepository {
       ->condition('id', $id)
       ->execute();
 
+    $this->invalidateListCache();
+
     return TRUE;
   }
 
@@ -191,13 +195,18 @@ class ProjectRepository {
         ->fields($data)
         ->condition('id', $id)
         ->execute();
+
+      $this->invalidateListCache();
       return $id;
     }
 
     $data['created'] = $now;
-    return (int) $this->database->insert('architect_projects')
+    $newId = (int) $this->database->insert('architect_projects')
       ->fields($data)
       ->execute();
+
+    $this->invalidateListCache();
+    return $newId;
   }
 
   /**
@@ -208,7 +217,20 @@ class ProjectRepository {
       ->condition('id', $id)
       ->execute();
 
+    if ($deleted > 0) {
+      $this->invalidateListCache();
+    }
+
     return $deleted > 0;
+  }
+
+  /**
+   * Inwaliduje tagi pamięci podręcznej listy projektów.
+   */
+  protected function invalidateListCache(): void {
+    if ($this->cacheTagsInvalidator !== NULL) {
+      $this->cacheTagsInvalidator->invalidateTags(['architect_projects_list']);
+    }
   }
 
 }
