@@ -226,13 +226,41 @@ final class AdminController extends ControllerBase {
       };
 
       $rows[] = [
-        '<strong>' . htmlspecialchars((string) $order['order_number']) . '</strong>',
-        htmlspecialchars((string) $order['project_title']),
+        [
+          'data' => [
+            '#markup' => '<strong>' . htmlspecialchars((string) $order['order_number'], ENT_QUOTES, 'UTF-8') . '</strong>',
+          ],
+        ],
+        (string) $order['project_title'],
         $variantLabel,
         number_format((float) $order['amount'], 2, ',', ' ') . ' zł',
-        htmlspecialchars((string) $order['customer_name']) . '<br><small>' . htmlspecialchars((string) $order['customer_email']) . ' | ' . htmlspecialchars((string) $order['customer_phone']) . '</small>',
-        htmlspecialchars((string) $order['payment_method']) . '<br><small>' . htmlspecialchars((string) ($order['transaction_id'] ?? '')) . '</small>',
-        ['data' => ['#markup' => sprintf('<span style="color:#fff;background:%s;padding:3px 8px;border-radius:4px;font-size:12px;font-weight:600;">%s</span>', $statusColor, strtoupper((string) $order['payment_status']))]],
+        [
+          'data' => [
+            '#markup' => htmlspecialchars((string) $order['customer_name'], ENT_QUOTES, 'UTF-8')
+            . '<br><small style="color:#64748b;">'
+            . htmlspecialchars((string) $order['customer_email'], ENT_QUOTES, 'UTF-8')
+            . ' | '
+            . htmlspecialchars((string) $order['customer_phone'], ENT_QUOTES, 'UTF-8')
+            . '</small>',
+          ],
+        ],
+        [
+          'data' => [
+            '#markup' => '<code>' . htmlspecialchars((string) $order['payment_method'], ENT_QUOTES, 'UTF-8') . '</code>'
+            . '<br><small style="color:#64748b;">'
+            . htmlspecialchars((string) ($order['transaction_id'] ?? ''), ENT_QUOTES, 'UTF-8')
+            . '</small>',
+          ],
+        ],
+        [
+          'data' => [
+            '#markup' => sprintf(
+              '<span style="color:#fff;background:%s;padding:3px 8px;border-radius:4px;font-size:12px;font-weight:600;">%s</span>',
+              $statusColor,
+              strtoupper((string) $order['payment_status'])
+            ),
+          ],
+        ],
         date('Y-m-d H:i', (int) $order['created']),
       ];
     }
@@ -273,11 +301,26 @@ final class AdminController extends ControllerBase {
     foreach ($inquiries as $inq) {
       $rows[] = [
         '#' . $inq['id'],
-        htmlspecialchars((string) $inq['customer_name']) . '<br><small>' . htmlspecialchars((string) $inq['customer_email']) . '<br>' . htmlspecialchars((string) $inq['customer_phone']) . '</small>',
-        htmlspecialchars((string) $inq['inquiry_type']),
-        htmlspecialchars((string) ($inq['plot_location'] ?? '-')),
-        htmlspecialchars((string) ($inq['project_link'] ?? '-')),
-        '<div style="max-width:320px;font-size:13px;">' . nl2br(htmlspecialchars((string) $inq['message'])) . '</div>',
+        [
+          'data' => [
+            '#markup' => htmlspecialchars((string) $inq['customer_name'], ENT_QUOTES, 'UTF-8')
+            . '<br><small style="color:#64748b;">'
+            . htmlspecialchars((string) $inq['customer_email'], ENT_QUOTES, 'UTF-8')
+            . '<br>'
+            . htmlspecialchars((string) $inq['customer_phone'], ENT_QUOTES, 'UTF-8')
+            . '</small>',
+          ],
+        ],
+        (string) $inq['inquiry_type'],
+        (string) ($inq['plot_location'] ?? '-'),
+        (string) ($inq['project_link'] ?? '-'),
+        [
+          'data' => [
+            '#markup' => '<div style="max-width:320px;font-size:13px;line-height:1.4;">'
+            . nl2br(htmlspecialchars((string) $inq['message'], ENT_QUOTES, 'UTF-8'))
+            . '</div>',
+          ],
+        ],
         date('Y-m-d H:i', (int) $inq['created']),
       ];
     }
