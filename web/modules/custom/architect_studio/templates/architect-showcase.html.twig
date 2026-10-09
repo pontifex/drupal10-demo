@@ -1,0 +1,202 @@
+{# Template: architect-showcase.html.twig #}
+<div class="architect-container architect-showcase">
+
+  <!-- HERO SECTION -->
+  <header class="architect-hero">
+    <div class="hero-content">
+      <span class="hero-badge">Uprawnienia budowlane bez ograniczeń | Członek IARP</span>
+      <h1 class="hero-title">Pracownia Architektoniczna – Adaptacja projektów, modyfikacje i autorskie domy</h1>
+      <p class="hero-subtitle">
+        Pomagam inwestorom zrealizować marzenie o własnym domu. Profesjonalnie dostosowuję gotowe projekty do warunków Twojej działki (MPZP/WZ, ukształtowanie terenu, strefy przemarzania) oraz wprowadzam niezbędne zmiany – np. zastąpienie instalacji gazowej pompą ciepła, modyfikację układu okien czy ścian.
+      </p>
+      <div class="hero-cta-group">
+        <a href="#wycena" class="btn btn-primary btn-lg">Bezpłatna wycena adaptacji</a>
+        <a href="/projekty" class="btn btn-secondary btn-lg">Zobacz katalog projektów</a>
+      </div>
+    </div>
+    <div class="hero-image-wrap">
+      <img src="/modules/custom/architect_studio/images/moderno125.svg" alt="Wizualizacja nowoczesnego domu" class="hero-featured-image">
+    </div>
+  </header>
+
+  <!-- OFERTA USŁUG -->
+  <section class="architect-section" id="uslugi">
+    <div class="section-header">
+      <h2 class="section-title">W czym mogę Ci pomóc?</h2>
+      <p class="section-desc">Pewne, bezpieczne i zgodne z Prawem Budowlanym wsparcie na każdym etapie formalności inwestycyjnych.</p>
+    </div>
+
+    <div class="services-grid">
+      <!-- USŁUGA 1 -->
+      <div class="service-card">
+        <div class="service-icon">📐</div>
+        <h3 class="service-title">Adaptacja projektów gotowych</h3>
+        <p class="service-text">
+          Kupiłeś projekt gotowy z katalogu? Prawnie wymagane jest dostosowanie go do Twojej działki przez uprawnionego architekta. Opracowuję:
+        </p>
+        <ul class="service-list">
+          <li>Projekt Zagospodarowania Terenu (PZT) na mapie do celów projektowych</li>
+          <li>Zgodność z MPZP (Planem Miejscowym) lub decyzją o Warunkach Zabudowy (WZ)</li>
+          <li>Dostosowanie fundamentów do nośności gruntu i strefy przemarzania</li>
+          <li>Uzgodnienia zjazdu z drogi oraz warunków przyłączeniowych mediów</li>
+        </ul>
+      </div>
+
+      <!-- USŁUGA 2 -->
+      <div class="service-card service-card--featured">
+        <div class="service-icon">⚡</div>
+        <h3 class="service-title">Modyfikacje i zmiany w projektach</h3>
+        <p class="service-text">
+          Chcesz zmienić projekt pod swoje indywidualne potrzeby? Wprowadzam dopuszczalne prawem modyfikacje:
+        </p>
+        <ul class="service-list">
+          <li><strong>Zmiana źródła ciepła:</strong> zamiana pieca gazowego lub na paliwo stałe na pompę ciepła z instalacją PV i podłogówką</li>
+          <li><strong>Układ stolarki:</strong> zmiana wymiarów, rozmieszczenia lub dodanie dużych okien przesuwnych HS i okien dachowych</li>
+          <li><strong>Układ ścian:</strong> przesunięcia ścian działowych, adaptacja poddasza, powiększenie salonu</li>
+          <li><strong>Konstrukcja:</strong> zmiana rodzaju stropu (drewniany / gęstożebrowy / monolityczny) lub kąta nachylenia dachu</li>
+        </ul>
+      </div>
+
+      <!-- USŁUGA 3 -->
+      <div class="service-card">
+        <div class="service-icon">🏡</div>
+        <h3 class="service-title">Autorskie projekty ze sprzedażą online</h3>
+        <p class="service-text">
+          Tworzę nowoczesne, funkcjonalne i ekonomiczne w budowie projekty domów oraz budynków gospodarczych.
+        </p>
+        <ul class="service-list">
+          <li>Dostępne od ręki z natychmiastową płatnością <strong>BLIK</strong></li>
+          <li>Wybór wersji cyfrowej (PDF) lub <strong>4 egzemplarzy projektu budowlanego</strong> do urzędu</li>
+          <li>W pakiecie bezpłatna pisemna zgoda na wprowadzenie zmian</li>
+          <li>Wsparcie architekta autora przy procesie pozwolenia na budowę</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- O ARCHITEKCIE -->
+  <section class="architect-section architect-about-section">
+    <div class="about-container">
+      <div class="about-avatar">
+        <img src="/modules/custom/architect_studio/images/architect_portrait.svg" alt="Architekt" class="avatar-img">
+      </div>
+      <div class="about-info">
+        <span class="sub-heading">O mnie</span>
+        <h2>Doświadczony Architekt z Uprawnieniami</h2>
+        <p>
+          Jestem czynnym zawodowo architektem z uprawnieniami budowlanymi do projektowania bez ograniczeń oraz członkiem <strong>Izby Architektów Rzeczypospolitej Polskiej (IARP)</strong>.
+        </p>
+        <p>
+          Od lat pomagam inwestorom przejść bezstresowo przez gąszcz przepisów budowlanych, urzędów i uzgodnień. Wiem, jak ważne jest, aby dom był nie tylko piękny, ale przede wszystkim energooszczędny i perfekcyjnie usytuowany względem stron świata na działce.
+        </p>
+        <div class="about-highlights">
+          <div class="highlight-item">
+            <strong>100%</strong>
+            <span>Zgodności z Prawem Budowlanym</span>
+          </div>
+          <div class="highlight-item">
+            <strong>24-48h</strong>
+            <span>Czas wstępnej analizy działki</span>
+          </div>
+          <div class="highlight-item">
+            <strong>BLIK</strong>
+            <span>Szybka i bezpieczna płatność</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WYRÓŻNIONE PROJEKTY -->
+  {% if featured_projects is not empty %}
+  <section class="architect-section">
+    <div class="section-header">
+      <h2 class="section-title">Wyróżnione projekty autorskie</h2>
+      <p class="section-desc">Sprawdzone, dopracowane układy funkcjonalne z możliwością zakupu online.</p>
+    </div>
+
+    <div class="projects-grid">
+      {% for project in featured_projects %}
+      <article class="project-card">
+        <div class="project-card-image">
+          <img src="{{ project.image_url }}" alt="{{ project.title }}">
+          <span class="project-badge">{{ project.category|replace({'_': ' '})|capitalize }}</span>
+        </div>
+        <div class="project-card-body">
+          <h3 class="project-card-title">{{ project.title }}</h3>
+          <div class="project-card-meta">
+            <span><strong>{{ project.usable_area }} m²</strong> pow. użytkowa</span>
+            <span><strong>{{ project.rooms_count }}</strong> pokoi</span>
+            <span>Dach <strong>{{ project.roof_angle }}°</strong></span>
+          </div>
+          <p class="project-card-heating">💡 {{ project.heating_type }}</p>
+          <div class="project-card-pricing">
+            <div>
+              <span class="price-label">Druk (4 egz.):</span>
+              <span class="price-val">{{ project.price_print|number_format(2, ',', ' ') }} zł</span>
+            </div>
+            <div>
+              <span class="price-label">Cyfrowy (PDF):</span>
+              <span class="price-val">{{ project.price_digital|number_format(2, ',', ' ') }} zł</span>
+            </div>
+          </div>
+          <div class="project-card-actions">
+            <a href="/projekty/{{ project.id }}" class="btn btn-outline btn-block">Szczegóły i rzuty</a>
+            <a href="/projekty/{{ project.id }}/zamow" class="btn btn-success btn-block">Zamów (BLIK)</a>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+
+    <div class="center-cta" style="margin-top: 30px; text-align: center;">
+      <a href="/projekty" class="btn btn-secondary btn-lg">Zobacz pełny katalog projektów &rarr;</a>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- PROCES WSPÓŁPRACY -->
+  <section class="architect-section steps-section">
+    <div class="section-header">
+      <h2 class="section-title">Jak przebiega adaptacja i wprowadzanie zmian?</h2>
+      <p class="section-desc">Przejrzysty proces w 4 prostych krokach:</p>
+    </div>
+
+    <div class="steps-grid">
+      <div class="step-card">
+        <span class="step-num">01</span>
+        <h4>Zgłoszenie i dane</h4>
+        <p>Przesyłasz link do wybranego projektu oraz numer działki lub wypis z MPZP / decyzję WZ.</p>
+      </div>
+      <div class="step-card">
+        <span class="step-num">02</span>
+        <h4>Analiza i wycena</h4>
+        <p>Sprawdzam dopuszczalność zmian pod kątem przepisów i przedstawiam precyzyjną wycenę prac.</p>
+      </div>
+      <div class="step-card">
+        <span class="step-num">03</span>
+        <h4>Opracowanie zmian i PZT</h4>
+        <p>Wprowadzam modyfikacje (np. pompa ciepła, okna) i sporządzam Projekt Zagospodarowania Terenu.</p>
+      </div>
+      <div class="step-card">
+        <span class="step-num">04</span>
+        <h4>Komplet do urzędu</h4>
+        <p>Otrzymujesz kompletny projekt budowlany w 4 egzemplarzach gotowy do złożenia w starostwie.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORMULARZ BEZPŁATNEJ WYCENY -->
+  <section class="architect-section inquiry-section" id="wycena">
+    <div class="inquiry-box">
+      <div class="inquiry-header">
+        <h2>Zamów bezpłatną wycenę adaptacji lub zmian w projekcie</h2>
+        <p>Wypełnij poniższy formularz – sprawdzę parametry Twojej działki i odpowiem w ciągu 24 godzin.</p>
+      </div>
+      <div class="inquiry-form-container">
+        {{ inquiry_form }}
+      </div>
+    </div>
+  </section>
+
+</div>

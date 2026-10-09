@@ -1,0 +1,7 @@
+name: 'Architect Studio & Projects'
+type: module
+description: 'Strona wizytówkowa architekta, usługi adaptacji i zmian projektów, katalog projektów autorskich oraz sprzedaż z płatnościami BLIK.'
+core_version_requirement: ^10 || ^11
+package: 'Custom'
+dependencies:
+  - drupal:node

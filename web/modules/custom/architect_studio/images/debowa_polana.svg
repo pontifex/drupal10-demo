@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="sky2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="roofGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#sky2)"/>
+  <rect y="380" width="800" height="120" fill="#090d16"/>
+  <rect y="375" width="800" height="8" fill="#166534"/>
+  
+  <!-- Pitched roof house (dom z poddaszem) -->
+  <!-- Main walls -->
+  <rect x="220" y="240" width="360" height="140" fill="#f1f5f9"/>
+  <!-- Pitched roof (gabled) -->
+  <polygon points="180,240 400,100 620,240" fill="url(#roofGrad)"/>
+  <!-- Dormer window (lukarna) -->
+  <polygon points="340,190 400,150 460,190" fill="#475569"/>
+  <rect x="360" y="190" width="80" height="40" fill="#38bdf8" stroke="#0f172a" stroke-width="2"/>
+  
+  <!-- Ground floor windows & door -->
+  <rect x="260" y="270" width="80" height="90" fill="#0284c7" stroke="#0f172a" stroke-width="3"/>
+  <rect x="375" y="270" width="50" height="110" fill="#78350f"/>
+  <rect x="460" y="270" width="90" height="90" fill="#0284c7" stroke="#0f172a" stroke-width="3"/>
+  
+  <text x="30" y="50" font-family="system-ui, sans-serif" font-size="22" font-weight="700" fill="#f8fafc">DĘBOWA POLANA 148</text>
+  <text x="30" y="80" font-family="system-ui, sans-serif" font-size="14" fill="#94a3b8">Powierzchnia: 148.6 m² | Dom z poddaszem użytkowym | Dach 40°</text>
+</svg>

@@ -1,0 +1,7 @@
+studio-styles:
+  version: 1.0
+  css:
+    theme:
+      css/architect-studio.css: {}
+  dependencies:
+    - core/drupal

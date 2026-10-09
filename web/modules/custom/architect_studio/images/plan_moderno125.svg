@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <rect width="800" height="500" fill="#0f172a"/>
+  <!-- Blueprint Grid -->
+  <defs>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1e293b" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="500" fill="url(#grid)"/>
+
+  <!-- Blueprint layout -->
+  <text x="40" y="45" font-family="monospace" font-size="20" font-weight="700" fill="#38bdf8">RZUT PARTERU – MODERNO 125 [SKALA 1:100]</text>
+  
+  <!-- Outer Walls -->
+  <rect x="120" y="80" width="560" height="340" fill="#1e293b" stroke="#38bdf8" stroke-width="5" rx="4"/>
+  
+  <!-- Living room + kitchen -->
+  <rect x="130" y="90" width="320" height="200" fill="#0f172a" stroke="#0284c7" stroke-width="2"/>
+  <text x="210" y="190" font-family="monospace" font-size="16" fill="#f8fafc">1. SALON + KUCHNIA 42.5 m²</text>
+  
+  <!-- Bedrooms -->
+  <rect x="460" y="90" width="210" height="150" fill="#0f172a" stroke="#0284c7" stroke-width="2"/>
+  <text x="480" y="170" font-family="monospace" font-size="14" fill="#f8fafc">2. SYPIALNIA 14.8 m²</text>
+  
+  <rect x="460" y="250" width="210" height="160" fill="#0f172a" stroke="#0284c7" stroke-width="2"/>
+  <text x="480" y="335" font-family="monospace" font-size="14" fill="#f8fafc">3. POKÓJ / BIURO 12.6 m²</text>
+  
+  <!-- Bathroom + Tech/heat pump -->
+  <rect x="130" y="300" width="180" height="110" fill="#0f172a" stroke="#0284c7" stroke-width="2"/>
+  <text x="145" y="360" font-family="monospace" font-size="13" fill="#f8fafc">4. ŁAZIENKA 7.2 m²</text>
+  
+  <rect x="320" y="300" width="130" height="110" fill="#0f172a" stroke="#0284c7" stroke-width="2"/>
+  <text x="330" y="350" font-family="monospace" font-size="12" fill="#38bdf8">5. KOTŁOWNIA</text>
+  <text x="330" y="370" font-family="monospace" font-size="11" fill="#94a3b8">POMPA CIEPŁA</text>
+  
+  <!-- Dimensions notes -->
+  <line x1="120" y1="440" x2="680" y2="440" stroke="#f59e0b" stroke-width="2" marker-start="dot" marker-end="dot"/>
+  <text x="370" y="465" font-family="monospace" font-size="14" fill="#f59e0b" text-anchor="middle">Szerokość: 14.20 m</text>
+</svg>

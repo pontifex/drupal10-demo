@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <rect width="800" height="500" fill="#0f172a"/>
+  <defs>
+    <pattern id="grid3" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1e293b" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="500" fill="url(#grid3)"/>
+  <text x="40" y="45" font-family="monospace" font-size="20" font-weight="700" fill="#38bdf8">RZUT PIĘTRA – WILLA MIEJSKA REZYDENCJA [SKALA 1:100]</text>
+  <rect x="140" y="90" width="520" height="320" fill="#1e293b" stroke="#38bdf8" stroke-width="4" rx="4"/>
+  <rect x="160" y="110" width="240" height="150" fill="#0f172a" stroke="#0284c7" stroke-width="2"/>
+  <text x="180" y="190" font-family="monospace" font-size="14" fill="#f8fafc">MASTER BEDROOM 24.5 m²</text>
+  <rect x="420" y="110" width="220" height="150" fill="#0f172a" stroke="#0284c7" stroke-width="2"/>
+  <text x="440" y="190" font-family="monospace" font-size="14" fill="#f8fafc">SYPIALNIA 2 16.8 m²</text>
+  <rect x="160" y="280" width="180" height="110" fill="#0f172a" stroke="#0284c7" stroke-width="2"/>
+  <text x="175" y="340" font-family="monospace" font-size="13" fill="#f8fafc">ŁAZIENKA 11.2 m²</text>
+  <rect x="360" y="280" width="280" height="110" fill="#0f172a" stroke="#0284c7" stroke-width="2"/>
+  <text x="400" y="340" font-family="monospace" font-size="14" fill="#f8fafc">TARAS WIDOKOWY 32.0 m²</text>
+</svg>

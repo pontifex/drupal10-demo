@@ -1,0 +1,496 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @file
+ * Install, update and uninstall functions for architect_studio module.
+ */
+
+use Drupal\Core\Database\Database;
+
+/**
+ * Implements hook_schema().
+ *
+ * @return array<string, mixed>
+ */
+function architect_studio_schema(): array {
+  $schema = [];
+
+  $schema['architect_projects'] = [
+    'description' => 'Tabela autorskich projektów architektonicznych.',
+    'fields' => [
+      'id' => [
+        'description' => 'Identyfikator projektu.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'code' => [
+        'description' => 'Unikalny kod projektu (np. ARCH-01).',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'title' => [
+        'description' => 'Nazwa projektu.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'category' => [
+        'description' => 'Kategoria projektu (parterowy, poddasze, pietrowy, gospodarczy).',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+        'default' => 'dom_parterowy',
+      ],
+      'usable_area' => [
+        'description' => 'Powierzchnia użytkowa w m².',
+        'type' => 'numeric',
+        'precision' => 8,
+        'scale' => 2,
+        'not null' => TRUE,
+        'default' => 0.0,
+      ],
+      'building_area' => [
+        'description' => 'Powierzchnia zabudowy w m².',
+        'type' => 'numeric',
+        'precision' => 8,
+        'scale' => 2,
+        'not null' => TRUE,
+        'default' => 0.0,
+      ],
+      'roof_angle' => [
+        'description' => 'Kąt nachylenia dachu w stopniach.',
+        'type' => 'numeric',
+        'precision' => 5,
+        'scale' => 1,
+        'not null' => TRUE,
+        'default' => 35.0,
+      ],
+      'building_height' => [
+        'description' => 'Wysokość budynku w metrach.',
+        'type' => 'numeric',
+        'precision' => 5,
+        'scale' => 2,
+        'not null' => TRUE,
+        'default' => 7.5,
+      ],
+      'min_lot_width' => [
+        'description' => 'Minimalna szerokość działki w metrach.',
+        'type' => 'numeric',
+        'precision' => 5,
+        'scale' => 2,
+        'not null' => TRUE,
+        'default' => 18.0,
+      ],
+      'min_lot_length' => [
+        'description' => 'Minimalna długość działki w metrach.',
+        'type' => 'numeric',
+        'precision' => 5,
+        'scale' => 2,
+        'not null' => TRUE,
+        'default' => 22.0,
+      ],
+      'rooms_count' => [
+        'description' => 'Liczba pokoi.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 4,
+      ],
+      'bathrooms_count' => [
+        'description' => 'Liczba łazienek.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 2,
+      ],
+      'garage' => [
+        'description' => 'Rodzaj garażu.',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+        'default' => 'brak',
+      ],
+      'heating_type' => [
+        'description' => 'Zalecane źródło ciepła.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => 'Pompa ciepła + podłogówka',
+      ],
+      'price_digital' => [
+        'description' => 'Cena wersji cyfrowej (PDF/CAD) w PLN.',
+        'type' => 'numeric',
+        'precision' => 10,
+        'scale' => 2,
+        'not null' => TRUE,
+        'default' => 3200.00,
+      ],
+      'price_print' => [
+        'description' => 'Cena wersji drukowanej (4 egzemplarze) w PLN.',
+        'type' => 'numeric',
+        'precision' => 10,
+        'scale' => 2,
+        'not null' => TRUE,
+        'default' => 3800.00,
+      ],
+      'is_hidden' => [
+        'description' => 'Czy projekt jest ukryty (0 = widoczny, 1 = ukryty).',
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'description' => [
+        'description' => 'Opis i atuty projektu.',
+        'type' => 'text',
+        'not null' => FALSE,
+      ],
+      'image_url' => [
+        'description' => 'URL lub ścieżka do wizualizacji głównej.',
+        'type' => 'varchar',
+        'length' => 500,
+        'not null' => FALSE,
+        'default' => '',
+      ],
+      'floor_plan_url' => [
+        'description' => 'URL lub ścieżka do rzutu parteru.',
+        'type' => 'varchar',
+        'length' => 500,
+        'not null' => FALSE,
+        'default' => '',
+      ],
+      'created' => [
+        'description' => 'Timestamp utworzenia.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'updated' => [
+        'description' => 'Timestamp aktualizacji.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'idx_hidden' => ['is_hidden'],
+      'idx_category' => ['category'],
+    ],
+  ];
+
+  $schema['architect_orders'] = [
+    'description' => 'Tabela zamówień projektów architektonicznych.',
+    'fields' => [
+      'id' => [
+        'description' => 'Identyfikator zamówienia.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'order_number' => [
+        'description' => 'Numer zamówienia.',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'project_id' => [
+        'description' => 'ID zamówionego projektu.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'project_title' => [
+        'description' => 'Nazwa projektu w momencie zamówienia.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'variant' => [
+        'description' => 'Wariant: digital (PDF) lub print (4 egzemplarze).',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => 'print',
+      ],
+      'amount' => [
+        'description' => 'Kwota zamówienia w PLN.',
+        'type' => 'numeric',
+        'precision' => 10,
+        'scale' => 2,
+        'not null' => TRUE,
+        'default' => 0.00,
+      ],
+      'currency' => [
+        'description' => 'Waluta.',
+        'type' => 'varchar',
+        'length' => 8,
+        'not null' => TRUE,
+        'default' => 'PLN',
+      ],
+      'customer_name' => [
+        'description' => 'Imię i nazwisko inwestora.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'customer_email' => [
+        'description' => 'Adres e-mail inwestora.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'customer_phone' => [
+        'description' => 'Numer telefonu.',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'shipping_address' => [
+        'description' => 'Adres dostawy dla wersji drukowanej.',
+        'type' => 'text',
+        'not null' => FALSE,
+      ],
+      'invoice_nip' => [
+        'description' => 'NIP do faktury (opcjonalnie).',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => FALSE,
+        'default' => '',
+      ],
+      'notes' => [
+        'description' => 'Uwagi do zamówienia i prośby o zgody na zmiany.',
+        'type' => 'text',
+        'not null' => FALSE,
+      ],
+      'payment_method' => [
+        'description' => 'Wybrana metoda płatności (blik_p24, blik_payu, blik_autopay).',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+        'default' => 'blik_p24',
+      ],
+      'payment_status' => [
+        'description' => 'Status płatności (pending, paid, failed).',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => 'pending',
+      ],
+      'transaction_id' => [
+        'description' => 'Identyfikator transakcji w bramce płatności.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => FALSE,
+        'default' => '',
+      ],
+      'created' => [
+        'description' => 'Timestamp złożenia zamówienia.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'primary key' => ['id'],
+    'unique keys' => [
+      'uq_order_number' => ['order_number'],
+    ],
+  ];
+
+  $schema['architect_inquiries'] = [
+    'description' => 'Tabela zapytań o adaptację projektów i modyfikacje.',
+    'fields' => [
+      'id' => [
+        'description' => 'Identyfikator zapytania.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'customer_name' => [
+        'description' => 'Imię i nazwisko inwestora.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'customer_email' => [
+        'description' => 'E-mail inwestora.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'customer_phone' => [
+        'description' => 'Telefon.',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'inquiry_type' => [
+        'description' => 'Typ zapytania: adaptacja, modyfikacje, wycena.',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+        'default' => 'adaptacja',
+      ],
+      'project_link' => [
+        'description' => 'Link do wybranego projektu gotowego z innego biura lub nazwa.',
+        'type' => 'varchar',
+        'length' => 500,
+        'not null' => FALSE,
+        'default' => '',
+      ],
+      'plot_location' => [
+        'description' => 'Miejscowość / gmina / nr działki.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'default' => '',
+      ],
+      'message' => [
+        'description' => 'Treść zapytania i zakres planowanych zmian.',
+        'type' => 'text',
+        'not null' => TRUE,
+      ],
+      'status' => [
+        'description' => 'Status zapytania (new, in_review, responded).',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => 'new',
+      ],
+      'created' => [
+        'description' => 'Timestamp zapytania.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'primary key' => ['id'],
+  ];
+
+  return $schema;
+}
+
+/**
+ * Implements hook_install().
+ */
+function architect_studio_install(): void {
+  $database = Database::getConnection();
+  $time = \Drupal::time()->getRequestTime();
+
+  // Dodanie wstępnych projektów autorskich.
+  $projects = [
+    [
+      'code' => 'MOD-125',
+      'title' => 'Dom Parterowy Moderno 125',
+      'category' => 'dom_parterowy',
+      'usable_area' => 125.40,
+      'building_area' => 158.20,
+      'roof_angle' => 30.0,
+      'building_height' => 6.85,
+      'min_lot_width' => 21.40,
+      'min_lot_length' => 24.50,
+      'rooms_count' => 4,
+      'bathrooms_count' => 2,
+      'garage' => '1-stanowiskowy w bryle',
+      'heating_type' => 'Pompa ciepła powietrze-woda + ogrzewanie podłogowe',
+      'price_digital' => 3350.00,
+      'price_print' => 3950.00,
+      'is_hidden' => 0,
+      'description' => 'Nowoczesny, energooszczędny dom parterowy z dużymi przeszkleniami od strony ogrodu. Wyraźny podział na strefę dzienną (otwarty salon z jadalnią i kuchnią ze spiżarnią) oraz prywatną strefę nocną z 3 sypialniami.',
+      'image_url' => '/modules/custom/architect_studio/images/moderno125.svg',
+      'floor_plan_url' => '/modules/custom/architect_studio/images/plan_moderno125.svg',
+      'created' => $time,
+      'updated' => $time,
+    ],
+    [
+      'code' => 'POD-148',
+      'title' => 'Dębowa Polana – Dom z Poddaszem 148',
+      'category' => 'dom_z_poddaszem',
+      'usable_area' => 148.60,
+      'building_area' => 112.50,
+      'roof_angle' => 40.0,
+      'building_height' => 8.40,
+      'min_lot_width' => 19.80,
+      'min_lot_length' => 22.00,
+      'rooms_count' => 5,
+      'bathrooms_count' => 2,
+      'garage' => '2-stanowiskowy',
+      'heating_type' => 'Pompa ciepła gruntowa / możliwość kotła gazowego',
+      'price_digital' => 3600.00,
+      'price_print' => 4200.00,
+      'is_hidden' => 0,
+      'description' => 'Elegancki dom z poddaszem użytkowym idealny na węższe działki. Dwuspadowy dach z lukarnami zapewnia doskonałe doświetlenie piętra. Na parterze dodatkowy gabinet do pracy zdalnej.',
+      'image_url' => '/modules/custom/architect_studio/images/debowa_polana.svg',
+      'floor_plan_url' => '/modules/custom/architect_studio/images/plan_debowa_polana.svg',
+      'created' => $time - 3600,
+      'updated' => $time - 3600,
+    ],
+    [
+      'code' => 'WIL-185',
+      'title' => 'Willa Miejska Rezydencja 185',
+      'category' => 'dom_pietrowy',
+      'usable_area' => 185.20,
+      'building_area' => 134.80,
+      'roof_angle' => 22.0,
+      'building_height' => 8.90,
+      'min_lot_width' => 23.00,
+      'min_lot_length' => 25.50,
+      'rooms_count' => 6,
+      'bathrooms_count' => 3,
+      'garage' => '2-stanowiskowy w bryle',
+      'heating_type' => 'Pompa ciepła + rekuperacja z odzyskiem wilgoci + instalacja PV',
+      'price_digital' => 4200.00,
+      'price_print' => 4900.00,
+      'is_hidden' => 0,
+      'description' => 'Pełne piętro bez skosów. Przestronna strefa master bedroom z prywatną garderobą i łazienką. Taras widokowy na piętrze oraz reprezentacyjna strefa wejściowa.',
+      'image_url' => '/modules/custom/architect_studio/images/willa_miejska.svg',
+      'floor_plan_url' => '/modules/custom/architect_studio/images/plan_willa_miejska.svg',
+      'created' => $time - 7200,
+      'updated' => $time - 7200,
+    ],
+    [
+      'code' => 'GOS-54',
+      'title' => 'Budynek Gospodarczy z Garażem G-54',
+      'category' => 'gospodarczy_garaz',
+      'usable_area' => 54.30,
+      'building_area' => 64.00,
+      'roof_angle' => 30.0,
+      'building_height' => 5.60,
+      'min_lot_width' => 16.00,
+      'min_lot_length' => 18.00,
+      'rooms_count' => 2,
+      'bathrooms_count' => 1,
+      'garage' => 'Garaż + warsztat',
+      'heating_type' => 'Klimatyzator z funkcją grzania / promienniki',
+      'price_digital' => 1900.00,
+      'price_print' => 2300.00,
+      'is_hidden' => 0,
+      'description' => 'Funkcjonalny budynek gospodarczy z wydzielonym stanowiskiem garażowym, warsztatem oraz poddaszem nieużytkowym jako schowek sezonowy. Doskonały do uzupełnienia zagospodarowania działki.',
+      'image_url' => '/modules/custom/architect_studio/images/garaz_g54.svg',
+      'floor_plan_url' => '/modules/custom/architect_studio/images/plan_garaz_g54.svg',
+      'created' => $time - 10800,
+      'updated' => $time - 10800,
+    ],
+  ];
+
+  foreach ($projects as $project) {
+    $database->insert('architect_projects')
+      ->fields($project)
+      ->execute();
+  }
+}

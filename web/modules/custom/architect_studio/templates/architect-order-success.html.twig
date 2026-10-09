@@ -1,0 +1,76 @@
+{# Template: architect-order-success.html.twig #}
+<div class="architect-container order-success-page">
+
+  <div class="success-card">
+    <div class="success-icon-wrap">
+      <span class="success-check-icon">✓</span>
+    </div>
+
+    <h1>Dziękujemy za złożenie zamówienia!</h1>
+    <p class="success-lead">
+      Płatność <strong>BLIK</strong> została pomyślnie przetworzona i zaksięgowana. Numer Twojego zamówienia to:
+      <span class="order-number-highlight">{{ order.order_number }}</span>
+    </p>
+
+    <div class="order-details-box">
+      <h3>Szczegóły zamówienia:</h3>
+      <table class="order-summary-table">
+        <tbody>
+          <tr>
+            <td>Zamówiony projekt:</td>
+            <td><strong>{{ order.project_title }}</strong></td>
+          </tr>
+          <tr>
+            <td>Wariant:</td>
+            <td>
+              {% if order.variant == 'print' %}
+                <strong>Wersja drukowana (4 egzemplarze do urzędu)</strong>
+              {% else %}
+                <strong>Wersja cyfrowa (PDF)</strong>
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <td>Opłacona kwota:</td>
+            <td><strong>{{ order.amount|number_format(2, ',', ' ') }} {{ order.currency }}</strong></td>
+          </tr>
+          <tr>
+            <td>Metoda płatności:</td>
+            <td><strong>BLIK ({{ order.payment_method }})</strong></td>
+          </tr>
+          <tr>
+            <td>Status transakcji:</td>
+            <td><span class="badge-status-paid">OPŁACONE (ID: {{ order.transaction_id }})</span></td>
+          </tr>
+          <tr>
+            <td>Dane zamawiającego:</td>
+            <td>{{ order.customer_name }} ({{ order.customer_email }}, tel. {{ order.customer_phone }})</td>
+          </tr>
+          {% if order.shipping_address %}
+          <tr>
+            <td>Adres wysyłki kurierskiej:</td>
+            <td>{{ order.shipping_address }}</td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="next-steps-card">
+      <h3>Co dzieje się teraz?</h3>
+      {% if order.variant == 'print' %}
+        <p>Projekt w 4 drukowanych egzemplarzach z oryginalnymi pieczęciami i uprawnieniami zostanie wysłany przesyłką kurierską na podany adres w ciągu <strong>24–48 godzin</strong>. Na Twój adres e-mail wyślemy powiadomienie z numerem listu przewozowego.</p>
+      {% else %}
+        <p>Pliki projektu w formacie PDF zostały przesłane na Twój adres e-mail (<strong>{{ order.customer_email }}</strong>). W razie pytań architektonicznych służymy pomocą.</p>
+      {% endif %}
+      <p>Do zamówienia dołączona jest pisemna zgoda na wprowadzenie zmian w projekcie (m.in. zmiana ogrzewania na pompę ciepła, modyfikacja okien).</p>
+    </div>
+
+    <div class="success-actions">
+      <a href="/architekt" class="btn btn-primary">Powrót do strony pracowni</a>
+      <a href="/projekty" class="btn btn-outline">Zobacz inne projekty</a>
+    </div>
+
+  </div>
+
+</div>

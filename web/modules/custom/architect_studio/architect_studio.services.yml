@@ -1,0 +1,20 @@
+services:
+  architect_studio.project_repository:
+    class: Drupal\architect_studio\Repository\ProjectRepository
+    arguments: ['@database', '@datetime.time']
+
+  architect_studio.order_repository:
+    class: Drupal\architect_studio\Repository\OrderRepository
+    arguments: ['@database', '@datetime.time']
+
+  architect_studio.inquiry_repository:
+    class: Drupal\architect_studio\Repository\InquiryRepository
+    arguments: ['@database', '@datetime.time']
+
+  architect_studio.payment_gateway:
+    class: Drupal\architect_studio\Service\PaymentGatewayService
+    arguments: ['@logger.channel.architect_studio']
+
+  logger.channel.architect_studio:
+    parent: logger.channel_base
+    arguments: ['architect_studio']

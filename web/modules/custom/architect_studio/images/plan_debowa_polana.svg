@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <rect width="800" height="500" fill="#0f172a"/>
+  <defs>
+    <pattern id="grid2" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1e293b" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="500" fill="url(#grid2)"/>
+  <text x="40" y="45" font-family="monospace" font-size="20" font-weight="700" fill="#38bdf8">RZUT PARTERU + PODDASZA – DĘBOWA POLANA [SKALA 1:100]</text>
+  <rect x="140" y="90" width="520" height="320" fill="#1e293b" stroke="#38bdf8" stroke-width="4" rx="4"/>
+  <rect x="160" y="110" width="280" height="180" fill="#0f172a" stroke="#0284c7" stroke-width="2"/>
+  <text x="180" y="200" font-family="monospace" font-size="15" fill="#f8fafc">POKÓJ DZIENNY 36.2 m²</text>
+  <rect x="460" y="110" width="180" height="130" fill="#0f172a" stroke="#0284c7" stroke-width="2"/>
+  <text x="480" y="180" font-family="monospace" font-size="14" fill="#f8fafc">GABINET 13.5 m²</text>
+  <rect x="160" y="300" width="180" height="90" fill="#0f172a" stroke="#0284c7" stroke-width="2"/>
+  <text x="175" y="350" font-family="monospace" font-size="13" fill="#f8fafc">KUCHNIA 11.8 m²</text>
+  <rect x="360" y="300" width="280" height="90" fill="#0f172a" stroke="#0284c7" stroke-width="2"/>
+  <text x="400" y="350" font-family="monospace" font-size="14" fill="#f8fafc">GARAŻ 34.0 m²</text>
+  <line x1="140" y1="440" x2="660" y2="440" stroke="#f59e0b" stroke-width="2"/>
+  <text x="400" y="465" font-family="monospace" font-size="14" fill="#f59e0b" text-anchor="middle">Szerokość: 13.80 m</text>
+</svg>

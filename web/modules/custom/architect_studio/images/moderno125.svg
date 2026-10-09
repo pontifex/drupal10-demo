@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="60%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#475569"/>
+    </linearGradient>
+    <linearGradient id="wallGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#cbd5e1"/>
+    </linearGradient>
+    <linearGradient id="woodGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#92400e"/>
+      <stop offset="50%" stop-color="#b45309"/>
+      <stop offset="100%" stop-color="#78350f"/>
+    </linearGradient>
+    <linearGradient id="glassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#0284c7" stop-opacity="0.6"/>
+    </linearGradient>
+  </defs>
+  <!-- Background / Sky -->
+  <rect width="800" height="500" fill="url(#skyGrad)"/>
+  <!-- Ground -->
+  <rect y="380" width="800" height="120" fill="#0f172a"/>
+  <rect y="375" width="800" height="8" fill="#15803d"/>
+  
+  <!-- House base -->
+  <!-- Main building body -->
+  <rect x="180" y="220" width="440" height="160" fill="url(#wallGrad)" rx="2"/>
+  <!-- Flat/Slight angle roof -->
+  <polygon points="160,225 640,210 640,195 160,210" fill="#0f172a"/>
+  
+  <!-- Wood facade accent panel -->
+  <rect x="230" y="220" width="120" height="160" fill="url(#woodGrad)"/>
+  
+  <!-- Panoramic Living room window -->
+  <rect x="380" y="240" width="220" height="130" fill="url(#glassGrad)" stroke="#1e293b" stroke-width="4"/>
+  <line x1="490" y1="240" x2="490" y2="370" stroke="#1e293b" stroke-width="3"/>
+  <line x1="380" y1="300" x2="600" y2="300" stroke="#1e293b" stroke-width="2"/>
+  
+  <!-- Entrance door -->
+  <rect x="260" y="260" width="60" height="120" fill="#1e293b"/>
+  <circle cx="270" cy="320" r="4" fill="#f59e0b"/>
+  
+  <!-- Architectural grid lines & dimensions -->
+  <text x="30" y="50" font-family="system-ui, sans-serif" font-size="22" font-weight="700" fill="#f8fafc">MODERNO 125</text>
+  <text x="30" y="80" font-family="system-ui, sans-serif" font-size="14" fill="#94a3b8">Powierzchnia: 125.4 m² | Dom parterowy | Pompa ciepła</text>
+  <rect x="650" y="30" width="120" height="32" rx="6" fill="#0284c7"/>
+  <text x="710" y="51" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="#ffffff" text-anchor="middle">PROJEKT 3D</text>
+</svg>

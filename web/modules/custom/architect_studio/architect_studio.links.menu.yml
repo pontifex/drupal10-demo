@@ -1,0 +1,41 @@
+architect_studio.main_showcase:
+  title: 'Pracownia Architektoniczna'
+  description: 'Usługi adaptacji, modyfikacje i wycena'
+  route_name: architect_studio.showcase
+  menu_name: main
+  weight: -10
+
+architect_studio.main_catalog:
+  title: 'Katalog Projektów'
+  description: 'Autorskie projekty domów i budynków gospodarczych'
+  route_name: architect_studio.catalog
+  menu_name: main
+  weight: -9
+
+architect_studio.admin_root:
+  title: 'Pracownia Architekta'
+  description: 'Katalog projektów, zamówienia BLIK i zapytania o adaptację'
+  parent: system.admin
+  route_name: architect_studio.admin_projects
+  weight: 10
+
+architect_studio.admin_projects:
+  title: 'Katalog Projektów'
+  description: 'Zarządzanie projektami (dodawanie, edycja, ukrywanie)'
+  parent: architect_studio.admin_root
+  route_name: architect_studio.admin_projects
+  weight: 1
+
+architect_studio.admin_orders:
+  title: 'Zamówienia i Płatności BLIK'
+  description: 'Przegląd zamówień i transakcji'
+  parent: architect_studio.admin_root
+  route_name: architect_studio.admin_orders
+  weight: 2
+
+architect_studio.admin_inquiries:
+  title: 'Zapytania o Adaptację'
+  description: 'Zgłoszenia inwestorów dotyczące adaptacji i zmian'
+  parent: architect_studio.admin_root
+  route_name: architect_studio.admin_inquiries
+  weight: 3

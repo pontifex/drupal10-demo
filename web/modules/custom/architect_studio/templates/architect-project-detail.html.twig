@@ -1,0 +1,115 @@
+{# Template: architect-project-detail.html.twig #}
+<div class="architect-container project-detail-page">
+
+  <nav class="breadcrumb-nav">
+    <a href="/projekty">&larr; Wróć do katalogu projektów</a>
+  </nav>
+
+  <div class="detail-hero">
+    <div class="detail-header-text">
+      <span class="project-code-badge">Kod: {{ project.code }} | {{ project.category|replace({'_': ' '})|capitalize }}</span>
+      <h1>{{ project.title }}</h1>
+      <p class="detail-lead-desc">{{ project.description }}</p>
+    </div>
+  </div>
+
+  <div class="detail-grid">
+
+    <!-- LEWA KOLUMNA: WIZUALIZACJA I RZUTY -->
+    <div class="detail-media-column">
+      <div class="media-card">
+        <h3>Wizualizacja 3D</h3>
+        <img src="{{ project.image_url }}" alt="{{ project.title }}" class="detail-img">
+      </div>
+
+      {% if project.floor_plan_url %}
+      <div class="media-card blueprint-card">
+        <h3>Rzut kondygnacji i wymiary [Rysunek techniczny]</h3>
+        <img src="{{ project.floor_plan_url }}" alt="Rzut {{ project.title }}" class="detail-img">
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- PRAWA KOLUMNA: PARAMETRY I ZAKUP Z BLIK -->
+    <div class="detail-specs-column">
+
+      <!-- BOX ZAKUPU -->
+      <div class="purchase-box">
+        <h3>Zamów ten projekt online</h3>
+        <p class="purchase-box-note">Płatność natychmiastowa przez <strong>BLIK</strong>. Wybierz wariant dokumentacji:</p>
+        
+        <div class="purchase-variants">
+          <div class="variant-option">
+            <span class="variant-name">Wersja drukowana (4 egzemplarze)</span>
+            <span class="variant-price">{{ project.price_print|number_format(2, ',', ' ') }} zł</span>
+            <small>Komplet z pieczęciami do urzędu, dostawa kurierska GRATIS</small>
+          </div>
+          <div class="variant-option">
+            <span class="variant-name">Wersja cyfrowa (PDF)</span>
+            <span class="variant-price">{{ project.price_digital|number_format(2, ',', ' ') }} zł</span>
+            <small>Natychmiastowa wysyłka na e-mail po opłaceniu BLIK</small>
+          </div>
+        </div>
+
+        <div class="purchase-cta">
+          <a href="/projekty/{{ project.id }}/zamow" class="btn btn-success btn-lg btn-block">Przejdź do zamówienia (BLIK)</a>
+        </div>
+      </div>
+
+      <!-- TABELA PARAMETRÓW TECHNICZNYCH -->
+      <div class="specs-table-card">
+        <h3>Dane techniczne i wymiary</h3>
+        <table class="specs-table">
+          <tbody>
+            <tr>
+              <td>Powierzchnia użytkowa:</td>
+              <td><strong>{{ project.usable_area }} m²</strong></td>
+            </tr>
+            <tr>
+              <td>Powierzchnia zabudowy:</td>
+              <td><strong>{{ project.building_area }} m²</strong></td>
+            </tr>
+            <tr>
+              <td>Kąt nachylenia dachu:</td>
+              <td><strong>{{ project.roof_angle }}°</strong></td>
+            </tr>
+            <tr>
+              <td>Wysokość budynku:</td>
+              <td><strong>{{ project.building_height }} m</strong></td>
+            </tr>
+            <tr>
+              <td>Minimalne wymiary działki:</td>
+              <td><strong>{{ project.min_lot_width }} m × {{ project.min_lot_length }} m</strong></td>
+            </tr>
+            <tr>
+              <td>Liczba pokoi:</td>
+              <td><strong>{{ project.rooms_count }}</strong></td>
+            </tr>
+            <tr>
+              <td>Liczba łazienek:</td>
+              <td><strong>{{ project.bathrooms_count }}</strong></td>
+            </tr>
+            <tr>
+              <td>Garaż:</td>
+              <td><strong>{{ project.garage }}</strong></td>
+            </tr>
+            <tr>
+              <td>Zalecane ogrzewanie:</td>
+              <td><strong>{{ project.heating_type }}</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ADAPTACJA I ZMIANY -->
+      <div class="adaptation-banner">
+        <h4>Chcesz wprowadzić zmiany w tym projekcie?</h4>
+        <p>W cenie projektu otrzymujesz <strong>bezpłatną pisemną zgodę architekta na modyfikacje</strong> (np. zmiana źródła ciepła na pompę ciepła, zamiana okien na HS, przestawienie ścian). Mogę również wykonać kompleksową adaptację tego projektu do Twojej działki.</p>
+        <a href="/architekt#wycena" class="btn btn-outline btn-sm">Zapytaj o adaptację &rarr;</a>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
