@@ -40,6 +40,23 @@ architect_studio.order_success:
   requirements:
     _permission: 'access content'
 
+architect_studio.terms:
+  path: '/regulamin'
+  defaults:
+    _controller: '\Drupal\architect_studio\Controller\LegalController::terms'
+    _title: 'Regulamin Serwisu i Sprzedaży Projektów'
+  requirements:
+    _permission: 'access content'
+
+architect_studio.privacy:
+  path: '/polityka-prywatnosci'
+  defaults:
+    _controller: '\Drupal\architect_studio\Controller\LegalController::privacy'
+    _title: 'Polityka Prywatności i Informacja o RODO'
+  requirements:
+    _permission: 'access content'
+
+
 architect_studio.admin_projects:
   path: '/admin/architect/projekty'
   defaults:

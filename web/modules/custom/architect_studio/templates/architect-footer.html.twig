@@ -1,0 +1,96 @@
+{#
+/**
+ * @file
+ * Szablon profesjonalnej stopki serwisu w stylu Extradom z danymi rejestrowymi i prawnymi.
+ */
+#}
+<footer class="architect-footer">
+  <div class="architect-footer-inner container">
+    <div class="architect-footer-grid">
+
+      <!-- Kolumna 1: O pracowni -->
+      <div class="footer-col">
+        <div class="footer-brand">
+          <a href="{{ path('architect_studio.showcase') }}" class="footer-logo">
+            <span class="brand-square"></span>
+            <span>Pracownia Architektoniczna</span>
+          </a>
+        </div>
+        <p class="footer-desc">
+          {{ 'Autorskie projekty domów jednorodzinnych, rezydencji i budynków gospodarczych. Kompleksowa adaptacja do działki (PZT, MPZP/WZ) oraz optymalizacja pod pompę ciepła i rekuperację.'|t }}
+        </p>
+        <div class="footer-badge">
+          <span class="badge-icon">🏛️</span>
+          <span>{{ 'Członek IARP | Uprawnienia budowlane bez ograniczeń nr MA/012/2014'|t }}</span>
+        </div>
+      </div>
+
+      <!-- Kolumna 2: Dane rejestrowe -->
+      <div class="footer-col">
+        <h4 class="footer-heading">{{ 'Dane rejestrowe i fakturowe'|t }}</h4>
+        <div class="footer-company-info">
+          <p class="company-name"><strong>{{ 'Pracownia Architektoniczna'|t }}</strong><br>{{ 'mgr inż. arch. Jan Kowalski'|t }}</p>
+          <p><span class="info-label">{{ 'Adres biura:'|t }}</span> ul. Architektów 14, 00-001 Warszawa</p>
+          <p><span class="info-label">{{ 'NIP:'|t }}</span> 525-241-89-02</p>
+          <p><span class="info-label">{{ 'REGON:'|t }}</span> 142890123</p>
+          <p><span class="info-label">{{ 'Konto firmowe:'|t }}</span> 12 1140 2004 0000 3102 1234 5678 (mBank)</p>
+        </div>
+      </div>
+
+      <!-- Kolumna 3: Szybkie linki & Informacje prawne -->
+      <div class="footer-col">
+        <h4 class="footer-heading">{{ 'Nawigacja i kwestie prawne'|t }}</h4>
+        <ul class="footer-links">
+          <li><a href="{{ path('architect_studio.showcase') }}">{{ 'Strona główna i oferta'|t }}</a></li>
+          <li><a href="{{ path('architect_studio.catalog') }}">{{ 'Katalog projektów autorskich'|t }}</a></li>
+          <li><a href="{{ path('architect_studio.showcase') }}#wycena">{{ 'Wycena adaptacji i zmian'|t }}</a></li>
+          <li><a href="{{ path('architect_studio.terms') }}"><strong>{{ 'Regulamin sprzedaży projektów'|t }}</strong></a></li>
+          <li><a href="{{ path('architect_studio.privacy') }}"><strong>{{ 'Polityka prywatności i RODO'|t }}</strong></a></li>
+        </ul>
+      </div>
+
+      <!-- Kolumna 4: Kontakt i Bezpieczne płatności -->
+      <div class="footer-col">
+        <h4 class="footer-heading">{{ 'Kontakt i obsługa klienta'|t }}</h4>
+        <ul class="footer-contact">
+          <li>
+            <span class="contact-icon">📞</span>
+            <a href="tel:+48221234567">+48 22 123 45 67</a>
+          </li>
+          <li>
+            <span class="contact-icon">✉️</span>
+            <a href="mailto:biuro@architekt-studio.pl">biuro@architekt-studio.pl</a>
+          </li>
+          <li>
+            <span class="contact-icon">🕒</span>
+            <span>{{ 'Pon. – Pt.: 8:00 – 18:00'|t }}</span>
+          </li>
+        </ul>
+
+        <div class="footer-payments">
+          <span class="payments-title">{{ 'Bezpieczne płatności online:'|t }}</span>
+          <div class="payment-badges">
+            <span class="pay-pill blik">BLIK</span>
+            <span class="pay-pill p24">Przelewy24</span>
+            <span class="pay-pill payu">PayU</span>
+            <span class="pay-pill autopay">Autopay</span>
+          </div>
+          <p class="ssl-note">🔒 {{ 'Szyfrowane połączenie SSL / TLS 256-bit'|t }}</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Pasek praw autorskich -->
+    <div class="architect-footer-bottom">
+      <div class="copyright-text">
+        © 2026 Pracownia Architektoniczna. {{ 'Wszystkie prawa zastrzeżone. Projekty chronione prawem autorskim.'|t }}
+      </div>
+      <div class="bottom-legal-links">
+        <a href="{{ path('architect_studio.terms') }}">{{ 'Regulamin'|t }}</a>
+        <span class="sep">•</span>
+        <a href="{{ path('architect_studio.privacy') }}">{{ 'Polityka prywatności (RODO)'|t }}</a>
+      </div>
+    </div>
+  </div>
+</footer>

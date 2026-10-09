@@ -47,4 +47,19 @@ class OrderValidationTest extends UnitTestCase {
     $this->assertSame(3350.00, $calculateAmount($project, 'digital'));
   }
 
+  /**
+   * Test wymogu akceptacji regulaminu i polityki prywatności przy zamówieniu.
+   */
+  public function testTermsAcceptanceRequirement(): void {
+    $validateConsent = function (mixed $termsAccepted): bool {
+      return !empty($termsAccepted);
+    };
+
+    $this->assertFalse($validateConsent(0));
+    $this->assertFalse($validateConsent(NULL));
+    $this->assertFalse($validateConsent(''));
+    $this->assertTrue($validateConsent(1));
+    $this->assertTrue($validateConsent('1'));
+  }
+
 }
