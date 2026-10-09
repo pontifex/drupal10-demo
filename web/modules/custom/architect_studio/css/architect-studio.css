@@ -1,5 +1,70 @@
 /* Architect Studio - Modern Architectural Aesthetic */
 
+/* ==========================================================================
+   Naprawa asymetrycznego układu Olivero (usunięcie pustej prawej strony)
+   ========================================================================== */
+
+/* 1. Usunięcie kropkowanego/niebieskiego tła body z motywu Olivero */
+body {
+  background-image: none !important;
+  background-color: #f8fafc !important;
+}
+
+/* 2. Rozciągnięcie kontenera strony na pełną szerokość ekranu zamiast 1570px przyklejonego do lewej */
+.page-wrapper {
+  max-width: 100% !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  background: #ffffff !important;
+  box-shadow: none !important;
+}
+
+/* 3. Rozciągnięcie paska nawigacji i nagłówka */
+.site-header,
+.site-header__fixable,
+.site-header__inner {
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+/* 4. Wyśrodkowanie i optymalna szerokość kontenera na monitorach Full HD / 4K */
+.container,
+.main-content__container,
+.site-header__inner__container {
+  max-width: 1400px !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 24px !important;
+  padding-right: 24px !important;
+  box-sizing: border-box !important;
+}
+
+/* 5. Wyśrodkowanie głównego obszaru treści (likwidacja lewostronnego przesunięcia Olivero) */
+.layout-main {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.main-content {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+}
+
+/* 6. Wyłączenie pustego paska bocznego / social bar, który rezerwował kolumnę w gridzie */
+.social-bar,
+.layout-sidebar {
+  display: none !important;
+}
+
+/* 7. Ukrycie duplikującego się tytułu strony w nagłówku Olivero na stronie głównej / wizytówce */
+.path-frontpage .block-page-title-block,
+.path-architekt .block-page-title-block {
+  display: none !important;
+}
+
 :root {
   --arch-primary: #0284c7;
   --arch-primary-hover: #0369a1;
@@ -17,7 +82,7 @@
 }
 
 .architect-container {
-  max-width: 1240px;
+  max-width: 1360px;
   margin: 0 auto;
   padding: 20px 24px 60px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
