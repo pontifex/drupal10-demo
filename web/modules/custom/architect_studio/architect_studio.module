@@ -103,3 +103,14 @@ function architect_studio_css_alter(array &$css, AttachedAssetsInterface $assets
     $css[$target]['weight'] = 9999;
   }
 }
+
+/**
+ * Implements hook_toolbar_alter().
+ *
+ * @param array<string, mixed> $items
+ *   Toolbar items.
+ */
+function architect_studio_toolbar_alter(array &$items): void {
+  // Usuń ostrzeżenie profilu demonstracyjnego w pasku administracyjnym.
+  unset($items['experimental-profile-warning']);
+}
