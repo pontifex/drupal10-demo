@@ -160,3 +160,35 @@ function architect_studio_post_update_load_extradom_projects(): void {
       ->execute();
   }
 }
+
+/**
+ * Aktualizuje projekt 5 (budynek gospodarczy/garaż) na wzorzec z Extradom.pl.
+ */
+function architect_studio_post_update_update_project_5_extradom_garage(): void {
+  $database = \Drupal::database();
+  $database->update('architect_projects')
+    ->fields([
+      'code' => 'SLN-1292',
+      'title' => 'Garaż G195 z Pomieszczeniami Gospodarczymi (SLN1292)',
+      'category' => 'gospodarczy_garaz',
+      'usable_area' => 65.04,
+      'building_area' => 74.90,
+      'roof_angle' => 30.0,
+      'building_height' => 5.36,
+      'min_lot_width' => 18.70,
+      'min_lot_length' => 14.00,
+      'rooms_count' => 3,
+      'bathrooms_count' => 1,
+      'garage' => '2-stanowiskowy',
+      'heating_type' => 'Klimatyzator z funkcją grzania / pompa ciepła powietrze-powietrze',
+      'price_digital' => 1090.00,
+      'price_print' => 1490.00,
+      'is_hidden' => 0,
+      'description' => 'Nowoczesny budynek garażowo-gospodarczy z dachem czterospadowym (kopertowym), wzorowany na projekcie z Extradom.pl. Mieści dwa przestronne stanowiska postojowe oraz dwa niezależne pomieszczenia gospodarcze z osobnym wejściem od ogrodu – idealne na warsztat majsterkowicza, narzędziownię lub magazyn sprzętu ogrodowego.',
+      'image_url' => '/modules/custom/architect_studio/images/garaz_g195.jpg',
+      'floor_plan_url' => '/modules/custom/architect_studio/images/plan_garaz_g195.png',
+      'updated' => \Drupal::time()->getRequestTime(),
+    ])
+    ->condition('id', 5)
+    ->execute();
+}
