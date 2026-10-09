@@ -134,7 +134,7 @@ final class AdminController extends ControllerBase {
       'add_button' => [
         '#markup' => sprintf(
           '<div style="margin-bottom:15px;">
-            <a href="%s" class="button button--primary button--action">+ Dodaj nowy projekt architektoniczny</a>
+            <a href="%s" class="button button--primary button--action">Dodaj nowy projekt architektoniczny</a>
           </div>',
           $addUrl
         ),
