@@ -1,16 +1,61 @@
-/* Architect Studio - Modern Architectural Aesthetic */
+/* Architect Studio - Extradom.pl Inspired Aesthetic & Modern Architectural Layout */
 
 /* ==========================================================================
-   Naprawa asymetrycznego układu Olivero (usunięcie pustej prawej strony)
+   Olivero Core Tokens Override & Custom Brand Tokens (Extradom Red Palette)
    ========================================================================== */
 
-/* 1. Usunięcie kropkowanego/niebieskiego tła body z motywu Olivero */
+:root {
+  /* Drupal Olivero core theme variables overridden to Extradom Red (#e60022) */
+  --color--primary-hue: 351;
+  --color--primary-saturation: 100%;
+  --color--primary-lightness: 45;
+  --color--primary-30: #b3001a;
+  --color--primary-40: #cc001e;
+  --color--primary-50: #e60022;
+  --color--primary-60: #f02844;
+  --color--primary-80: #fecaca;
+  --color-text-primary-medium: #cc001e;
+  --color-text-primary-loud: #b3001a;
+
+  /* Architect Studio Extradom Design System Tokens */
+  --arch-primary: #e60022;
+  --arch-primary-hover: #cc001e;
+  --arch-primary-dark: #b3001a;
+  --arch-primary-light: #fef2f2;
+  --arch-primary-border: #fee2e2;
+  --arch-primary-subtle: #fecaca;
+  --arch-dark: #111827;
+  --arch-dark-card: #1f2937;
+  --arch-slate: #374151;
+  --arch-light: #f9fafb;
+  --arch-border: #e5e7eb;
+  --arch-border-strong: #d1d5db;
+  --arch-accent: #f59e0b;
+  --arch-success: #16a34a;
+  --arch-text: #111827;
+  --arch-text-muted: #6b7280;
+  --arch-radius: 8px;
+  --arch-radius-sm: 4px;
+  --arch-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --arch-shadow: 0 4px 18px -2px rgba(17, 24, 39, 0.08);
+  --arch-shadow-lg: 0 12px 32px -4px rgba(17, 24, 39, 0.12);
+}
+
+/* ==========================================================================
+   Naprawa asymetrycznego układu Olivero (pełna szerokość + Extradom Header)
+   ========================================================================== */
+
+/* 1. Czyste, nowoczesne tło strony bez wzorka Olivero */
+html,
 body {
   background-image: none !important;
   background-color: #f8fafc !important;
+  color: var(--arch-text) !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* 2. Rozciągnięcie kontenera strony na pełną szerokość ekranu zamiast 1570px przyklejonego do lewej */
+/* 2. Rozciągnięcie kontenera strony na pełną szerokość */
 .page-wrapper {
   max-width: 100% !important;
   width: 100% !important;
@@ -19,12 +64,82 @@ body {
   box-shadow: none !important;
 }
 
-/* 3. Rozciągnięcie paska nawigacji i nagłówka */
+/* 3. Nagłówek Olivero w stylu Extradom (Czerwony pasek akcentowy na górze + czyste białe tło) */
+.site-header {
+  border-top: 4px solid var(--arch-primary) !important;
+  background-color: #ffffff !important;
+  border-bottom: 1px solid var(--arch-border) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04) !important;
+}
+
 .site-header,
 .site-header__fixable,
 .site-header__inner {
   max-width: 100% !important;
   width: 100% !important;
+}
+
+.site-header__fixable {
+  background-color: #ffffff !important;
+}
+
+/* Logo i nazwa serwisu - likwidacja niebieskiego kloca Olivero */
+.site-branding {
+  background: transparent !important;
+  background-image: none !important;
+  min-height: unset !important;
+  padding: 16px 0 !important;
+  margin: 0 !important;
+}
+
+.site-branding__inner {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.site-branding__text {
+  margin: 0 !important;
+}
+
+.site-branding__text a {
+  color: var(--arch-dark) !important;
+  font-weight: 800 !important;
+  font-size: 21px !important;
+  letter-spacing: -0.3px !important;
+  text-decoration: none !important;
+  transition: color 0.15s ease !important;
+}
+
+.site-branding__text a:hover {
+  color: var(--arch-primary) !important;
+}
+
+/* Menu nawigacyjne Olivero w stylu Extradom */
+.primary-nav__menu-link {
+  color: #374151 !important;
+  font-weight: 600 !important;
+  font-size: 15px !important;
+  padding-top: 22px !important;
+  padding-bottom: 22px !important;
+  transition: color 0.15s ease !important;
+}
+
+.primary-nav__menu-link:hover,
+.primary-nav__menu-link.is-active,
+.primary-nav__menu-item--active-trail .primary-nav__menu-link {
+  color: var(--arch-primary) !important;
+}
+
+.primary-nav__menu-link-inner--level-1:after {
+  background-color: var(--arch-primary) !important;
+  height: 3px !important;
+  border-radius: 2px 2px 0 0 !important;
+}
+
+/* Ukrycie zbędnych elementów nawigacji Olivero */
+.header-search,
+.sticky-header-toggle {
+  display: none !important;
 }
 
 /* 4. Wyśrodkowanie i optymalna szerokość kontenera na monitorach Full HD / 4K */
@@ -40,8 +155,9 @@ body {
   box-sizing: border-box !important;
 }
 
-/* 5. Wyśrodkowanie głównego obszaru treści (likwidacja lewostronnego przesunięcia Olivero) */
-.layout-main {
+/* 5. Wyśrodkowanie głównego obszaru treści (likwidacja przesunięcia w prawo na ekranach >1200px) */
+.layout-main,
+.layout-main-wrapper {
   display: block !important;
   width: 100% !important;
   max-width: 100% !important;
@@ -53,67 +169,101 @@ body {
   margin: 0 auto !important;
 }
 
-/* 6. Wyłączenie pustego paska bocznego / social bar, który rezerwował kolumnę w gridzie */
+@media (min-width: 75rem) {
+  .layout-main {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .main-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    margin-inline-end: 0 !important;
+  }
+}
+
+.main-content {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+}
+
+/* 6. Wyłączenie pustego paska bocznego Olivero */
 .social-bar,
 .layout-sidebar {
   display: none !important;
 }
 
-/* 7. Ukrycie duplikującego się tytułu strony w nagłówku Olivero na stronie głównej / wizytówce */
+/* 7. Ukrycie zbędnego tytułu strony Olivero i breadcrumb na wizytówce i w katalogu */
 .path-frontpage .block-page-title-block,
-.path-architekt .block-page-title-block {
+.path-architekt .block-page-title-block,
+.path-projekty .block-page-title-block,
+.path-projekty .breadcrumb {
   display: none !important;
 }
 
-:root {
-  --arch-primary: #0284c7;
-  --arch-primary-hover: #0369a1;
-  --arch-dark: #0f172a;
-  --arch-dark-card: #1e293b;
-  --arch-slate: #334155;
-  --arch-light: #f8fafc;
-  --arch-border: #e2e8f0;
-  --arch-accent: #f59e0b;
-  --arch-success: #16a34a;
-  --arch-text: #1e293b;
-  --arch-text-muted: #64748b;
-  --arch-radius: 10px;
-  --arch-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.08);
-}
+/* ==========================================================================
+   Główny Kontener Modułu Architect Studio
+   ========================================================================== */
 
 .architect-container {
   max-width: 1360px;
   margin: 0 auto;
-  padding: 20px 24px 60px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  padding: 24px 24px 64px;
+  font-family: inherit;
   color: var(--arch-text);
   line-height: 1.6;
 }
 
-/* Hero Section */
+/* ==========================================================================
+   Hero Section (Nowoczesny baner wizerunkowy z czerwonym akcentem)
+   ========================================================================== */
+
 .architect-hero {
   display: grid;
   grid-template-columns: 1.2fr 1fr;
   gap: 40px;
   align-items: center;
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  position: relative;
+  overflow: hidden;
   color: #fff;
   border-radius: var(--arch-radius);
-  padding: 50px 45px;
+  padding: 50px 48px;
   margin-bottom: 50px;
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.2);
+  box-shadow: 0 12px 36px rgba(15, 23, 42, 0.18);
+  border: 1px solid #1e293b;
+}
+
+.architect-hero::before {
+  content: "";
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 360px;
+  height: 360px;
+  background: radial-gradient(circle, rgba(230, 0, 34, 0.18) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-content,
+.hero-image-wrap {
+  position: relative;
+  z-index: 1;
 }
 
 .hero-badge {
   display: inline-block;
-  background: rgba(14, 165, 233, 0.18);
-  border: 1px solid rgba(14, 165, 233, 0.4);
-  color: #38bdf8;
-  font-size: 13px;
-  font-weight: 600;
+  background: rgba(230, 0, 34, 0.18);
+  border: 1px solid rgba(230, 0, 34, 0.45);
+  color: #ff4d66;
+  font-size: 12px;
+  font-weight: 700;
   padding: 6px 14px;
-  border-radius: 20px;
-  margin-bottom: 16px;
+  border-radius: var(--arch-radius-sm);
+  margin-bottom: 18px;
   letter-spacing: 0.5px;
   text-transform: uppercase;
 }
@@ -124,80 +274,99 @@ body {
   line-height: 1.25;
   color: #ffffff;
   margin: 0 0 18px;
+  letter-spacing: -0.5px;
 }
 
 .hero-subtitle {
   font-size: 16px;
   color: #cbd5e1;
-  line-height: 1.6;
-  margin-bottom: 30px;
+  line-height: 1.65;
+  margin-bottom: 32px;
 }
 
 .hero-cta-group {
   display: flex;
-  gap: 15px;
+  gap: 16px;
   flex-wrap: wrap;
 }
 
 .hero-featured-image {
   width: 100%;
-  border-radius: 8px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--arch-radius);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: block;
 }
 
-/* Buttons */
+/* ==========================================================================
+   Przyciski (Styl Extradom - mocny czerwony CTA, precyzyjne zaokrąglenia)
+   ========================================================================== */
+
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 12px 24px;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   text-decoration: none;
   border-radius: 6px;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid transparent;
+  line-height: 1.3;
 }
 
 .btn-primary {
   background-color: var(--arch-primary);
+  border-color: var(--arch-primary);
   color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(230, 0, 34, 0.25);
 }
 
 .btn-primary:hover {
   background-color: var(--arch-primary-hover);
+  border-color: var(--arch-primary-hover);
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(230, 0, 34, 0.35);
   transform: translateY(-1px);
 }
 
 .btn-secondary {
-  background-color: #334155;
+  background-color: #1e293b;
+  border-color: #1e293b;
   color: #ffffff !important;
 }
 
 .btn-secondary:hover {
-  background-color: #475569;
+  background-color: #334155;
+  border-color: #334155;
+  color: #ffffff !important;
+  transform: translateY(-1px);
 }
 
 .btn-success {
   background-color: var(--arch-success);
+  border-color: var(--arch-success);
   color: #ffffff !important;
 }
 
 .btn-success:hover {
   background-color: #15803d;
+  border-color: #15803d;
+  color: #ffffff !important;
 }
 
 .btn-outline {
-  background-color: transparent;
+  background-color: #ffffff;
   color: var(--arch-primary) !important;
-  border-color: var(--arch-primary);
+  border-color: var(--arch-primary-subtle);
 }
 
 .btn-outline:hover {
-  background-color: var(--arch-primary);
-  color: #ffffff !important;
+  background-color: var(--arch-primary-light);
+  border-color: var(--arch-primary);
+  color: var(--arch-primary-dark) !important;
 }
 
 .btn-lg {
@@ -208,6 +377,7 @@ body {
 .btn-sm {
   padding: 8px 16px;
   font-size: 13px;
+  font-weight: 600;
 }
 
 .btn-block {
@@ -217,21 +387,25 @@ body {
   box-sizing: border-box;
 }
 
-/* Sections */
+/* ==========================================================================
+   Sekcje i Nagłówki
+   ========================================================================== */
+
 .architect-section {
   margin-bottom: 60px;
 }
 
 .section-header {
   text-align: center;
-  margin-bottom: 36px;
+  margin-bottom: 38px;
 }
 
 .section-title {
   font-size: 28px;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--arch-dark);
   margin-bottom: 10px;
+  letter-spacing: -0.3px;
 }
 
 .section-desc {
@@ -241,7 +415,10 @@ body {
   margin: 0 auto;
 }
 
-/* Services Grid */
+/* ==========================================================================
+   Karty Usług (Services Grid)
+   ========================================================================== */
+
 .services-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -252,20 +429,37 @@ body {
   background: #ffffff;
   border: 1px solid var(--arch-border);
   border-radius: var(--arch-radius);
-  padding: 30px;
-  box-shadow: var(--arch-shadow);
-  transition: transform 0.2s, box-shadow 0.2s;
+  padding: 32px 28px;
+  box-shadow: var(--arch-shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  position: relative;
 }
 
 .service-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--arch-shadow);
+  border-color: #d1d5db;
 }
 
 .service-card--featured {
   border: 2px solid var(--arch-primary);
-  position: relative;
-  background: #f0f9ff;
+  background: #fffafa;
+  box-shadow: 0 8px 24px rgba(230, 0, 34, 0.08);
+}
+
+.service-card--featured::before {
+  content: "Rekomendowane";
+  position: absolute;
+  top: -12px;
+  right: 24px;
+  background: var(--arch-primary);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 12px;
+  border-radius: 12px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
 .service-icon {
@@ -284,6 +478,7 @@ body {
   font-size: 14px;
   color: var(--arch-text-muted);
   margin-bottom: 16px;
+  line-height: 1.6;
 }
 
 .service-list {
@@ -297,12 +492,16 @@ body {
   margin-bottom: 8px;
 }
 
-/* About Section */
+/* ==========================================================================
+   Sekcja O Architekcie
+   ========================================================================== */
+
 .architect-about-section {
-  background: #f8fafc;
+  background: #ffffff;
   border-radius: var(--arch-radius);
   padding: 40px;
   border: 1px solid var(--arch-border);
+  box-shadow: var(--arch-shadow-sm);
 }
 
 .about-container {
@@ -315,7 +514,8 @@ body {
   width: 160px;
   height: 160px;
   border-radius: 50%;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border: 3px solid #ffffff;
 }
 
 .about-info .sub-heading {
@@ -329,12 +529,14 @@ body {
 .about-info h2 {
   margin: 4px 0 14px;
   font-size: 26px;
+  font-weight: 800;
+  color: var(--arch-dark);
 }
 
 .about-highlights {
   display: flex;
-  gap: 25px;
-  margin-top: 20px;
+  gap: 28px;
+  margin-top: 22px;
 }
 
 .highlight-item {
@@ -343,16 +545,185 @@ body {
 }
 
 .highlight-item strong {
-  font-size: 22px;
+  font-size: 24px;
+  font-weight: 800;
   color: var(--arch-primary);
 }
 
 .highlight-item span {
   font-size: 12px;
   color: var(--arch-text-muted);
+  font-weight: 500;
 }
 
-/* Projects Grid */
+/* ==========================================================================
+   Wyszukiwarka i Pasek Filtrów Katalogu (Extradom Style)
+   ========================================================================== */
+
+.catalog-header {
+  margin-bottom: 30px;
+}
+
+.catalog-header h1 {
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--arch-dark);
+  margin-bottom: 10px;
+  letter-spacing: -0.5px;
+}
+
+.catalog-header p {
+  color: var(--arch-text-muted);
+  font-size: 15px;
+  max-width: 880px;
+  margin: 0;
+}
+
+.catalog-filter-bar {
+  background: #ffffff;
+  border: 1px solid var(--arch-border);
+  border-radius: var(--arch-radius);
+  padding: 24px 28px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+.filter-form {
+  display: flex;
+  gap: 18px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+}
+
+.filter-group label {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--arch-slate);
+}
+
+.filter-group input,
+.filter-group select {
+  padding: 10px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #ffffff;
+  color: var(--arch-dark);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.filter-group input:focus,
+.filter-group select:focus {
+  border-color: var(--arch-primary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(230, 0, 34, 0.15);
+}
+
+.filter-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.filter-group--keyword {
+  flex: 1 1 240px;
+}
+
+/* Pasek Statusu Wyników i Pigułki Filtrów */
+.catalog-status-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 26px;
+  padding: 14px 20px;
+  background: #ffffff;
+  border: 1px solid var(--arch-border);
+  border-radius: var(--arch-radius);
+  font-size: 14px;
+  box-shadow: var(--arch-shadow-sm);
+}
+
+.catalog-status-count {
+  color: var(--arch-slate);
+  font-weight: 500;
+}
+
+.catalog-status-count strong {
+  color: var(--arch-primary);
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.catalog-active-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.active-filters-label {
+  font-size: 13px;
+  color: var(--arch-text-muted);
+  font-weight: 500;
+}
+
+.filter-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 12px;
+  background: var(--arch-primary-light);
+  border: 1px solid var(--arch-primary-subtle);
+  color: #991b1b;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.filter-pill strong {
+  margin-left: 4px;
+  color: var(--arch-primary-dark);
+}
+
+.filter-pill--clear {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #b91c1c;
+  text-decoration: none;
+  font-weight: 700;
+  transition: all 0.15s ease;
+}
+
+.filter-pill--clear:hover {
+  background: #fee2e2;
+  color: #7f1d1d;
+}
+
+.no-projects-box {
+  background: #ffffff;
+  border: 1px dashed #d1d5db;
+  border-radius: var(--arch-radius);
+  padding: 48px;
+  text-align: center;
+  color: var(--arch-text-muted);
+}
+
+.no-projects-box p {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+/* ==========================================================================
+   Karty Projektów (Extradom Look & Feel: Czerwone badge, Czysta biel, Czerwona cena)
+   ========================================================================== */
+
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -364,34 +735,51 @@ body {
   border: 1px solid var(--arch-border);
   border-radius: var(--arch-radius);
   overflow: hidden;
-  box-shadow: var(--arch-shadow);
+  box-shadow: var(--arch-shadow-sm);
   display: flex;
   flex-direction: column;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s, border-color 0.2s;
+}
+
+.project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--arch-shadow);
+  border-color: #d1d5db;
 }
 
 .project-card-image {
   position: relative;
   background: #0f172a;
+  overflow: hidden;
 }
 
 .project-card-image img {
   width: 100%;
-  height: 210px;
+  height: 220px;
   object-fit: cover;
   display: block;
+  transition: transform 0.35s ease;
 }
 
+.project-card:hover .project-card-image img {
+  transform: scale(1.03);
+}
+
+/* Znak rozpoznawczy Extradom: wyrazisty czerwony badge na zdjęciu */
 .project-badge {
   position: absolute;
   top: 12px;
   right: 12px;
-  background: rgba(15, 23, 42, 0.85);
+  background: var(--arch-primary);
   color: #ffffff;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
   padding: 4px 10px;
-  border-radius: 4px;
+  border-radius: var(--arch-radius-sm);
   text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 6px rgba(230, 0, 34, 0.35);
+  z-index: 2;
 }
 
 .project-card-body {
@@ -402,17 +790,31 @@ body {
 }
 
 .project-code {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
-  color: var(--arch-primary);
+  color: var(--arch-primary-dark);
+  background: var(--arch-primary-light);
+  border: 1px solid var(--arch-primary-border);
+  padding: 2px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  width: fit-content;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
+  margin-bottom: 6px;
 }
 
 .project-card-title {
-  font-size: 19px;
+  font-size: 18px;
   font-weight: 700;
   margin: 4px 0 12px;
   color: var(--arch-dark);
+  line-height: 1.35;
+  transition: color 0.15s ease;
+}
+
+.project-card:hover .project-card-title {
+  color: var(--arch-primary);
 }
 
 .project-card-meta {
@@ -421,9 +823,10 @@ body {
   gap: 8px;
   font-size: 13px;
   color: var(--arch-slate);
-  background: #f8fafc;
-  padding: 10px;
+  background: #f9fafb;
+  padding: 10px 12px;
   border-radius: 6px;
+  border: 1px solid #f3f4f6;
   margin-bottom: 12px;
 }
 
@@ -432,26 +835,32 @@ body {
   color: #15803d;
   margin: 0 0 14px;
   font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .project-card-pricing {
   display: flex;
   justify-content: space-between;
   margin-bottom: 18px;
-  padding-top: 10px;
-  border-top: 1px solid #f1f5f9;
+  padding-top: 12px;
+  border-top: 1px solid #f3f4f6;
 }
 
 .price-label {
   display: block;
   font-size: 11px;
   color: var(--arch-text-muted);
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.3px;
 }
 
 .price-val {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--arch-dark);
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--arch-primary);
 }
 
 .project-card-actions {
@@ -460,7 +869,14 @@ body {
   gap: 8px;
 }
 
-/* Steps Section */
+.project-card-actions .btn {
+  flex: 1;
+}
+
+/* ==========================================================================
+   Kroki Realizacji (Steps Section)
+   ========================================================================== */
+
 .steps-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -471,20 +887,23 @@ body {
   background: #ffffff;
   border: 1px solid var(--arch-border);
   border-radius: var(--arch-radius);
-  padding: 24px;
+  padding: 26px 22px;
   position: relative;
+  box-shadow: var(--arch-shadow-sm);
 }
 
 .step-num {
   font-size: 28px;
   font-weight: 800;
-  color: #e2e8f0;
+  color: var(--arch-primary-subtle);
   display: block;
   margin-bottom: 8px;
+  line-height: 1;
 }
 
 .step-card h4 {
   font-size: 16px;
+  font-weight: 700;
   margin: 0 0 8px;
   color: var(--arch-dark);
 }
@@ -493,34 +912,40 @@ body {
   font-size: 13px;
   color: var(--arch-text-muted);
   margin: 0;
+  line-height: 1.5;
 }
 
-/* Inquiry Form Section */
+/* ==========================================================================
+   Formularz Wyceny i Zapytania (Inquiry Form)
+   ========================================================================== */
+
 .inquiry-box {
   background: #ffffff;
   border: 1px solid var(--arch-border);
   border-radius: var(--arch-radius);
-  padding: 40px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  padding: 44px;
+  box-shadow: var(--arch-shadow);
   max-width: 800px;
   margin: 0 auto;
 }
 
 .inquiry-header {
   text-align: center;
-  margin-bottom: 28px;
+  margin-bottom: 30px;
 }
 
 .inquiry-header h2 {
-  font-size: 24px;
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--arch-dark);
   margin-bottom: 8px;
 }
 
 .inquiry-header p {
   color: var(--arch-text-muted);
+  font-size: 15px;
 }
 
-/* Forms Styling */
 .form-item {
   margin-bottom: 18px;
 }
@@ -540,11 +965,13 @@ body {
 .form-select {
   width: 100%;
   box-sizing: border-box;
-  padding: 10px 14px;
-  border: 1px solid #cbd5e1;
+  padding: 11px 14px;
+  border: 1px solid #d1d5db;
   border-radius: 6px;
   font-size: 14px;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  background-color: #ffffff;
+  color: var(--arch-dark);
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
 .form-text:focus,
@@ -554,7 +981,7 @@ body {
 .form-select:focus {
   border-color: var(--arch-primary);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+  box-shadow: 0 0 0 3px rgba(230, 0, 34, 0.15);
 }
 
 .description {
@@ -563,120 +990,10 @@ body {
   margin-top: 4px;
 }
 
-/* Catalog Filter Bar */
-.catalog-filter-bar {
-  background: #f8fafc;
-  border: 1px solid var(--arch-border);
-  border-radius: var(--arch-radius);
-  padding: 20px 24px;
-  margin-bottom: 35px;
-}
+/* ==========================================================================
+   Szczegóły Projektu (Project Detail Page)
+   ========================================================================== */
 
-.filter-form {
-  display: flex;
-  gap: 18px;
-  align-items: flex-end;
-  flex-wrap: wrap;
-}
-
-.filter-group {
-  display: flex;
-  flex-direction: column;
-  min-width: 180px;
-}
-
-.filter-group label {
-  font-size: 13px;
-  font-weight: 600;
-  margin-bottom: 4px;
-  color: var(--arch-slate);
-}
-
-.filter-group input,
-.filter-group select {
-  padding: 9px 12px;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  font-size: 14px;
-}
-
-.filter-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.filter-group--keyword {
-  flex: 1 1 240px;
-}
-
-/* Catalog Status Bar & Active Filter Pills */
-.catalog-status-bar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 25px;
-  padding: 12px 18px;
-  background: #ffffff;
-  border: 1px solid var(--arch-border);
-  border-radius: 8px;
-  font-size: 14px;
-}
-
-.catalog-status-count {
-  color: var(--arch-slate);
-}
-
-.catalog-status-count strong {
-  color: var(--arch-primary);
-  font-size: 16px;
-}
-
-.catalog-active-filters {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-}
-
-.active-filters-label {
-  font-size: 13px;
-  color: #64748b;
-  font-weight: 500;
-}
-
-.filter-pill {
-  display: inline-flex;
-  align-items: center;
-  padding: 4px 10px;
-  background: #eff6ff;
-  border: 1px solid #bfdbfe;
-  color: #1e40af;
-  border-radius: 9999px;
-  font-size: 12px;
-  font-weight: 500;
-}
-
-.filter-pill strong {
-  margin-left: 3px;
-}
-
-.filter-pill--clear {
-  background: #fef2f2;
-  border-color: #fecaca;
-  color: #b91c1c;
-  text-decoration: none;
-  font-weight: 600;
-  transition: all 0.2s;
-}
-
-.filter-pill--clear:hover {
-  background: #fee2e2;
-  color: #991b1b;
-}
-
-/* Project Detail Page */
 .breadcrumb-nav {
   margin-bottom: 20px;
 }
@@ -688,25 +1005,40 @@ body {
   font-size: 14px;
 }
 
+.breadcrumb-nav a:hover {
+  text-decoration: underline;
+}
+
 .detail-hero {
-  margin-bottom: 30px;
+  margin-bottom: 32px;
+}
+
+.detail-hero h1 {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--arch-dark);
+  margin: 6px 0 12px;
+  letter-spacing: -0.5px;
 }
 
 .project-code-badge {
-  background: #e0f2fe;
-  color: #0369a1;
+  background: var(--arch-primary-light);
+  color: var(--arch-primary-dark);
+  border: 1px solid var(--arch-primary-border);
   font-weight: 700;
   font-size: 12px;
   padding: 4px 10px;
   border-radius: 4px;
   display: inline-block;
   margin-bottom: 8px;
+  text-transform: uppercase;
 }
 
 .detail-lead-desc {
   font-size: 16px;
   color: var(--arch-slate);
-  max-width: 800px;
+  max-width: 820px;
+  line-height: 1.6;
 }
 
 .detail-grid {
@@ -720,13 +1052,14 @@ body {
   background: #ffffff;
   border: 1px solid var(--arch-border);
   border-radius: var(--arch-radius);
-  padding: 20px;
+  padding: 22px;
   margin-bottom: 24px;
-  box-shadow: var(--arch-shadow);
+  box-shadow: var(--arch-shadow-sm);
 }
 
 .media-card h3 {
   font-size: 17px;
+  font-weight: 700;
   margin: 0 0 14px;
   color: var(--arch-dark);
 }
@@ -737,50 +1070,59 @@ body {
   display: block;
 }
 
-/* Purchase Box */
+/* Blok Zakupu (Purchase Box - wzorowany na widgetach zakupowych Extradom) */
 .purchase-box {
   background: #ffffff;
   border: 2px solid var(--arch-primary);
   border-radius: var(--arch-radius);
-  padding: 26px;
-  box-shadow: 0 8px 25px rgba(2, 132, 199, 0.12);
+  padding: 28px;
+  box-shadow: 0 8px 25px rgba(230, 0, 34, 0.08);
   margin-bottom: 24px;
 }
 
 .purchase-box h3 {
   margin: 0 0 6px;
   font-size: 20px;
+  font-weight: 800;
+  color: var(--arch-dark);
 }
 
 .purchase-box-note {
   font-size: 13px;
   color: var(--arch-text-muted);
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 }
 
 .purchase-variants {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 .variant-option {
-  background: #f8fafc;
+  background: #f9fafb;
   border: 1px solid var(--arch-border);
   border-radius: 8px;
-  padding: 12px 14px;
+  padding: 14px 16px;
   display: flex;
   flex-direction: column;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+
+.variant-option:hover {
+  border-color: var(--arch-primary);
+  background-color: var(--arch-primary-light);
 }
 
 .variant-name {
   font-weight: 700;
   font-size: 14px;
+  color: var(--arch-dark);
 }
 
 .variant-price {
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 800;
   color: var(--arch-primary);
 }
@@ -788,17 +1130,24 @@ body {
 .variant-option small {
   color: var(--arch-text-muted);
   font-size: 12px;
-  margin-top: 2px;
+  margin-top: 3px;
 }
 
-/* Specs Table */
+/* Tabela Specyfikacji */
 .specs-table-card {
   background: #ffffff;
   border: 1px solid var(--arch-border);
   border-radius: var(--arch-radius);
   padding: 24px;
   margin-bottom: 24px;
-  box-shadow: var(--arch-shadow);
+  box-shadow: var(--arch-shadow-sm);
+}
+
+.specs-table-card h3 {
+  font-size: 17px;
+  font-weight: 700;
+  margin: 0 0 16px;
+  color: var(--arch-dark);
 }
 
 .specs-table {
@@ -808,17 +1157,23 @@ body {
 }
 
 .specs-table td {
-  padding: 8px 6px;
-  border-bottom: 1px solid #f1f5f9;
+  padding: 9px 8px;
+  border-bottom: 1px solid #f3f4f6;
 }
 
 .specs-table td:first-child {
   color: var(--arch-text-muted);
 }
 
-/* Adaptation Banner */
+.specs-table td:last-child {
+  font-weight: 600;
+  color: var(--arch-dark);
+  text-align: right;
+}
+
+/* Baner Adaptacji */
 .adaptation-banner {
-  background: #fefce8;
+  background: #fffbeb;
   border: 1px solid #fef08a;
   border-radius: var(--arch-radius);
   padding: 20px;
@@ -828,6 +1183,7 @@ body {
   margin: 0 0 6px;
   color: #854d0e;
   font-size: 15px;
+  font-weight: 700;
 }
 
 .adaptation-banner p {
@@ -836,55 +1192,75 @@ body {
   margin-bottom: 12px;
 }
 
-/* Order Form with BLIK */
+/* ==========================================================================
+   Zamówienia i Płatności BLIK (Order Flow)
+   ========================================================================== */
+
 .order-page-wrapper {
   max-width: 760px;
   margin: 0 auto;
   background: #ffffff;
   border: 1px solid var(--arch-border);
   border-radius: var(--arch-radius);
-  padding: 36px;
+  padding: 40px;
   box-shadow: var(--arch-shadow);
 }
 
+.order-page-wrapper h1 {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--arch-dark);
+  margin-bottom: 20px;
+}
+
 .order-project-summary-box {
-  background: #f0f9ff;
-  border: 1px solid #bae6fd;
+  background: var(--arch-primary-light);
+  border: 1px solid var(--arch-primary-border);
   border-radius: 8px;
-  padding: 16px 20px;
-  margin-bottom: 24px;
+  padding: 18px 22px;
+  margin-bottom: 26px;
 }
 
 .order-project-summary-box h3 {
   margin: 0 0 4px;
   font-size: 18px;
+  font-weight: 700;
+  color: var(--arch-dark);
 }
 
 .order-project-summary-box p {
   margin: 0;
   font-size: 14px;
-  color: #0369a1;
+  color: var(--arch-primary-dark);
+  font-weight: 600;
 }
 
 .payment-blik-box {
-  background: #fdf4ff;
-  border: 1px solid #f0abfc !important;
+  background: #fff7f8;
+  border: 1px solid #fecdd3 !important;
   border-radius: 8px;
-  padding: 20px !important;
+  padding: 22px !important;
   margin-top: 24px;
 }
 
 .input-blik-code {
-  font-size: 24px !important;
-  font-weight: 700 !important;
+  font-size: 26px !important;
+  font-weight: 800 !important;
   letter-spacing: 6px !important;
   text-align: center !important;
   max-width: 220px !important;
-  border: 2px solid #c026d3 !important;
-  color: #86198f !important;
+  border: 2px solid var(--arch-primary) !important;
+  color: var(--arch-primary-dark) !important;
+  border-radius: 6px !important;
+  background-color: #ffffff !important;
 }
 
-/* Order Success Page */
+.input-blik-code:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(230, 0, 34, 0.2) !important;
+}
+
+/* Strona Sukcesu Zamówienia */
 .order-success-page {
   max-width: 720px;
   margin: 40px auto;
@@ -894,8 +1270,8 @@ body {
   background: #ffffff;
   border: 1px solid var(--arch-border);
   border-radius: var(--arch-radius);
-  padding: 40px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  padding: 44px;
+  box-shadow: var(--arch-shadow);
   text-align: center;
 }
 
@@ -907,29 +1283,30 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 70px;
-  height: 70px;
+  width: 72px;
+  height: 72px;
   background: #dcfce7;
   color: #16a34a;
-  font-size: 38px;
+  font-size: 40px;
   font-weight: 800;
   border-radius: 50%;
 }
 
 .order-number-highlight {
   display: block;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 800;
   color: var(--arch-primary);
   margin-top: 6px;
 }
 
 .order-details-box {
-  background: #f8fafc;
+  background: #f9fafb;
   border-radius: 8px;
-  padding: 20px;
+  padding: 22px;
   margin: 28px 0;
   text-align: left;
+  border: 1px solid #f3f4f6;
 }
 
 .order-summary-table {
@@ -938,24 +1315,30 @@ body {
 }
 
 .order-summary-table td {
-  padding: 6px 0;
-  border-bottom: 1px solid #e2e8f0;
+  padding: 8px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.order-summary-table td:last-child {
+  font-weight: 600;
+  text-align: right;
 }
 
 .badge-status-paid {
   background: #16a34a;
   color: #ffffff;
-  padding: 4px 8px;
+  padding: 4px 10px;
   border-radius: 4px;
   font-size: 12px;
   font-weight: 700;
+  display: inline-block;
 }
 
 .next-steps-card {
   background: #f0fdf4;
   border: 1px solid #bbf7d0;
   border-radius: 8px;
-  padding: 18px;
+  padding: 20px;
   text-align: left;
   margin-bottom: 28px;
   font-size: 14px;
@@ -964,6 +1347,7 @@ body {
 .next-steps-card h3 {
   margin: 0 0 8px;
   font-size: 16px;
+  font-weight: 700;
   color: #166534;
 }
 
@@ -973,19 +1357,132 @@ body {
   justify-content: center;
 }
 
-/* Responsiveness */
+/* ==========================================================================
+   Panel Administracyjny Projektów i Zamówień
+   ========================================================================== */
+
+.admin-header-actions {
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border: 1px solid var(--arch-border);
+  border-radius: var(--arch-radius);
+  overflow: hidden;
+  box-shadow: var(--arch-shadow-sm);
+  font-size: 14px;
+}
+
+.admin-table th {
+  background: #f9fafb;
+  padding: 12px 14px;
+  font-weight: 700;
+  color: var(--arch-slate);
+  text-align: left;
+  border-bottom: 1px solid var(--arch-border);
+}
+
+.admin-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #f3f4f6;
+  color: var(--arch-text);
+  vertical-align: middle;
+}
+
+.admin-table tr:hover td {
+  background-color: #fdfdfd;
+}
+
+.badge-published {
+  background: #dcfce7;
+  color: #15803d;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.badge-hidden {
+  background: #f3f4f6;
+  color: #6b7280;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   Elementy Globalne Drupal (Zakładki, Paginacja, Komunikaty)
+   ========================================================================== */
+
+/* Zakładki Olivero w kolorystyce Extradom */
+.tabs__tab.is-active a,
+.tabs__tab a:hover {
+  color: var(--arch-primary) !important;
+  border-color: var(--arch-primary) !important;
+}
+
+/* Paginacja */
+.pager__item--active a,
+.pager__item.is-active a {
+  background-color: var(--arch-primary) !important;
+  color: #ffffff !important;
+  border-color: var(--arch-primary) !important;
+}
+
+/* Komunikaty statusu Olivero */
+.messages--status {
+  border-left-color: var(--arch-primary) !important;
+}
+
+/* ==========================================================================
+   Responsywność (Media Queries)
+   ========================================================================== */
+
 @media (max-width: 860px) {
   .architect-hero {
     grid-template-columns: 1fr;
+    padding: 32px 24px;
   }
+
   .detail-grid {
     grid-template-columns: 1fr;
   }
+
   .about-container {
     flex-direction: column;
     text-align: center;
   }
+
   .about-highlights {
     justify-content: center;
+  }
+
+  .filter-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-group {
+    min-width: 100%;
+  }
+
+  .filter-actions {
+    flex-direction: column;
+  }
+
+  .filter-actions .btn {
+    width: 100%;
+  }
+
+  .inquiry-box,
+  .order-page-wrapper,
+  .success-card {
+    padding: 24px 18px;
   }
 }
