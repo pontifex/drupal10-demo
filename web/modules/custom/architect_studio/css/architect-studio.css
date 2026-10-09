@@ -1492,3 +1492,57 @@ body {
     padding: 24px 18px;
   }
 }
+
+@media (max-width: 600px) {
+  .architect-hero {
+    padding: 24px 18px;
+    gap: 20px;
+    margin-bottom: 36px;
+  }
+
+  .hero-title {
+    font-size: 24px;
+    line-height: 1.3;
+    overflow-wrap: break-word;
+  }
+
+  .hero-subtitle {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 22px;
+  }
+
+  .hero-cta-group {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .hero-cta-group .btn {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .catalog-header h1 {
+    font-size: 24px;
+    line-height: 1.3;
+  }
+
+  .detail-hero h1 {
+    font-size: 24px;
+    line-height: 1.3;
+  }
+
+  .detail-card-actions {
+    flex-direction: column;
+  }
+
+  .detail-card-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .section-title {
+    font-size: 22px;
+  }
+}
