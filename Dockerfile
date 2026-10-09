@@ -27,11 +27,12 @@ ENV APACHE_DOCUMENT_ROOT=/opt/drupal/web
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-# Configure Apache AllowOverride for clean URLs
-RUN echo '<Directory /opt/drupal/web>\n    AllowOverride All\n    Require all granted\n</Directory>' >> /etc/apache2/apache2.conf
+# Configure Apache ServerName and AllowOverride for clean URLs
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
+    echo '<Directory /opt/drupal/web>\n    AllowOverride All\n    Require all granted\n</Directory>' >> /etc/apache2/apache2.conf
 
-# Enable Apache mod_rewrite
-RUN a2enmod rewrite
+# Ensure only mpm_prefork is active and enable mod_rewrite
+RUN a2dismod -f mpm_event mpm_worker || true && a2enmod mpm_prefork rewrite
 
 # Prepare files directory and permissions
 RUN mkdir -p /opt/drupal/web/sites/default/files && \

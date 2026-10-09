@@ -8,6 +8,10 @@ if [ -n "$PORT" ]; then
   sed -i "s/<VirtualHost \*:80>/<VirtualHost \*:$PORT>/" /etc/apache2/sites-available/*.conf
 fi
 
+# Ensure only mpm_prefork is enabled
+a2dismod -f mpm_event mpm_worker >/dev/null 2>&1 || true
+a2enmod mpm_prefork >/dev/null 2>&1 || true
+
 # If MySQL/MariaDB host is provided (Railway or Docker Compose)
 DB_HOST="${MYSQLHOST:-${MYSQL_HOST:-${DB_HOST:-}}}"
 DB_PORT="${MYSQLPORT:-${MYSQL_PORT:-${DB_PORT:-3306}}}"
