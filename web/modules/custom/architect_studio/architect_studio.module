@@ -86,6 +86,14 @@ function architect_studio_preprocess_page(array &$variables): void {
  */
 function architect_studio_page_attachments(array &$attachments): void {
   $attachments['#attached']['library'][] = 'architect_studio/studio-styles';
+
+  /** @var \Drupal\architect_studio\Service\SeoMetaService $seoService */
+  $seoService = \Drupal::service('architect_studio.seo_meta');
+  $routeMatch = \Drupal::routeMatch();
+  $routeName = $routeMatch->getRouteName() ?? '';
+  $parameters = $routeMatch->getRawParameters()->all();
+
+  $seoService->attachSeoTags($attachments, $routeName, $parameters);
 }
 
 /**

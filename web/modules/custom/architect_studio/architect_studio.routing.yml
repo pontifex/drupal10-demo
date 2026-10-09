@@ -2,7 +2,7 @@ architect_studio.showcase:
   path: '/architekt'
   defaults:
     _controller: '\Drupal\architect_studio\Controller\ShowcaseController::index'
-    _title: 'Pracownia Architektoniczna – Adaptacja projektów, modyfikacje i projekty autorskie'
+    _title: 'Architekt Kraśnik, Annopol | Pracownia Architektoniczna – Adaptacja Projektów'
   requirements:
     _permission: 'access content'
 
@@ -10,7 +10,14 @@ architect_studio.catalog:
   path: '/projekty'
   defaults:
     _controller: '\Drupal\architect_studio\Controller\CatalogController::catalog'
-    _title: 'Katalog Autorskich Projektów Domów i Budynków Gospodarczych'
+    _title: 'Katalog Projektów Domów z Adaptacją – Kraśnik, Annopol | Pracownia Architektoniczna'
+  requirements:
+    _permission: 'access content'
+
+architect_studio.sitemap:
+  path: '/sitemap.xml'
+  defaults:
+    _controller: '\Drupal\architect_studio\Controller\SitemapController::sitemap'
   requirements:
     _permission: 'access content'
 
