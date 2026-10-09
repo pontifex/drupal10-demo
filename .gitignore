@@ -1,0 +1,37 @@
+# Composer dependencies
+/vendor/
+
+# Drupal core and composer-managed extensions
+/web/core/
+/web/modules/contrib/
+/web/themes/contrib/
+/web/profiles/contrib/
+/web/libraries/
+/drush/Commands/contrib/
+
+# Sites configuration and user uploaded files
+/web/sites/*/settings.php
+/web/sites/*/settings.local.php
+/web/sites/*/services.php
+/web/sites/*/services.local.php
+/web/sites/*/files/
+/web/sites/*/private/
+/web/sites/simpletest/
+
+# Keep template and scaffold config files
+!/web/sites/default/default.settings.php
+!/web/sites/default/default.services.yml
+!/web/sites/example.settings.local.php
+!/web/sites/example.sites.php
+!/web/sites/development.services.yml
+
+# Environment and IDE files
+.env
+.env.*
+!.env.example
+.idea/
+.vscode/
+*.swp
+*.bak
+.DS_Store
+Thumbs.db

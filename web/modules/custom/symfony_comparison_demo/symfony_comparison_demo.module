@@ -1,0 +1,26 @@
+<?php
+
+/**
+ * @file
+ * Główny plik modułu symfony_comparison_demo.
+ *
+ * W Drupalu plik .module służy do rejestracji hooków (np. hook_theme, hook_form_alter).
+ * Nowy kod biznesowy pisze się w klasach PSR-4 (src/), a hooki łączą moduł z ekosystemem Drupala.
+ */
+
+/**
+ * Implements hook_theme().
+ *
+ * Rejestruje szablony Twig dla modułu i definiuje przekazywane zmienne.
+ */
+function symfony_comparison_demo_theme($existing, $type, $theme, $path) {
+  return [
+    'symfony_demo_page' => [
+      'variables' => [
+        'greeting' => '',
+        'recipes' => [],
+      ],
+      'template' => 'symfony-demo-page',
+    ],
+  ];
+}

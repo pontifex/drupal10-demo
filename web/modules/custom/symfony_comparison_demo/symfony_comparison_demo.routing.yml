@@ -1,0 +1,18 @@
+# Drupal 10 Routing - to jest w 100% Symfony Routing pod spodem!
+# Zauważ: _controller, _title, requirements, methods.
+
+symfony_comparison_demo.page:
+  path: '/demo/symfony'
+  defaults:
+    _controller: '\Drupal\symfony_comparison_demo\Controller\DemoController::index'
+    _title: 'Drupal dla programisty Symfony'
+  requirements:
+    _permission: 'access content'
+
+symfony_comparison_demo.api:
+  path: '/api/v1/demo-recipes'
+  defaults:
+    _controller: '\Drupal\symfony_comparison_demo\Controller\DemoController::api'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'

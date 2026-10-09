@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Helper script to run Drush inside the docker container
+docker compose exec drupal vendor/bin/drush "$@"

@@ -1,0 +1,10 @@
+# Drupal Dependency Injection - kontener Symfony DI!
+services:
+  symfony_comparison_demo.greeter:
+    class: Drupal\symfony_comparison_demo\Service\DemoService
+    arguments: ['@current_user', '@entity_type.manager']
+
+  symfony_comparison_demo.kernel_subscriber:
+    class: Drupal\symfony_comparison_demo\EventSubscriber\DemoKernelSubscriber
+    tags:
+      - { name: event_subscriber }

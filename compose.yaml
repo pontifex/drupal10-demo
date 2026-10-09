@@ -1,0 +1,36 @@
+services:
+  drupal:
+    image: drupal:10-apache
+    container_name: drupal10_demo_web
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/opt/drupal
+      - ./docker/php.ini:/usr/local/etc/php/conf.d/docker-php-drupal.ini
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - APACHE_RUN_USER=www-data
+      - APACHE_RUN_GROUP=www-data
+
+  db:
+    image: mariadb:10.11
+    container_name: drupal10_demo_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: drupal
+      MYSQL_USER: drupal
+      MYSQL_PASSWORD: drupal
+      MYSQL_ROOT_PASSWORD: drupal_root
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 3s
+      timeout: 3s
+      retries: 15
+
+volumes:
+  mariadb_data:
