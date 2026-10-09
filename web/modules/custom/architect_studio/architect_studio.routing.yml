@@ -88,6 +88,7 @@ architect_studio.admin_project_toggle:
     _controller: '\Drupal\architect_studio\Controller\AdminController::toggleProject'
   requirements:
     _permission: 'access administration pages'
+    _csrf_token: 'TRUE'
     id: '\d+'
 
 architect_studio.admin_project_delete:
@@ -96,6 +97,7 @@ architect_studio.admin_project_delete:
     _controller: '\Drupal\architect_studio\Controller\AdminController::deleteProject'
   requirements:
     _permission: 'access administration pages'
+    _csrf_token: 'TRUE'
     id: '\d+'
 
 architect_studio.admin_orders:

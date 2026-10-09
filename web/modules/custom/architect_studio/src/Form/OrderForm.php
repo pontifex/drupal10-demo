@@ -7,6 +7,7 @@ namespace Drupal\architect_studio\Form;
 use Drupal\architect_studio\Repository\OrderRepository;
 use Drupal\architect_studio\Repository\ProjectRepository;
 use Drupal\architect_studio\Service\PaymentGatewayService;
+use Drupal\Core\Flood\FloodInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
@@ -28,6 +29,7 @@ final class OrderForm extends FormBase {
     protected ProjectRepository $projectRepository,
     protected OrderRepository $orderRepository,
     protected PaymentGatewayService $paymentGateway,
+    protected FloodInterface $flood,
   ) {}
 
   /**
@@ -37,7 +39,8 @@ final class OrderForm extends FormBase {
     return new static(
       $container->get('architect_studio.project_repository'),
       $container->get('architect_studio.order_repository'),
-      $container->get('architect_studio.payment_gateway')
+      $container->get('architect_studio.payment_gateway'),
+      $container->get('flood')
     );
   }
 
@@ -208,6 +211,20 @@ final class OrderForm extends FormBase {
       '#required' => TRUE,
     ];
 
+    // Pole pułapka (honeypot) przeciwko automatom spamującym zamówienia.
+    $form['architect_hp_website'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Strona WWW (pozostaw puste)'),
+      '#attributes' => [
+        'tabindex' => '-1',
+        'autocomplete' => 'off',
+        'aria-hidden' => 'true',
+      ],
+      '#wrapper_attributes' => [
+        'style' => 'position: absolute !important; left: -9999px !important; width: 1px !important; height: 1px !important; overflow: hidden !important;',
+      ],
+    ];
+
     $form['actions'] = [
       '#type' => 'actions',
     ];
@@ -232,6 +249,21 @@ final class OrderForm extends FormBase {
    *   Stan formularza.
    */
   public function validateForm(array &$form, FormStateInterface $form_state): void {
+    // 1. Weryfikacja pola Honeypot.
+    $honeypot = trim((string) $form_state->getValue('architect_hp_website'));
+    if ($honeypot !== '') {
+      $form_state->setErrorByName('architect_hp_website', $this->t('Wykryto nieprawidłowe wypełnienie formularza zamówienia.'));
+      return;
+    }
+
+    // 2. Flood control - limit prób zamówień i płatności BLIK
+    // (maksymalnie 10 na 10 minut z danego IP).
+    $clientIp = $this->getRequest()->getClientIp() ?? 'unknown';
+    if (!$this->flood->isAllowed('architect_studio.order', 10, 600, $clientIp)) {
+      $form_state->setErrorByName('blik_code', $this->t('Zbyt wiele prób składania zamówienia z Twojego adresu IP. Ze względów bezpieczeństwa odczekaj 10 minut przed kolejną próbą.'));
+      return;
+    }
+
     $variant = (string) $form_state->getValue('variant');
     $shippingAddress = trim((string) $form_state->getValue('shipping_address'));
 
@@ -270,6 +302,9 @@ final class OrderForm extends FormBase {
       return;
     }
 
+    $clientIp = $this->getRequest()->getClientIp() ?? 'unknown';
+    $this->flood->register('architect_studio.order', 600, $clientIp);
+
     $variant = (string) $form_state->getValue('variant');
     $amount = ($variant === 'print') ? (float) $project['price_print'] : (float) $project['price_digital'];
     $orderNumber = $this->orderRepository->generateOrderNumber();
@@ -300,6 +335,14 @@ final class OrderForm extends FormBase {
 
     if ($paymentResult['success']) {
       $this->orderRepository->updatePaymentStatus($orderId, 'paid', $paymentResult['transaction_id']);
+
+      // Zapisujemy numer zamówienia w sesji kupującego
+      // dla bezpiecznego wglądu w dane zamówienia (anty-IDOR).
+      $request = $this->getRequest();
+      if ($request->hasSession()) {
+        $request->getSession()->set('architect_last_order_' . $orderNumber, TRUE);
+      }
+
       $this->messenger()->addStatus($this->t('Płatność BLIK zakończona sukcesem! Twoje zamówienie @nr zostało opłacone.', ['@nr' => $orderNumber]));
       $form_state->setRedirect('architect_studio.order_success', ['order_number' => $orderNumber]);
     }
