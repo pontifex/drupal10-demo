@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Drupal\Core\Asset\AttachedAssetsInterface;
+
 /**
  * @file
  * Primary module hooks for architect_studio module.
@@ -43,4 +45,30 @@ function architect_studio_theme(): array {
       'template' => 'architect-order-success',
     ],
   ];
+}
+
+/**
+ * Implements hook_page_attachments().
+ *
+ * @param array<string, mixed> $attachments
+ *   Page attachments array.
+ */
+function architect_studio_page_attachments(array &$attachments): void {
+  $attachments['#attached']['library'][] = 'architect_studio/studio-styles';
+}
+
+/**
+ * Implements hook_css_alter().
+ *
+ * @param array<string, mixed> $css
+ *   Array of CSS assets.
+ * @param \Drupal\Core\Asset\AttachedAssetsInterface $assets
+ *   Attached assets.
+ */
+function architect_studio_css_alter(array &$css, AttachedAssetsInterface $assets): void {
+  $target = 'modules/custom/architect_studio/css/architect-studio.css';
+  if (isset($css[$target])) {
+    $css[$target]['group'] = CSS_THEME;
+    $css[$target]['weight'] = 9999;
+  }
 }

@@ -2,6 +2,7 @@ studio-styles:
   version: 1.0
   css:
     theme:
-      css/architect-studio.css: {}
+      css/architect-studio.css:
+        weight: 1000
   dependencies:
     - core/drupal
