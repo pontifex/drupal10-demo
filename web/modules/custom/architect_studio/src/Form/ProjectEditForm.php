@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace Drupal\architect_studio\Form;
 
 use Drupal\architect_studio\Repository\ProjectRepository;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\file\FileInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -16,6 +19,8 @@ final class ProjectEditForm extends FormBase {
 
   public function __construct(
     protected ProjectRepository $projectRepository,
+    protected EntityTypeManagerInterface $entityTypeManager,
+    protected FileUrlGeneratorInterface $fileUrlGenerator,
   ) {}
 
   /**
@@ -23,7 +28,9 @@ final class ProjectEditForm extends FormBase {
    */
   public static function create(ContainerInterface $container): static {
     return new static(
-      $container->get('architect_studio.project_repository')
+      $container->get('architect_studio.project_repository'),
+      $container->get('entity_type.manager'),
+      $container->get('file_url_generator')
     );
   }
 
@@ -48,7 +55,7 @@ final class ProjectEditForm extends FormBase {
    *   Wygenerowany formularz.
    */
   public function buildForm(array $form, FormStateInterface $form_state, ?int $id = NULL): array {
-    $projectId = $id ?? (int) $this->getRouteMatch()->getParameter('id');
+    $projectId = $id;
     $project = $projectId ? $this->projectRepository->getById($projectId) : NULL;
     $form_state->set('project_id', $projectId);
 
@@ -196,16 +203,77 @@ final class ProjectEditForm extends FormBase {
       '#rows' => 5,
     ];
 
-    $form['image_url'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Ścieżka do wizualizacji głównej'),
-      '#default_value' => $project['image_url'] ?? '/modules/custom/architect_studio/images/moderno125.svg',
+    $form['media'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Materiały graficzne (wizualizacje i rzuty)'),
     ];
 
-    $form['floor_plan_url'] = [
+    $currentImageUrl = (string) ($project['image_url'] ?? '');
+    $imagePreview = '';
+    if ($currentImageUrl !== '') {
+      $imagePreview = '<div class="media-preview" style="margin-bottom:12px;">'
+        . '<label style="font-weight:600;display:block;margin-bottom:4px;">'
+        . $this->t('Bieżąca wizualizacja:') . '</label>'
+        . '<img src="' . htmlspecialchars($currentImageUrl) . '" alt="" '
+        . 'style="max-height:140px;max-width:260px;border-radius:6px;border:1px solid #e5e7eb;box-shadow:0 1px 3px rgba(0,0,0,0.1);display:block;">'
+        . '</div>';
+    }
+
+    $form['media']['image_upload'] = [
+      '#type' => 'managed_file',
+      '#title' => $this->t('Wgraj plik wizualizacji 3D (PNG, JPG, WEBP, SVG)'),
+      '#description' => $this->t('Wybierz plik graficzny z dysku komputera (maksymalnie 10 MB).'),
+      '#upload_location' => 'public://projects/',
+      '#upload_validators' => [
+        'FileExtension' => [
+          'extensions' => 'png jpg jpeg svg webp',
+        ],
+        'FileSizeLimit' => [
+          'fileLimit' => 10 * 1024 * 1024,
+        ],
+      ],
+      '#prefix' => $imagePreview,
+    ];
+
+    $form['media']['image_url'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Ścieżka do rzutu parteru / piętra'),
+      '#title' => $this->t('Ścieżka do wizualizacji (lub pozostaw wgrany powyżej plik)'),
+      '#default_value' => $project['image_url'] ?? '/modules/custom/architect_studio/images/moderno125.svg',
+      '#description' => $this->t('Ścieżka do pliku na serwerze lub zewnętrzny adres URL.'),
+    ];
+
+    $currentPlanUrl = (string) ($project['floor_plan_url'] ?? '');
+    $planPreview = '';
+    if ($currentPlanUrl !== '') {
+      $planPreview = '<div class="media-preview" style="margin-bottom:12px;">'
+        . '<label style="font-weight:600;display:block;margin-bottom:4px;">'
+        . $this->t('Bieżący rzut kondygnacji:') . '</label>'
+        . '<img src="' . htmlspecialchars($currentPlanUrl) . '" alt="" '
+        . 'style="max-height:140px;max-width:260px;border-radius:6px;border:1px solid #e5e7eb;box-shadow:0 1px 3px rgba(0,0,0,0.1);background:#fafafa;display:block;">'
+        . '</div>';
+    }
+
+    $form['media']['floor_plan_upload'] = [
+      '#type' => 'managed_file',
+      '#title' => $this->t('Wgraj plik rzutu kondygnacji (SVG, PNG, JPG, WEBP)'),
+      '#description' => $this->t('Wybierz rzut z wymiarami pomieszczeń (maksymalnie 10 MB).'),
+      '#upload_location' => 'public://projects/',
+      '#upload_validators' => [
+        'FileExtension' => [
+          'extensions' => 'png jpg jpeg svg webp',
+        ],
+        'FileSizeLimit' => [
+          'fileLimit' => 10 * 1024 * 1024,
+        ],
+      ],
+      '#prefix' => $planPreview,
+    ];
+
+    $form['media']['floor_plan_url'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Ścieżka do rzutu (lub pozostaw wgrany powyżej plik)'),
       '#default_value' => $project['floor_plan_url'] ?? '/modules/custom/architect_studio/images/plan_moderno125.svg',
+      '#description' => $this->t('Ścieżka do rzutu na serwerze lub zewnętrzny adres URL.'),
     ];
 
     $form['actions'] = [
@@ -232,6 +300,36 @@ final class ProjectEditForm extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state): void {
     $id = $form_state->get('project_id');
 
+    // Obsługa wgranego pliku wizualizacji głównej.
+    $imageUpload = $form_state->getValue('image_upload');
+    $imageUrl = trim((string) $form_state->getValue('image_url'));
+    if (!empty($imageUpload) && is_array($imageUpload)) {
+      $fid = reset($imageUpload);
+      if ($fid) {
+        $file = $this->entityTypeManager->getStorage('file')->load($fid);
+        if ($file instanceof FileInterface) {
+          $file->setPermanent();
+          $file->save();
+          $imageUrl = $this->fileUrlGenerator->generateString($file->getFileUri());
+        }
+      }
+    }
+
+    // Obsługa wgranego pliku rzutu kondygnacji.
+    $planUpload = $form_state->getValue('floor_plan_upload');
+    $floorPlanUrl = trim((string) $form_state->getValue('floor_plan_url'));
+    if (!empty($planUpload) && is_array($planUpload)) {
+      $fid = reset($planUpload);
+      if ($fid) {
+        $file = $this->entityTypeManager->getStorage('file')->load($fid);
+        if ($file instanceof FileInterface) {
+          $file->setPermanent();
+          $file->save();
+          $floorPlanUrl = $this->fileUrlGenerator->generateString($file->getFileUri());
+        }
+      }
+    }
+
     $data = [
       'title' => (string) $form_state->getValue('title'),
       'code' => (string) $form_state->getValue('code'),
@@ -250,8 +348,8 @@ final class ProjectEditForm extends FormBase {
       'price_print' => (float) $form_state->getValue('price_print'),
       'is_hidden' => $form_state->getValue('is_hidden') ? 1 : 0,
       'description' => (string) $form_state->getValue('description'),
-      'image_url' => (string) $form_state->getValue('image_url'),
-      'floor_plan_url' => (string) $form_state->getValue('floor_plan_url'),
+      'image_url' => $imageUrl,
+      'floor_plan_url' => $floorPlanUrl,
     ];
 
     if ($id) {
