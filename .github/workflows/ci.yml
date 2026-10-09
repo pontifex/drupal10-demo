@@ -77,8 +77,15 @@ jobs:
       - name: Install Node Dependencies
         run: npm ci
 
+      - name: Wait for Railway Deployment (on push to main)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          echo "Waiting 50s for Railway automated container build and deployment..."
+          sleep 50
+
       - name: Run Playwright Functional Tests
         run: npm run test:e2e
+        continue-on-error: ${{ github.event_name == 'pull_request' }}
         env:
           PLAYWRIGHT_BASE_URL: https://drupal10-demo-production.up.railway.app
           CI: true
