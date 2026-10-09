@@ -37,3 +37,10 @@
 *.bak
 .DS_Store
 Thumbs.db
+
+# Node.js and Playwright
+/node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+
