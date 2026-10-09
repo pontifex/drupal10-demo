@@ -60,6 +60,47 @@ class SeoMetaService {
         ];
       }
     }
+
+    // Resource hints: Preconnect for fonts and Preload for LCP hero image.
+    $attachments['#attached']['html_head'][] = [
+      [
+        '#type' => 'html_tag',
+        '#tag' => 'link',
+        '#attributes' => [
+          'rel' => 'preconnect',
+          'href' => 'https://fonts.googleapis.com',
+        ],
+      ],
+      'architect_studio_perf_preconnect_fonts_api',
+    ];
+    $attachments['#attached']['html_head'][] = [
+      [
+        '#type' => 'html_tag',
+        '#tag' => 'link',
+        '#attributes' => [
+          'rel' => 'preconnect',
+          'href' => 'https://fonts.gstatic.com',
+          'crossorigin' => 'anonymous',
+        ],
+      ],
+      'architect_studio_perf_preconnect_fonts_static',
+    ];
+
+    if ($routeName === 'architect_studio.showcase') {
+      $attachments['#attached']['html_head'][] = [
+        [
+          '#type' => 'html_tag',
+          '#tag' => 'link',
+          '#attributes' => [
+            'rel' => 'preload',
+            'as' => 'image',
+            'href' => '/modules/custom/architect_studio/images/willa_optima1.jpg',
+            'fetchpriority' => 'high',
+          ],
+        ],
+        'architect_studio_perf_preload_hero_lcp',
+      ];
+    }
   }
 
   /**

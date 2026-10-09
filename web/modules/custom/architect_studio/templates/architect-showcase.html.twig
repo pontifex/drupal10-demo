@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="hero-image-wrap">
-      <img src="/modules/custom/architect_studio/images/willa_optima1.jpg" alt="Wizualizacja nowoczesnego domu" class="hero-featured-image">
+      <img src="/modules/custom/architect_studio/images/willa_optima1.jpg" alt="Wizualizacja nowoczesnego domu" class="hero-featured-image" width="640" height="427" fetchpriority="high" decoding="async">
     </div>
   </header>
 
@@ -119,7 +119,7 @@
       {% for project in featured_projects %}
       <article class="project-card">
         <div class="project-card-image">
-          <img src="{{ project.image_url }}" alt="{{ project.title }}">
+          <img src="{{ project.image_url }}" alt="{{ project.title }}" width="400" height="267" loading="lazy" decoding="async">
           <span class="project-badge">{{ project.category|replace({'_': ' '})|capitalize }}</span>
         </div>
         <div class="project-card-body">

@@ -240,3 +240,16 @@ function architect_studio_post_update_use_real_extradom_images(): void {
     ->condition('id', 9)
     ->execute();
 }
+
+/**
+ * Konfiguruje optymalizację wydajności: agregacja CSS/JS i cache stron.
+ */
+function architect_studio_post_update_optimize_performance(): void {
+  $config = \Drupal::configFactory()->getEditable('system.performance');
+  $config->set('css.preprocess', TRUE);
+  $config->set('css.gzip', TRUE);
+  $config->set('js.preprocess', TRUE);
+  $config->set('js.gzip', TRUE);
+  $config->set('cache.page.max_age', 3600);
+  $config->save(TRUE);
+}

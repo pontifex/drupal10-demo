@@ -41,10 +41,13 @@ test.describe('Katalog Projektów Architektonicznych', () => {
 
     for (let i = 0; i < count; i++) {
       const img = images.nth(i);
+      await img.scrollIntoViewIfNeeded();
       await expect(img).toBeVisible();
-      // Weryfikacja naturalWidth > 0 w DOM (obraz poprawnie załadowany przez przeglądarkę)
-      const isLoaded = await img.evaluate((el) => el.complete && el.naturalWidth > 0);
-      expect(isLoaded).toBe(true);
+      // Weryfikacja naturalWidth > 0 w DOM po załadowaniu obrazu
+      await expect(async () => {
+        const isLoaded = await img.evaluate((el) => el.complete && el.naturalWidth > 0);
+        expect(isLoaded).toBe(true);
+      }).toPass({ timeout: 5000 });
     }
   });
 

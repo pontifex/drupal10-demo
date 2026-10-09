@@ -935,3 +935,17 @@ $settings['trusted_host_patterns'] = [
 
 $settings['hash_salt'] = getenv('DRUPAL_HASH_SALT') ?: 'architect-studio-drupal10-demo-railway-secret-salt';
 
+// Reverse proxy configuration for Railway
+if (getenv('RAILWAY_ENVIRONMENT') || getenv('RAILWAY_PROJECT_ID') || isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
+  $settings['reverse_proxy'] = TRUE;
+  $settings['reverse_proxy_trusted_headers'] = \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_FOR | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_HOST | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PORT | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PROTO;
+  $settings['reverse_proxy_addresses'] = [$_SERVER['REMOTE_ADDR'] ?? '127.0.0.1'];
+}
+
+// Performance optimizations: CSS & JS aggregation, Page Cache TTL
+$config['system.performance']['css']['preprocess'] = TRUE;
+$config['system.performance']['css']['gzip'] = TRUE;
+$config['system.performance']['js']['preprocess'] = TRUE;
+$config['system.performance']['js']['gzip'] = TRUE;
+$config['system.performance']['cache']['page']['max_age'] = 3600;
+
