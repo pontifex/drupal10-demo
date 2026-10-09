@@ -25,6 +25,7 @@ function architect_studio_theme(): array {
       'variables' => [
         'projects' => [],
         'filters' => [],
+        'total_count' => 0,
       ],
       'template' => 'architect-catalog',
     ],

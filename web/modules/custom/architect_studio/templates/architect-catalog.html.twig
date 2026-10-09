@@ -6,9 +6,14 @@
     <p>Wszystkie projekty posiadają dopracowaną dokumentację budowlaną, zoptymalizowaną pod energooszczędne rozwiązania (pompa ciepła, wentylacja mechaniczna) z możliwością zakupu online (płatność BLIK).</p>
   </div>
 
-  <!-- FILTRY KATALOGU -->
+  <!-- WYSZUKIWARKA I FILTRY KATALOGU -->
   <div class="catalog-filter-bar">
-    <form method="get" action="/projekty" class="filter-form">
+    <form method="get" action="" class="filter-form">
+      <div class="filter-group filter-group--keyword">
+        <label for="filter-keyword">Szukaj (nazwa / kod):</label>
+        <input type="text" name="keyword" id="filter-keyword" placeholder="np. Gloria, Maja, WAW-1192..." value="{{ filters.keyword }}">
+      </div>
+
       <div class="filter-group">
         <label for="filter-category">Kategoria:</label>
         <select name="category" id="filter-category">
@@ -31,17 +36,42 @@
       </div>
 
       <div class="filter-actions">
-        <button type="submit" class="btn btn-primary">Filtruj</button>
-        <a href="/projekty" class="btn btn-outline">Wyczyść</a>
+        <button type="submit" class="btn btn-primary">Szukaj / Filtruj</button>
+        <a href="{{ path('architect_studio.catalog') }}" class="btn btn-outline">Wyczyść</a>
       </div>
     </form>
+  </div>
+
+  <!-- PASEK STATUSU WYSZUKIWANIA -->
+  <div class="catalog-status-bar">
+    <span class="catalog-status-count">
+      Znaleziono projektów: <strong>{{ projects|length }}</strong> z {{ total_count }}
+    </span>
+    {% if filters.keyword or filters.category or filters.max_area or filters.max_lot_width %}
+      <div class="catalog-active-filters">
+        <span class="active-filters-label">Aktywne kryteria:</span>
+        {% if filters.keyword %}
+          <span class="filter-pill">Szukaj: <strong>„{{ filters.keyword }}”</strong></span>
+        {% endif %}
+        {% if filters.category %}
+          <span class="filter-pill">Kategoria: <strong>{{ filters.category|replace({'_': ' '})|capitalize }}</strong></span>
+        {% endif %}
+        {% if filters.max_area %}
+          <span class="filter-pill">Powierzchnia: <strong>≤ {{ filters.max_area }} m²</strong></span>
+        {% endif %}
+        {% if filters.max_lot_width %}
+          <span class="filter-pill">Szer. działki: <strong>≤ {{ filters.max_lot_width }} m</strong></span>
+        {% endif %}
+        <a href="{{ path('architect_studio.catalog') }}" class="filter-pill filter-pill--clear">✕ Skasuj filtry</a>
+      </div>
+    {% endif %}
   </div>
 
   <!-- LISTA PROJEKTÓW -->
   {% if projects is empty %}
     <div class="no-projects-box">
-      <p>Nie znaleziono projektów spełniających podane kryteria.</p>
-      <a href="/projekty" class="btn btn-secondary">Pokaż wszystkie projekty</a>
+      <p>Nie znaleziono projektów spełniających podane kryteria wyszukiwania.</p>
+      <a href="{{ path('architect_studio.catalog') }}" class="btn btn-secondary">Pokaż wszystkie projekty</a>
     </div>
   {% else %}
     <div class="projects-grid">

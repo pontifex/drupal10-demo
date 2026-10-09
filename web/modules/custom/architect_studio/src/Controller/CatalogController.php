@@ -39,20 +39,32 @@ final class CatalogController extends ControllerBase {
    */
   public function catalog(Request $request): array {
     $filters = [
+      'keyword' => trim((string) $request->query->get('keyword', '')),
       'category' => (string) $request->query->get('category', ''),
+      'min_area' => $request->query->get('min_area', ''),
       'max_area' => $request->query->get('max_area', ''),
       'max_lot_width' => $request->query->get('max_lot_width', ''),
     ];
 
     $projects = $this->projectRepository->getAll(FALSE, $filters);
+    $allProjects = $this->projectRepository->getAll(FALSE);
 
     return [
       '#theme' => 'architect_catalog',
       '#projects' => $projects,
       '#filters' => $filters,
+      '#total_count' => count($allProjects),
       '#attached' => [
         'library' => [
           'architect_studio/studio-styles',
+        ],
+      ],
+      '#cache' => [
+        'contexts' => [
+          'url.query_args',
+        ],
+        'tags' => [
+          'architect_projects_list',
         ],
       ],
     ];
