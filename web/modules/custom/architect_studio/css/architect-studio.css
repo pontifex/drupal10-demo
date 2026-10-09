@@ -198,9 +198,14 @@ body {
 .path-frontpage .block-page-title-block,
 .path-architekt .block-page-title-block,
 .path-projekty .block-page-title-block,
-.path-projekty .breadcrumb {
+.path-regulamin .block-page-title-block,
+.path-polityka-prywatnosci .block-page-title-block,
+.path-projekty .breadcrumb,
+.path-regulamin .breadcrumb,
+.path-polityka-prywatnosci .breadcrumb {
   display: none !important;
 }
+
 
 /* ==========================================================================
    Główny Kontener
@@ -1566,5 +1571,418 @@ body {
 
   .section-title {
     font-size: 22px;
+  }
+}
+
+/* ==========================================================================
+   Profesjonalna stopka w stylu Extradom z danymi rejestrowymi i prawnymi
+   ========================================================================== */
+
+#block-olivero-powered {
+  display: none !important;
+}
+
+.site-footer {
+  background-color: #ffffff !important;
+  border-top: 1px solid #e5e7eb !important;
+  padding: 0 !important;
+}
+
+.site-footer__inner {
+  max-width: 100% !important;
+  padding: 0 !important;
+}
+
+.architect-footer {
+  background-color: #ffffff;
+  padding: 56px 0 28px;
+  font-size: 14px;
+  color: var(--arch-slate);
+  width: 100%;
+}
+
+.architect-footer-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.architect-footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1.1fr 1fr 1.1fr;
+  gap: 40px;
+  margin-bottom: 48px;
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-brand {
+  margin-bottom: 16px;
+}
+
+.footer-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--arch-dark);
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: -0.3px;
+  text-decoration: none;
+}
+
+.footer-logo:hover {
+  color: var(--arch-primary);
+}
+
+.footer-desc {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--arch-muted);
+  margin-bottom: 20px;
+}
+
+.footer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--arch-dark);
+  line-height: 1.4;
+}
+
+.footer-heading {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--arch-dark);
+  margin: 0 0 18px;
+  letter-spacing: -0.2px;
+  position: relative;
+  padding-bottom: 8px;
+}
+
+.footer-heading::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 28px;
+  height: 2px;
+  background-color: var(--arch-primary);
+  border-radius: 2px;
+}
+
+.footer-company-info p {
+  margin: 0 0 8px;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.company-name {
+  color: var(--arch-dark);
+  margin-bottom: 10px !important;
+}
+
+.info-label {
+  color: var(--arch-muted);
+  font-weight: 500;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links li {
+  margin-bottom: 10px;
+}
+
+.footer-links a {
+  color: var(--arch-slate);
+  text-decoration: none;
+  transition: color 0.15s, transform 0.15s;
+  display: inline-block;
+}
+
+.footer-links a:hover {
+  color: var(--arch-primary);
+  transform: translateX(2px);
+}
+
+.footer-contact {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+}
+
+.footer-contact li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-size: 13.5px;
+}
+
+.footer-contact a {
+  color: var(--arch-dark);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.footer-contact a:hover {
+  color: var(--arch-primary);
+}
+
+.footer-payments {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.payments-title {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--arch-slate);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.payment-badges {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.pay-pill {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.2px;
+}
+
+.pay-pill.blik {
+  background: #111827;
+  color: #ff334b;
+}
+
+.pay-pill.p24 {
+  background: #dc2626;
+  color: #ffffff;
+}
+
+.pay-pill.payu {
+  background: #a3e635;
+  color: #111827;
+}
+
+.pay-pill.autopay {
+  background: #0284c7;
+  color: #ffffff;
+}
+
+.ssl-note {
+  font-size: 11.5px;
+  color: #16a34a;
+  font-weight: 600;
+  margin: 0;
+}
+
+.architect-footer-bottom {
+  border-top: 1px solid #f1f5f9;
+  padding-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 13px;
+  color: var(--arch-muted);
+}
+
+.bottom-legal-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bottom-legal-links a {
+  color: var(--arch-muted);
+  text-decoration: none;
+}
+
+.bottom-legal-links a:hover {
+  color: var(--arch-primary);
+}
+
+/* ==========================================================================
+   Strony Prawne (Regulamin i Polityka Prywatności)
+   ========================================================================== */
+
+.legal-page-wrapper {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px 0 60px;
+}
+
+.legal-card {
+  background: #ffffff;
+  border: 1px solid var(--arch-border);
+  border-radius: 12px;
+  padding: 44px 48px;
+  box-shadow: var(--arch-shadow-sm);
+}
+
+.legal-badge {
+  display: inline-block;
+  background: var(--arch-primary-light);
+  color: var(--arch-primary-dark);
+  border: 1px solid var(--arch-primary-border);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.legal-title {
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--arch-dark);
+  margin: 0 0 8px;
+  letter-spacing: -0.5px;
+}
+
+.legal-meta {
+  color: var(--arch-muted);
+  font-size: 14px;
+  margin-bottom: 32px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--arch-border);
+}
+
+.legal-section {
+  margin-bottom: 36px;
+}
+
+.legal-section h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--arch-dark);
+  margin: 0 0 14px;
+  letter-spacing: -0.2px;
+}
+
+.legal-section p {
+  color: var(--arch-slate);
+  line-height: 1.7;
+  margin: 0 0 12px;
+}
+
+.company-details-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid var(--arch-primary);
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin: 16px 0;
+}
+
+.company-details-box p {
+  margin: 0 0 6px;
+  font-size: 14px;
+  color: var(--arch-dark);
+}
+
+.company-details-box p:last-child {
+  margin-bottom: 0;
+}
+
+.legal-list {
+  padding-left: 20px;
+  margin: 12px 0 18px;
+  color: var(--arch-slate);
+  line-height: 1.7;
+}
+
+.legal-list li {
+  margin-bottom: 8px;
+}
+
+.legal-footer-nav {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-end;
+  padding-top: 24px;
+  margin-top: 32px;
+  border-top: 1px solid var(--arch-border);
+  flex-wrap: wrap;
+}
+
+.order-consent-fieldset {
+  margin: 24px 0;
+  padding: 16px 20px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.order-consent-fieldset legend {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--arch-dark);
+  padding: 0 6px;
+}
+
+.order-consent-fieldset .form-item {
+  margin: 0;
+}
+
+.order-consent-fieldset a {
+  color: var(--arch-primary);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+@media (max-width: 1024px) {
+  .architect-footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+}
+
+@media (max-width: 680px) {
+  .architect-footer-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .legal-card {
+    padding: 28px 20px;
+  }
+
+  .legal-title {
+    font-size: 24px;
+  }
+
+  .architect-footer-bottom {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
   }
 }

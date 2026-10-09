@@ -44,8 +44,37 @@ function architect_studio_theme(): array {
       ],
       'template' => 'architect-order-success',
     ],
+    'architect_terms' => [
+      'variables' => [],
+      'template' => 'architect-terms',
+    ],
+    'architect_privacy' => [
+      'variables' => [],
+      'template' => 'architect-privacy',
+    ],
+    'architect_footer' => [
+      'variables' => [],
+      'template' => 'architect-footer',
+    ],
   ];
 }
+
+/**
+ * Implements hook_preprocess_page().
+ *
+ * @param array<string, mixed> $variables
+ *   Preprocess variables.
+ */
+function architect_studio_preprocess_page(array &$variables): void {
+  // Dołącz profesjonalną stopkę pracowni w stylu Extradom do regionu stopki.
+  if (isset($variables['page']['footer_bottom'])) {
+    $variables['page']['footer_bottom']['architect_footer'] = [
+      '#theme' => 'architect_footer',
+      '#weight' => -100,
+    ];
+  }
+}
+
 
 /**
  * Implements hook_page_attachments().

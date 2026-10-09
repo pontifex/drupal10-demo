@@ -9,6 +9,7 @@ use Drupal\architect_studio\Repository\ProjectRepository;
 use Drupal\architect_studio\Service\PaymentGatewayService;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -188,6 +189,25 @@ final class OrderForm extends FormBase {
       ],
     ];
 
+    // Sekcja: Zgody i oświadczenia prawne (wymóg operatora płatności).
+    $form['consent_fieldset'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Zgody formalne i oświadczenia'),
+      '#attributes' => ['class' => ['order-consent-fieldset']],
+    ];
+
+    $termsUrl = Url::fromRoute('architect_studio.terms')->toString();
+    $privacyUrl = Url::fromRoute('architect_studio.privacy')->toString();
+
+    $form['consent_fieldset']['terms_accepted'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Oświadczam, że akceptuję <a href=":terms" target="_blank">Regulamin Serwisu i Sprzedaży Projektów</a> oraz zapoznałem się z <a href=":privacy" target="_blank">Polityką Prywatności i Informacją o RODO</a>. *', [
+        ':terms' => $termsUrl,
+        ':privacy' => $privacyUrl,
+      ]),
+      '#required' => TRUE,
+    ];
+
     $form['actions'] = [
       '#type' => 'actions',
     ];
@@ -227,6 +247,10 @@ final class OrderForm extends FormBase {
     $blikCode = (string) $form_state->getValue('blik_code');
     if (!$this->paymentGateway->validateBlikCode($blikCode)) {
       $form_state->setErrorByName('blik_code', $this->t('Kod BLIK musi składać się dokładnie z 6 cyfr.'));
+    }
+
+    if (empty($form_state->getValue('terms_accepted'))) {
+      $form_state->setErrorByName('terms_accepted', $this->t('Musisz zaakceptować Regulamin serwisu oraz Politykę Prywatności, aby sfinalizować zamówienie.'));
     }
   }
 
