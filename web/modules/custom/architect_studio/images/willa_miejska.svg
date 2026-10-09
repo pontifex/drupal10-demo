@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <rect width="800" height="500" fill="#0f172a"/>
+  <rect y="380" width="800" height="120" fill="#020617"/>
+  <rect y="375" width="800" height="8" fill="#15803d"/>
+  <!-- Two story modern villa -->
+  <rect x="180" y="160" width="440" height="220" fill="#f8fafc" rx="4"/>
+  <rect x="160" y="145" width="480" height="20" fill="#0f172a"/>
+  <!-- 2nd floor balcony -->
+  <rect x="220" y="180" width="180" height="90" fill="#38bdf8" opacity="0.8" stroke="#1e293b" stroke-width="3"/>
+  <rect x="420" y="180" width="160" height="90" fill="#38bdf8" opacity="0.8" stroke="#1e293b" stroke-width="3"/>
+  <!-- Ground floor large glazing -->
+  <rect x="220" y="280" width="260" height="100" fill="#0284c7" opacity="0.85" stroke="#1e293b" stroke-width="3"/>
+  <!-- Double garage -->
+  <rect x="500" y="280" width="100" height="100" fill="#334155"/>
+  <text x="30" y="50" font-family="system-ui, sans-serif" font-size="22" font-weight="700" fill="#f8fafc">WILLA MIEJSKA REZYDENCJA 185</text>
+  <text x="30" y="80" font-family="system-ui, sans-serif" font-size="14" fill="#94a3b8">Powierzchnia: 185.2 m² | Dom 2-kondygnacyjny | Garaż 2-stanowiskowy</text>
+</svg>

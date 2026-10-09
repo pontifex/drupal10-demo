@@ -1,0 +1,45 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @file
+ * Primary module hooks for architect_studio module.
+ */
+
+/**
+ * Implements hook_theme().
+ *
+ * @return array<string, mixed>
+ */
+function architect_studio_theme(): array {
+  return [
+    'architect_showcase' => [
+      'variables' => [
+        'featured_projects' => [],
+        'inquiry_form' => [],
+      ],
+      'template' => 'architect-showcase',
+    ],
+    'architect_catalog' => [
+      'variables' => [
+        'projects' => [],
+        'filters' => [],
+      ],
+      'template' => 'architect-catalog',
+    ],
+    'architect_project_detail' => [
+      'variables' => [
+        'project' => [],
+      ],
+      'template' => 'architect-project-detail',
+    ],
+    'architect_order_success' => [
+      'variables' => [
+        'order' => [],
+        'project' => [],
+      ],
+      'template' => 'architect-order-success',
+    ],
+  ];
+}

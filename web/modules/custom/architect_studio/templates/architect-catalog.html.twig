@@ -1,0 +1,88 @@
+{# Template: architect-catalog.html.twig #}
+<div class="architect-container architect-catalog-page">
+
+  <div class="catalog-header">
+    <h1>Katalog Autorskich Projektów Architektonicznych</h1>
+    <p>Wszystkie projekty posiadają dopracowaną dokumentację budowlaną, zoptymalizowaną pod energooszczędne rozwiązania (pompa ciepła, wentylacja mechaniczna) z możliwością zakupu online (płatność BLIK).</p>
+  </div>
+
+  <!-- FILTRY KATALOGU -->
+  <div class="catalog-filter-bar">
+    <form method="get" action="/projekty" class="filter-form">
+      <div class="filter-group">
+        <label for="filter-category">Kategoria:</label>
+        <select name="category" id="filter-category">
+          <option value="">Wszystkie kategorie</option>
+          <option value="dom_parterowy" {% if filters.category == 'dom_parterowy' %}selected{% endif %}>Domy parterowe</option>
+          <option value="dom_z_poddaszem" {% if filters.category == 'dom_z_poddaszem' %}selected{% endif %}>Domy z poddaszem</option>
+          <option value="dom_pietrowy" {% if filters.category == 'dom_pietrowy' %}selected{% endif %}>Domy piętrowe (rezydencje)</option>
+          <option value="gospodarczy_garaz" {% if filters.category == 'gospodarczy_garaz' %}selected{% endif %}>Gospodarcze i garaże</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="filter-area">Maks. pow. użytkowa (m²):</label>
+        <input type="number" name="max_area" id="filter-area" placeholder="np. 150" value="{{ filters.max_area }}">
+      </div>
+
+      <div class="filter-group">
+        <label for="filter-lot">Maks. szerokość działki (m):</label>
+        <input type="number" name="max_lot_width" id="filter-lot" placeholder="np. 20" value="{{ filters.max_lot_width }}">
+      </div>
+
+      <div class="filter-actions">
+        <button type="submit" class="btn btn-primary">Filtruj</button>
+        <a href="/projekty" class="btn btn-outline">Wyczyść</a>
+      </div>
+    </form>
+  </div>
+
+  <!-- LISTA PROJEKTÓW -->
+  {% if projects is empty %}
+    <div class="no-projects-box">
+      <p>Nie znaleziono projektów spełniających podane kryteria.</p>
+      <a href="/projekty" class="btn btn-secondary">Pokaż wszystkie projekty</a>
+    </div>
+  {% else %}
+    <div class="projects-grid">
+      {% for project in projects %}
+      <article class="project-card">
+        <div class="project-card-image">
+          <img src="{{ project.image_url }}" alt="{{ project.title }}">
+          <span class="project-badge">{{ project.category|replace({'_': ' '})|capitalize }}</span>
+        </div>
+        <div class="project-card-body">
+          <span class="project-code">{{ project.code }}</span>
+          <h3 class="project-card-title">{{ project.title }}</h3>
+          
+          <div class="project-card-meta">
+            <span>📐 <strong>{{ project.usable_area }} m²</strong> pow. użytk.</span>
+            <span>🏠 Dach <strong>{{ project.roof_angle }}°</strong></span>
+            <span>📍 Min. działka <strong>{{ project.min_lot_width }}m</strong> szer.</span>
+            <span>🛏️ <strong>{{ project.rooms_count }}</strong> pokoi</span>
+          </div>
+
+          <p class="project-card-heating">🌿 {{ project.heating_type }}</p>
+
+          <div class="project-card-pricing">
+            <div>
+              <span class="price-label">Druk (4 egz. do urzędu):</span>
+              <span class="price-val">{{ project.price_print|number_format(2, ',', ' ') }} zł</span>
+            </div>
+            <div>
+              <span class="price-label">Cyfrowy (PDF):</span>
+              <span class="price-val">{{ project.price_digital|number_format(2, ',', ' ') }} zł</span>
+            </div>
+          </div>
+
+          <div class="project-card-actions">
+            <a href="/projekty/{{ project.id }}" class="btn btn-outline btn-block">Szczegóły i rzuty</a>
+            <a href="/projekty/{{ project.id }}/zamow" class="btn btn-success btn-block">Kup teraz (BLIK)</a>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+</div>

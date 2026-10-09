@@ -1,0 +1,98 @@
+architect_studio.showcase:
+  path: '/architekt'
+  defaults:
+    _controller: '\Drupal\architect_studio\Controller\ShowcaseController::index'
+    _title: 'Pracownia Architektoniczna – Adaptacja projektów, modyfikacje i projekty autorskie'
+  requirements:
+    _permission: 'access content'
+
+architect_studio.catalog:
+  path: '/projekty'
+  defaults:
+    _controller: '\Drupal\architect_studio\Controller\CatalogController::catalog'
+    _title: 'Katalog Autorskich Projektów Domów i Budynków Gospodarczych'
+  requirements:
+    _permission: 'access content'
+
+architect_studio.project_detail:
+  path: '/projekty/{id}'
+  defaults:
+    _controller: '\Drupal\architect_studio\Controller\CatalogController::detail'
+    _title: 'Projekt Architektoniczny'
+  requirements:
+    _permission: 'access content'
+    id: '\d+'
+
+architect_studio.order:
+  path: '/projekty/{id}/zamow'
+  defaults:
+    _controller: '\Drupal\architect_studio\Controller\OrderController::order'
+    _title: 'Zamówienie Projektu z Płatnością BLIK'
+  requirements:
+    _permission: 'access content'
+    id: '\d+'
+
+architect_studio.order_success:
+  path: '/zamowienie/sukces/{order_number}'
+  defaults:
+    _controller: '\Drupal\architect_studio\Controller\OrderController::success'
+    _title: 'Potwierdzenie Zamówienia i Płatności'
+  requirements:
+    _permission: 'access content'
+
+architect_studio.admin_projects:
+  path: '/admin/architect/projekty'
+  defaults:
+    _controller: '\Drupal\architect_studio\Controller\AdminController::projects'
+    _title: 'Zarządzanie Katalogiem Projektów'
+  requirements:
+    _permission: 'access administration pages'
+
+architect_studio.admin_project_add:
+  path: '/admin/architect/projekty/dodaj'
+  defaults:
+    _controller: '\Drupal\architect_studio\Controller\AdminController::addProject'
+    _title: 'Dodaj Nowy Projekt'
+  requirements:
+    _permission: 'access administration pages'
+
+architect_studio.admin_project_edit:
+  path: '/admin/architect/projekty/{id}/edytuj'
+  defaults:
+    _controller: '\Drupal\architect_studio\Controller\AdminController::editProject'
+    _title: 'Edycja Projektu'
+  requirements:
+    _permission: 'access administration pages'
+    id: '\d+'
+
+architect_studio.admin_project_toggle:
+  path: '/admin/architect/projekty/{id}/toggle'
+  defaults:
+    _controller: '\Drupal\architect_studio\Controller\AdminController::toggleProject'
+  requirements:
+    _permission: 'access administration pages'
+    id: '\d+'
+
+architect_studio.admin_project_delete:
+  path: '/admin/architect/projekty/{id}/usun'
+  defaults:
+    _controller: '\Drupal\architect_studio\Controller\AdminController::deleteProject'
+  requirements:
+    _permission: 'access administration pages'
+    id: '\d+'
+
+architect_studio.admin_orders:
+  path: '/admin/architect/zamowienia'
+  defaults:
+    _controller: '\Drupal\architect_studio\Controller\AdminController::orders'
+    _title: 'Zamówienia Projektów (Płatności BLIK)'
+  requirements:
+    _permission: 'access administration pages'
+
+architect_studio.admin_inquiries:
+  path: '/admin/architect/zapytania'
+  defaults:
+    _controller: '\Drupal\architect_studio\Controller\AdminController::inquiries'
+    _title: 'Zapytania o Adaptację i Modyfikacje'
+  requirements:
+    _permission: 'access administration pages'
