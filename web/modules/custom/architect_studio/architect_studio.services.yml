@@ -18,3 +18,9 @@ services:
   logger.channel.architect_studio:
     parent: logger.channel_base
     arguments: ['architect_studio']
+
+  architect_studio.language_redirect_subscriber:
+    class: Drupal\architect_studio\EventSubscriber\LanguageRedirectSubscriber
+    tags:
+      - { name: event_subscriber }
+
