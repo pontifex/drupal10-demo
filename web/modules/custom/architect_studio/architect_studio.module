@@ -42,6 +42,7 @@ function architect_studio_theme(): array {
       'variables' => [
         'order' => [],
         'project' => [],
+        'is_masked' => FALSE,
       ],
       'template' => 'architect-order-success',
     ],

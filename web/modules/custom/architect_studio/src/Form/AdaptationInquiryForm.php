@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\architect_studio\Form;
 
 use Drupal\architect_studio\Repository\InquiryRepository;
+use Drupal\Core\Flood\FloodInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -16,6 +17,7 @@ final class AdaptationInquiryForm extends FormBase {
 
   public function __construct(
     protected InquiryRepository $inquiryRepository,
+    protected FloodInterface $flood,
   ) {}
 
   /**
@@ -23,7 +25,8 @@ final class AdaptationInquiryForm extends FormBase {
    */
   public static function create(ContainerInterface $container): static {
     return new static(
-      $container->get('architect_studio.inquiry_repository')
+      $container->get('architect_studio.inquiry_repository'),
+      $container->get('flood')
     );
   }
 
@@ -105,6 +108,20 @@ final class AdaptationInquiryForm extends FormBase {
       '#placeholder' => 'Chciałbym zaadaptować projekt do działki oraz zmienić projektowane ogrzewanie gazowe na pompę ciepła powietrze-woda z ogrzewaniem podłogowym...',
     ];
 
+    // Pole pułapka (honeypot) przeciwko automatom spamującym.
+    $form['architect_hp_company'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Firma (pozostaw puste)'),
+      '#attributes' => [
+        'tabindex' => '-1',
+        'autocomplete' => 'off',
+        'aria-hidden' => 'true',
+      ],
+      '#wrapper_attributes' => [
+        'style' => 'position: absolute !important; left: -9999px !important; width: 1px !important; height: 1px !important; overflow: hidden !important;',
+      ],
+    ];
+
     $form['actions'] = [
       '#type' => 'actions',
     ];
@@ -129,6 +146,20 @@ final class AdaptationInquiryForm extends FormBase {
    *   Stan formularza.
    */
   public function validateForm(array &$form, FormStateInterface $form_state): void {
+    // 1. Weryfikacja pola Honeypot.
+    $honeypot = trim((string) $form_state->getValue('architect_hp_company'));
+    if ($honeypot !== '') {
+      $form_state->setErrorByName('architect_hp_company', $this->t('Wykryto nieprawidłowe wypełnienie formularza.'));
+      return;
+    }
+
+    // 2. Ochrona Flood Control (max 5 zapytań na godzinę z jednego IP).
+    $clientIp = $this->getRequest()->getClientIp() ?? 'unknown';
+    if (!$this->flood->isAllowed('architect_studio.inquiry', 5, 3600, $clientIp)) {
+      $form_state->setErrorByName('customer_email', $this->t('Z Twojego adresu IP przesłano zbyt wiele zapytań w krótkim czasie. Odczekaj chwilę przed kolejną próbą lub zadzwoń bezpośrednio do pracowni.'));
+      return;
+    }
+
     $email = (string) $form_state->getValue('customer_email');
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
       $form_state->setErrorByName('customer_email', $this->t('Podaj poprawny adres e-mail.'));
@@ -149,6 +180,9 @@ final class AdaptationInquiryForm extends FormBase {
    *   Stan formularza.
    */
   public function submitForm(array &$form, FormStateInterface $form_state): void {
+    $clientIp = $this->getRequest()->getClientIp() ?? 'unknown';
+    $this->flood->register('architect_studio.inquiry', 3600, $clientIp);
+
     $data = [
       'customer_name' => (string) $form_state->getValue('customer_name'),
       'customer_email' => (string) $form_state->getValue('customer_email'),

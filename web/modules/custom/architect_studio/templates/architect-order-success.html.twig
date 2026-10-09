@@ -12,6 +12,13 @@
       <span class="order-number-highlight">{{ order.order_number }}</span>
     </p>
 
+    {% if is_masked %}
+      <div class="order-privacy-alert" style="background:#fef2f2;border:1px solid #fecaca;color:#991b1b;padding:12px 16px;border-radius:8px;font-size:13px;margin-bottom:20px;display:flex;align-items:center;gap:8px;">
+        <span style="font-size:16px;">🛡️</span>
+        <span><strong>Ochrona prywatności (RODO):</strong> Wrażliwe dane zamawiającego na tym publicznym podsumowaniu zostały zamaskowane.</span>
+      </div>
+    {% endif %}
+
     <div class="order-details-box">
       <h3>Szczegóły zamówienia:</h3>
       <table class="order-summary-table">
