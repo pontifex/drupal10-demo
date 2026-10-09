@@ -31,9 +31,10 @@ fi
 if [ -n "$DB_HOST" ]; then
 
   echo "Checking database connection to $DB_HOST:$DB_PORT ($DB_NAME)..."
+  MYSQL_CMD="mysql --ssl-verify-server-cert=0 -h $DB_HOST -P $DB_PORT -u $DB_USER -p$DB_PASS"
   MAX_TRIES=30
   COUNT=0
-  until mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -e "USE $DB_NAME;" >/dev/null 2>&1 || [ $COUNT -eq $MAX_TRIES ]; do
+  until $MYSQL_CMD -e "USE $DB_NAME;" >/dev/null 2>&1 || [ $COUNT -eq $MAX_TRIES ]; do
     echo "Waiting for database to become available ($COUNT/$MAX_TRIES)..."
     sleep 2
     COUNT=$((COUNT + 1))
@@ -41,15 +42,15 @@ if [ -n "$DB_HOST" ]; then
 
   if [ $COUNT -lt $MAX_TRIES ]; then
     echo "Database connection successful!"
-    TABLE_COUNT=$(mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -D "$DB_NAME" -e "SHOW TABLES;" 2>/dev/null | wc -l)
+    TABLE_COUNT=$($MYSQL_CMD -D "$DB_NAME" -e "SHOW TABLES;" 2>/dev/null | wc -l)
     if [ "$TABLE_COUNT" -le 1 ]; then
       if [ -f /opt/drupal/docker/init-db.sql.gz ]; then
         echo "Database is empty. Importing init-db.sql.gz..."
-        gunzip -c /opt/drupal/docker/init-db.sql.gz | mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -D "$DB_NAME"
+        gunzip -c /opt/drupal/docker/init-db.sql.gz | $MYSQL_CMD -D "$DB_NAME"
         echo "Database import complete!"
       elif [ -f /opt/drupal/docker/init-db.sql ]; then
         echo "Database is empty. Importing init-db.sql..."
-        mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -D "$DB_NAME" < /opt/drupal/docker/init-db.sql
+        $MYSQL_CMD -D "$DB_NAME" < /opt/drupal/docker/init-db.sql
         echo "Database import complete!"
       fi
     else
