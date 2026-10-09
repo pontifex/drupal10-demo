@@ -253,3 +253,12 @@ function architect_studio_post_update_optimize_performance(): void {
   $config->set('cache.page.max_age', 3600);
   $config->save(TRUE);
 }
+
+/**
+ * Konfiguruje dedykowaną stronę błędu 404 dla pracowni architektonicznej.
+ */
+function architect_studio_post_update_configure_branding_and_404(): void {
+  $config = \Drupal::configFactory()->getEditable('system.site');
+  $config->set('page.404', '/nie-znaleziono');
+  $config->save(TRUE);
+}

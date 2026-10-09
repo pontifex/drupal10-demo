@@ -949,3 +949,11 @@ $config['system.performance']['js']['preprocess'] = TRUE;
 $config['system.performance']['js']['gzip'] = TRUE;
 $config['system.performance']['cache']['page']['max_age'] = 3600;
 
+// Custom 404 page
+$config['system.site']['page']['404'] = '/nie-znaleziono';
+
+// Safe mail collector for development and container environments without local MTA
+$config['system.mail']['interface']['architect_studio'] = 'test_mail_collector';
+
+
+

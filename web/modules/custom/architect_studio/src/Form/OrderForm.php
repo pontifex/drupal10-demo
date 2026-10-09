@@ -6,6 +6,7 @@ namespace Drupal\architect_studio\Form;
 
 use Drupal\architect_studio\Repository\OrderRepository;
 use Drupal\architect_studio\Repository\ProjectRepository;
+use Drupal\architect_studio\Service\MailNotificationService;
 use Drupal\architect_studio\Service\PaymentGatewayService;
 use Drupal\Core\Flood\FloodInterface;
 use Drupal\Core\Form\FormBase;
@@ -30,6 +31,7 @@ final class OrderForm extends FormBase {
     protected OrderRepository $orderRepository,
     protected PaymentGatewayService $paymentGateway,
     protected FloodInterface $flood,
+    protected MailNotificationService $mailNotification,
   ) {}
 
   /**
@@ -40,7 +42,8 @@ final class OrderForm extends FormBase {
       $container->get('architect_studio.project_repository'),
       $container->get('architect_studio.order_repository'),
       $container->get('architect_studio.payment_gateway'),
-      $container->get('flood')
+      $container->get('flood'),
+      $container->get('architect_studio.mail_notification')
     );
   }
 
@@ -335,6 +338,10 @@ final class OrderForm extends FormBase {
 
     if ($paymentResult['success']) {
       $this->orderRepository->updatePaymentStatus($orderId, 'paid', $paymentResult['transaction_id']);
+
+      // Powiadomienie e-mail do architekta oraz potwierdzenie dla klienta.
+      $this->mailNotification->notifyArchitectOrder($orderData, $project);
+      $this->mailNotification->confirmCustomerOrder($orderData, $project);
 
       // Zapisujemy numer zamówienia w sesji kupującego
       // dla bezpiecznego wglądu w dane zamówienia (anty-IDOR).

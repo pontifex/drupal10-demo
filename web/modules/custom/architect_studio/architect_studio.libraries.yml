@@ -6,6 +6,7 @@ studio-styles:
         weight: 1000
   js:
     js/architect-lightbox.js: {}
+    js/architect-cookie-banner.js: {}
   dependencies:
     - core/drupal
 
