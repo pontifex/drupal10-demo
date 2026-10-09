@@ -493,4 +493,11 @@ function architect_studio_install(): void {
       ->fields($project)
       ->execute();
   }
+
+  // Wyłączenie domyślnego linku 'Home' na rzecz dedykowanego 'Pracownia Architektoniczna'.
+  /** @var \Drupal\Core\Menu\MenuLinkManagerInterface $menu_link_manager */
+  $menu_link_manager = \Drupal::service('plugin.manager.menu.link');
+  if ($menu_link_manager->hasDefinition('standard.front_page')) {
+    $menu_link_manager->updateDefinition('standard.front_page', ['enabled' => 0]);
+  }
 }
