@@ -1986,3 +1986,205 @@ body {
     gap: 12px;
   }
 }
+
+/* ==========================================================================
+   Powiększanie obrazów (Lightbox Modal) dla rzutów i wizualizacji 3D
+   ========================================================================== */
+
+.zoomable-image-wrapper {
+  position: relative;
+  cursor: zoom-in;
+  overflow: hidden;
+  border-radius: 8px;
+  display: block;
+  outline: none;
+}
+
+.zoomable-image-wrapper:focus-visible {
+  box-shadow: 0 0 0 3px var(--arch-primary);
+}
+
+.zoomable-img {
+  transition: transform 0.25s ease, filter 0.25s ease;
+  display: block;
+  width: 100%;
+}
+
+.zoomable-image-wrapper:hover .zoomable-img {
+  transform: scale(1.025);
+}
+
+.zoom-badge {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(17, 24, 39, 0.85);
+  backdrop-filter: blur(4px);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 20px;
+  pointer-events: none;
+  opacity: 0.9;
+  transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.zoomable-image-wrapper:hover .zoom-badge {
+  opacity: 1;
+  transform: translateY(-2px);
+  background-color: var(--arch-primary);
+}
+
+.architect-lightbox-dialog {
+  border: none;
+  padding: 0;
+  margin: auto;
+  background: transparent;
+  max-width: 95vw;
+  max-height: 95vh;
+  outline: none;
+  overflow: visible;
+}
+
+.architect-lightbox-dialog::backdrop {
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(6px);
+  animation: lightboxFadeIn 0.2s ease;
+}
+
+.lightbox-dialog-inner {
+  position: relative;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-width: 1100px;
+  margin: 0 auto;
+  animation: lightboxZoomIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes lightboxFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes lightboxZoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.lightbox-close-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(17, 24, 39, 0.7);
+  color: #ffffff;
+  border: none;
+  font-size: 22px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: background-color 0.15s, transform 0.15s;
+}
+
+.lightbox-close-btn:hover {
+  background-color: var(--arch-primary);
+  transform: scale(1.08);
+}
+
+.lightbox-image-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0f172a;
+  min-height: 320px;
+  max-height: 75vh;
+  padding: 16px;
+  overflow: hidden;
+  cursor: zoom-out;
+}
+
+.lightbox-img {
+  max-width: 100%;
+  max-height: 72vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.lightbox-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: #ffffff;
+  border-top: 1px solid #e5e7eb;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.lightbox-caption {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--arch-dark);
+  margin: 0;
+  flex: 1;
+}
+
+.lightbox-nav-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.lightbox-nav-btn {
+  padding: 7px 14px;
+  border-radius: 6px;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: var(--arch-dark);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.lightbox-nav-btn:hover {
+  background-color: var(--arch-primary);
+  color: #ffffff;
+  border-color: var(--arch-primary);
+}
+
+.lightbox-counter {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--arch-muted);
+  min-width: 44px;
+  text-align: center;
+}
+
+body.lightbox-open {
+  overflow: hidden;
+}

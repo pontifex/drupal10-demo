@@ -18,17 +18,24 @@
     <!-- LEWA KOLUMNA: WIZUALIZACJA I RZUTY -->
     <div class="detail-media-column">
       <div class="media-card">
-        <h3>Wizualizacja 3D</h3>
-        <img src="{{ project.image_url }}" alt="{{ project.title }}" class="detail-img">
+        <h3>{{ 'Wizualizacja 3D'|t }}</h3>
+        <div class="zoomable-image-wrapper" role="button" tabindex="0" aria-label="{{ 'Powiększ wizualizację 3D'|t }}" data-title="{{ 'Wizualizacja 3D'|t }} – {{ project.title }}" data-full-src="{{ project.image_url }}">
+          <img src="{{ project.image_url }}" alt="{{ project.title }}" class="detail-img zoomable-img">
+          <span class="zoom-badge">🔍 {{ 'Kliknij, aby powiększyć'|t }}</span>
+        </div>
       </div>
 
       {% if project.floor_plan_url %}
       <div class="media-card blueprint-card">
-        <h3>Rzut kondygnacji i wymiary [Rysunek techniczny]</h3>
-        <img src="{{ project.floor_plan_url }}" alt="Rzut {{ project.title }}" class="detail-img">
+        <h3>{{ 'Rzut kondygnacji i wymiary [Rysunek techniczny]'|t }}</h3>
+        <div class="zoomable-image-wrapper" role="button" tabindex="0" aria-label="{{ 'Powiększ rzut techniczny'|t }}" data-title="{{ 'Rzut kondygnacji i wymiary'|t }} – {{ project.title }} ({{ project.code }})" data-full-src="{{ project.floor_plan_url }}">
+          <img src="{{ project.floor_plan_url }}" alt="Rzut {{ project.title }}" class="detail-img zoomable-img">
+          <span class="zoom-badge">🔍 {{ 'Kliknij, aby powiększyć'|t }}</span>
+        </div>
       </div>
       {% endif %}
     </div>
+
 
     <!-- PRAWA KOLUMNA: PARAMETRY I ZAKUP Z BLIK -->
     <div class="detail-specs-column">
@@ -112,4 +119,23 @@
 
   </div>
 
+  <!-- LIGHTBOX MODAL POWIĘKSZANIA OBRAZU -->
+  <dialog id="architect-lightbox-dialog" class="architect-lightbox-dialog" aria-modal="true" aria-labelledby="lightbox-caption">
+    <div class="lightbox-dialog-inner">
+      <button type="button" class="lightbox-close-btn" id="lightbox-close" aria-label="{{ 'Zamknij powiększenie'|t }}">&times;</button>
+      <div class="lightbox-image-container">
+        <img id="lightbox-active-img" src="" alt="" class="lightbox-img">
+      </div>
+      <div class="lightbox-bar">
+        <p id="lightbox-caption" class="lightbox-caption"></p>
+        <div class="lightbox-nav-buttons" id="lightbox-nav">
+          <button type="button" class="lightbox-nav-btn prev" id="lightbox-prev" aria-label="{{ 'Poprzedni obraz'|t }}">&#8249; {{ 'Poprzedni'|t }}</button>
+          <span id="lightbox-counter" class="lightbox-counter">1 / 2</span>
+          <button type="button" class="lightbox-nav-btn next" id="lightbox-next" aria-label="{{ 'Następny obraz'|t }}">{{ 'Następny'|t }} &#8250;</button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
 </div>
+
