@@ -35,30 +35,16 @@ test.describe('Gotowość Produkcyjna: UX, Branding, 404 i Cookie Banner', () =>
     expect(faviconResponse?.status()).toBe(200);
   });
 
-  test('baner cookies wyświetla się na dole strony i znika po zaakceptowaniu', async ({ page, context }) => {
-    // Wyczyść stan localStorage przed testem
-    await context.clearCookies();
+  test('serwis szanuje prywatność: brak zbędnego banera cookies oraz brak ciasteczek śledzących', async ({ page, context }) => {
     await page.goto('/architekt');
 
+    // Baner cookies nie powinien istnieć w DOM
     const banner = page.locator('#architect-cookie-banner');
-    await expect(banner).toBeVisible({ timeout: 5000 });
-    await expect(banner).toContainText('Szanujemy Twoją prywatność');
-    await expect(banner).toContainText('BLIK');
+    await expect(banner).toHaveCount(0);
 
-    const acceptBtn = page.locator('#cookie-btn-accept');
-    await expect(acceptBtn).toBeVisible();
-    await acceptBtn.click();
-
-    // Po kliknięciu baner powinien zniknąć
-    await expect(banner).toBeHidden({ timeout: 3000 });
-
-    // Weryfikacja zapisu w localStorage
-    const consent = await page.evaluate(() => localStorage.getItem('architect_cookie_consent'));
-    expect(consent).toBe('accepted');
-
-    // Po odświeżeniu strony baner nie powinien się ponownie pojawić
-    await page.reload();
-    await expect(banner).toBeHidden();
+    // Brak jakichkolwiek cookies śledzących dla użytkownika anonimowego
+    const cookies = await context.cookies();
+    expect(cookies.length).toBe(0);
   });
 
   test('na urządzeniach mobilnych widoczny jest pływający przycisk szybkiego telefonu do architekta', async ({ page, isMobile }) => {

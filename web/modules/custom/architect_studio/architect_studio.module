@@ -62,10 +62,6 @@ function architect_studio_theme(): array {
       'variables' => [],
       'template' => 'architect-404',
     ],
-    'architect_cookie_banner' => [
-      'variables' => [],
-      'template' => 'architect-cookie-banner',
-    ],
     'architect_mobile_call_button' => [
       'variables' => [
         'phone_number' => '+48 500 123 456',
@@ -91,13 +87,9 @@ function architect_studio_preprocess_page(array &$variables): void {
     ];
   }
 
-  // Dołącz dyskretny baner cookies oraz pływający przycisk kontaktu na smartfonach.
-  if (isset($variables['page']['content'])) {
-    $variables['page']['content']['architect_cookie_banner'] = [
-      '#theme' => 'architect_cookie_banner',
-      '#weight' => 998,
-    ];
-    $variables['page']['content']['architect_mobile_call_button'] = [
+  // Dołącz pływający przycisk kontaktu na smartfonach.
+  if (isset($variables['page']['footer_bottom'])) {
+    $variables['page']['footer_bottom']['architect_mobile_call_button'] = [
       '#theme' => 'architect_mobile_call_button',
       '#weight' => 999,
     ];
