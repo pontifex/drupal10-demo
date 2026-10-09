@@ -4,5 +4,8 @@ studio-styles:
     theme:
       css/architect-studio.css:
         weight: 1000
+  js:
+    js/architect-lightbox.js: {}
   dependencies:
     - core/drupal
+
