@@ -142,7 +142,9 @@ body {
 .header-search,
 .block-search,
 .search-block-form,
-.sticky-header-toggle {
+.sticky-header-toggle,
+.secondary-nav,
+#block-olivero-account-menu {
   display: none !important;
 }
 
