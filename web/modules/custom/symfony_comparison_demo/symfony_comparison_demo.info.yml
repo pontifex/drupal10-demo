@@ -1,7 +1,0 @@
-name: 'Symfony Developer Demo'
-type: module
-description: 'Demonstracyjny moduł pokazujący jak koncepcje Symfony (Routing, DI, Twig, HttpKernel, Events) działają w Drupalu 10.'
-core_version_requirement: ^10
-package: 'Custom'
-dependencies:
-  - drupal:node
