@@ -28,6 +28,7 @@ function architect_studio_theme(): array {
         'projects' => [],
         'filters' => [],
         'total_count' => 0,
+        'pagination' => [],
       ],
       'template' => 'architect-catalog',
     ],

@@ -46,14 +46,53 @@ final class CatalogController extends ControllerBase {
       'max_lot_width' => $request->query->get('max_lot_width', ''),
     ];
 
-    $projects = $this->projectRepository->getAll(FALSE, $filters);
-    $allProjects = $this->projectRepository->getAll(FALSE);
+    $limit = 6;
+    $pageParam = $request->query->get('page', 1);
+    $page = is_numeric($pageParam) ? (int) $pageParam : 1;
+    if ($page < 1) {
+      $page = 1;
+    }
+
+    $totalFiltered = $this->projectRepository->countFiltered(FALSE, $filters);
+    $allProjectsCount = $this->projectRepository->countFiltered(FALSE, []);
+
+    $totalPages = (int) max(1, (int) ceil($totalFiltered / $limit));
+    $currentPage = min($page, $totalPages);
+    $offset = ($currentPage - 1) * $limit;
+
+    $projects = $this->projectRepository->getAll(FALSE, $filters, $limit, $offset);
+
+    $startItem = $totalFiltered > 0 ? $offset + 1 : 0;
+    $endItem = min($offset + $limit, $totalFiltered);
+
+    $queryParams = [];
+    foreach (['keyword', 'category', 'min_area', 'max_area', 'max_lot_width'] as $key) {
+      if ($filters[$key] !== '' && $filters[$key] !== NULL) {
+        $queryParams[$key] = $filters[$key];
+      }
+    }
+
+    $pagination = [
+      'current_page' => $currentPage,
+      'total_pages' => $totalPages,
+      'total_items' => $totalFiltered,
+      'limit' => $limit,
+      'start_item' => $startItem,
+      'end_item' => $endItem,
+      'has_prev' => $currentPage > 1,
+      'has_next' => $currentPage < $totalPages,
+      'prev_page' => $currentPage - 1,
+      'next_page' => $currentPage + 1,
+      'pages' => range(1, $totalPages),
+      'query_params' => $queryParams,
+    ];
 
     return [
       '#theme' => 'architect_catalog',
       '#projects' => $projects,
       '#filters' => $filters,
-      '#total_count' => count($allProjects),
+      '#total_count' => $allProjectsCount,
+      '#pagination' => $pagination,
       '#attached' => [
         'library' => [
           'architect_studio/studio-styles',

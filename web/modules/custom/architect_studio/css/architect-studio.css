@@ -899,6 +899,98 @@ body {
 }
 
 /* ==========================================================================
+   Paginacja Katalogu Projektów
+   ========================================================================== */
+
+.catalog-pagination {
+  margin: 44px 0 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.pagination-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pagination-list .page-item {
+  margin: 0;
+  list-style: none;
+}
+
+.pagination-list .page-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 42px;
+  height: 42px;
+  padding: 0 14px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  background: #ffffff;
+  color: var(--arch-dark);
+  border: 1px solid var(--arch-border);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: all 0.18s ease;
+  user-select: none;
+}
+
+.pagination-list .page-link:hover:not(.disabled):not(.active) {
+  border-color: var(--arch-primary);
+  color: var(--arch-primary);
+  background: var(--arch-primary-light);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(230, 0, 34, 0.12);
+}
+
+.pagination-list .page-item.active .page-link,
+.pagination-list .page-link.active {
+  background: var(--arch-primary) !important;
+  border-color: var(--arch-primary) !important;
+  color: #ffffff !important;
+  box-shadow: 0 3px 10px rgba(230, 0, 34, 0.28);
+  cursor: default;
+  transform: none;
+}
+
+.pagination-list .page-item.disabled .page-link,
+.pagination-list .page-link.disabled {
+  color: #9ca3af !important;
+  border-color: #e5e7eb !important;
+  background: #f9fafb !important;
+  cursor: not-allowed !important;
+  box-shadow: none !important;
+  opacity: 0.65;
+  transform: none;
+}
+
+.pagination-list .page-link--prev,
+.pagination-list .page-link--next {
+  padding: 0 18px;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.catalog-status-page {
+  margin-left: 8px;
+  color: var(--arch-muted);
+  font-weight: 500;
+}
+
+.catalog-status-page strong {
+  color: var(--arch-dark);
+  font-weight: 700;
+}
+
+/* ==========================================================================
    Kroki Realizacji (Steps Section)
    ========================================================================== */
 

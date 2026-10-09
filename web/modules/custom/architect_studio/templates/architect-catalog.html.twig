@@ -45,7 +45,14 @@
   <!-- PASEK STATUSU WYSZUKIWANIA -->
   <div class="catalog-status-bar">
     <span class="catalog-status-count">
-      Znaleziono projektów: <strong>{{ projects|length }}</strong> z {{ total_count }}
+      {% if pagination.total_items > 0 %}
+        Wyświetlono <strong>{{ pagination.start_item }}–{{ pagination.end_item }}</strong> z {{ pagination.total_items }} projektów
+        {% if pagination.total_pages > 1 %}
+          <span class="catalog-status-page">(Strona <strong>{{ pagination.current_page }}</strong> z {{ pagination.total_pages }})</span>
+        {% endif %}
+      {% else %}
+        Znaleziono projektów: <strong>0</strong> z {{ total_count }}
+      {% endif %}
     </span>
     {% if filters.keyword or filters.category or filters.max_area or filters.max_lot_width %}
       <div class="catalog-active-filters">
@@ -113,6 +120,52 @@
       </article>
       {% endfor %}
     </div>
+
+    {# NAWIGACJA STRON KATALOGU #}
+    {% if pagination.total_pages > 1 %}
+      <nav class="catalog-pagination" aria-label="Nawigacja stron katalogu">
+        <ul class="pagination-list">
+          {# Poprzednia strona #}
+          <li class="page-item {% if not pagination.has_prev %}disabled{% endif %}">
+            {% if pagination.has_prev %}
+              <a href="{{ path('architect_studio.catalog', pagination.query_params|merge({'page': pagination.prev_page})) }}" class="page-link page-link--prev" rel="prev" aria-label="Poprzednia strona">
+                <span aria-hidden="true">&laquo;</span> Poprzednia
+              </a>
+            {% else %}
+              <span class="page-link page-link--prev disabled" aria-disabled="true">
+                <span aria-hidden="true">&laquo;</span> Poprzednia
+              </span>
+            {% endif %}
+          </li>
+
+          {# Numery stron #}
+          {% for p in pagination.pages %}
+            <li class="page-item {% if p == pagination.current_page %}active{% endif %}">
+              {% if p == pagination.current_page %}
+                <span class="page-link active" aria-current="page">{{ p }}</span>
+              {% else %}
+                <a href="{{ path('architect_studio.catalog', pagination.query_params|merge({'page': p})) }}" class="page-link">
+                  {{ p }}
+                </a>
+              {% endif %}
+            </li>
+          {% endfor %}
+
+          {# Następna strona #}
+          <li class="page-item {% if not pagination.has_next %}disabled{% endif %}">
+            {% if pagination.has_next %}
+              <a href="{{ path('architect_studio.catalog', pagination.query_params|merge({'page': pagination.next_page})) }}" class="page-link page-link--next" rel="next" aria-label="Następna strona">
+                Następna <span aria-hidden="true">&raquo;</span>
+              </a>
+            {% else %}
+              <span class="page-link page-link--next disabled" aria-disabled="true">
+                Następna <span aria-hidden="true">&raquo;</span>
+              </span>
+            {% endif %}
+          </li>
+        </ul>
+      </nav>
+    {% endif %}
   {% endif %}
 
 </div>
