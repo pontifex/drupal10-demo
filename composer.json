@@ -99,11 +99,13 @@
         "drupal/core-dev": "^10.6"
     },
     "scripts": {
+        "check-lock": "composer validate --check-lock --strict",
         "phpstan": "vendor/bin/phpstan analyse",
         "phpcs": "vendor/bin/phpcs --standard=Drupal,DrupalPractice web/modules/custom/architect_studio",
         "phpcbf": "vendor/bin/phpcbf --standard=Drupal,DrupalPractice web/modules/custom/architect_studio",
         "phpunit": "vendor/bin/phpunit -c web/core/phpunit.xml.dist web/modules/custom/architect_studio/tests",
         "test": [
+            "@check-lock",
             "@phpcs",
             "@phpstan",
             "@phpunit"

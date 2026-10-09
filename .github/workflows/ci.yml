@@ -30,8 +30,11 @@ jobs:
           coverage: none
           tools: composer:v2
 
-      - name: Validate Composer Files
-        run: composer validate --strict
+      - name: Verify composer.json and composer.lock Synchronization
+        run: composer validate --check-lock --strict
+
+      - name: Check Platform Requirements
+        run: composer check-platform-reqs
 
       - name: Get Composer Cache Directory
         id: composer-cache
