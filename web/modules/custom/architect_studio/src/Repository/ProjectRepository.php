@@ -37,8 +37,24 @@ class ProjectRepository {
       $query->condition('p.is_hidden', 0);
     }
 
+    if (!empty($filters['keyword']) && is_string($filters['keyword'])) {
+      $keyword = trim($filters['keyword']);
+      if ($keyword !== '') {
+        $escaped = '%' . $this->database->escapeLike($keyword) . '%';
+        $or = $query->orConditionGroup()
+          ->condition('p.title', $escaped, 'LIKE')
+          ->condition('p.code', $escaped, 'LIKE')
+          ->condition('p.description', $escaped, 'LIKE');
+        $query->condition($or);
+      }
+    }
+
     if (!empty($filters['category'])) {
       $query->condition('p.category', $filters['category']);
+    }
+
+    if (!empty($filters['min_area']) && is_numeric($filters['min_area'])) {
+      $query->condition('p.usable_area', (string) $filters['min_area'], '>=');
     }
 
     if (!empty($filters['max_area']) && is_numeric($filters['max_area'])) {

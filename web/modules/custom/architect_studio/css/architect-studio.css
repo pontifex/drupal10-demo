@@ -605,6 +605,77 @@ body {
   gap: 10px;
 }
 
+.filter-group--keyword {
+  flex: 1 1 240px;
+}
+
+/* Catalog Status Bar & Active Filter Pills */
+.catalog-status-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 25px;
+  padding: 12px 18px;
+  background: #ffffff;
+  border: 1px solid var(--arch-border);
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.catalog-status-count {
+  color: var(--arch-slate);
+}
+
+.catalog-status-count strong {
+  color: var(--arch-primary);
+  font-size: 16px;
+}
+
+.catalog-active-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.active-filters-label {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.filter-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1e40af;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.filter-pill strong {
+  margin-left: 3px;
+}
+
+.filter-pill--clear {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #b91c1c;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.filter-pill--clear:hover {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
 /* Project Detail Page */
 .breadcrumb-nav {
   margin-bottom: 20px;
