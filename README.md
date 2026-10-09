@@ -52,19 +52,18 @@ Aplikacja działa w kontenerach Docker Compose pod adresem:
 
 ---
 
-## 🧪 Testy i Jakość Kodu
+## 🧪 Testy, Jakość Kodu i CI/CD
 
-Wszystkie klasy posiadają ścisłe typowanie i przechodzą testy oraz analizę statyczną:
+W repozytorium skonfigurowany jest automatyczny pipeline **GitHub Actions** (`.github/workflows/ci.yml`), który uruchamia się przy każdym pushu i pull requeście na gałąź `main`:
 
 ```bash
-# Analiza statyczna (PHPStan - poziom 6)
-docker compose exec drupal vendor/bin/phpstan analyse
+# Pełny zestaw testów i analizy statycznej za pomocą jednej komendy:
+docker compose exec drupal composer test
 
-# Standardy kodu Drupal i DrupalPractice (PHP_CodeSniffer)
-docker compose exec drupal vendor/bin/phpcs --standard=Drupal,DrupalPractice web/modules/custom/architect_studio
-
-# Testy jednostkowe i integracyjne (PHPUnit)
-docker compose exec drupal vendor/bin/phpunit -c web/core/phpunit.xml.dist web/modules/custom/architect_studio/tests
+# Lub pojedyncze narzędzia:
+docker compose exec drupal composer phpcs    # PHP_CodeSniffer (Drupal, DrupalPractice)
+docker compose exec drupal composer phpstan  # PHPStan (poziom 6)
+docker compose exec drupal composer phpunit  # PHPUnit (testy jednostkowe i integracyjne)
 ```
 
 ---
