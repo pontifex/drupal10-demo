@@ -2414,7 +2414,7 @@ body.lightbox-open {
    ========================================================================== */
 
 .mobile-floating-contact {
-  display: none;
+  display: none !important;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -2536,111 +2536,11 @@ body.lightbox-open {
 
 @media (max-width: 768px) {
   .mobile-floating-contact {
-    display: block;
+    display: block !important;
   }
 
   body {
     padding-bottom: 74px !important;
-  }
-}
-
-/* ==========================================================================
-   Lekki baner informacyjny o plikach cookies (Cookie Banner RODO)
-   ========================================================================== */
-
-.architect-cookie-banner {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  background: #0f172a;
-  color: #f1f5f9;
-  padding: 16px 20px;
-  border-top: 2px solid var(--arch-primary);
-  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.35);
-  display: none;
-  animation: slideUpBanner 0.4s ease-out;
-}
-
-@keyframes slideUpBanner {
-  from {
-    transform: translateY(100%);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
-
-.cookie-banner-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-
-.cookie-banner-text {
-  flex: 1;
-  min-width: 280px;
-  font-size: 13.5px;
-  line-height: 1.55;
-  color: #cbd5e1;
-  margin: 0;
-}
-
-.cookie-banner-text strong {
-  color: #ffffff;
-}
-
-.cookie-banner-text a {
-  color: #6ee7b7;
-  text-decoration: underline;
-  transition: color 0.15s;
-}
-
-.cookie-banner-text a:hover {
-  color: #a7f3d0;
-}
-
-.cookie-banner-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.cookie-btn-accept {
-  background: var(--arch-primary);
-  color: #ffffff !important;
-  border: none;
-  padding: 10px 22px;
-  font-size: 13.5px;
-  font-weight: 700;
-  border-radius: 6px;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: background 0.2s, transform 0.1s;
-}
-
-.cookie-btn-accept:hover {
-  background: var(--arch-primary-dark);
-}
-
-.cookie-btn-accept:active {
-  transform: scale(0.97);
-}
-
-@media (max-width: 768px) {
-  .cookie-banner-inner {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 14px;
-  }
-  .cookie-btn-accept {
-    width: 100%;
-    text-align: center;
   }
 }
 
