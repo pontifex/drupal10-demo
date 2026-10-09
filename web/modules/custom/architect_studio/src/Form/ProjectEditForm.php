@@ -191,8 +191,8 @@ final class ProjectEditForm extends FormBase {
 
     $form['is_hidden'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Ukryj projekt w katalogu publicznym'),
-      '#description' => $this->t('Zaznacz, jeśli projekt ma być niewidoczny dla odwiedzających stronę.'),
+      '#title' => $this->t('Ukryj projekt na front-endzie (niewidoczny dla klientów)'),
+      '#description' => $this->t('Projekt nie zostanie usunięty z bazy danych, ale nie będzie wyświetlany na stronie głównej ani w katalogu.'),
       '#default_value' => !empty($project['is_hidden']),
     ];
 

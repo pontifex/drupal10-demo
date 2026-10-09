@@ -45,6 +45,10 @@ final class AdminController extends ControllerBase {
   public function projects(): array {
     $projects = $this->projectRepository->getAll(TRUE);
 
+    $totalCount = count($projects);
+    $hiddenCount = count(array_filter($projects, static fn(array $p): bool => (int) ($p['is_hidden'] ?? 0) === 1));
+    $visibleCount = $totalCount - $hiddenCount;
+
     $header = [
       $this->t('ID / Kod'),
       $this->t('Nazwa projektu'),
@@ -52,7 +56,7 @@ final class AdminController extends ControllerBase {
       $this->t('Powierzchnia'),
       $this->t('Cena cyfrowa'),
       $this->t('Cena drukowana'),
-      $this->t('Widoczność'),
+      $this->t('Widoczność na stronie'),
       $this->t('Operacje'),
     ];
 
@@ -60,10 +64,17 @@ final class AdminController extends ControllerBase {
     foreach ($projects as $project) {
       $isHidden = (int) $project['is_hidden'] === 1;
       $statusBadge = $isHidden
-        ? ['data' => ['#markup' => '<span class="badge badge-warning" style="background:#dc2626;color:#fff;padding:3px 8px;border-radius:4px;font-size:12px;">Ukryty</span>']]
-        : ['data' => ['#markup' => '<span class="badge badge-success" style="background:#16a34a;color:#fff;padding:3px 8px;border-radius:4px;font-size:12px;">Widoczny</span>']];
+        ? ['data' => ['#markup' => '<span class="badge" style="background:#64748b;color:#fff;padding:3px 8px;border-radius:4px;font-size:12px;font-weight:600;">Ukryty na front-end</span>']]
+        : ['data' => ['#markup' => '<span class="badge" style="background:#16a34a;color:#fff;padding:3px 8px;border-radius:4px;font-size:12px;font-weight:600;">Widoczny na stronie</span>']];
 
-      $toggleTitle = $isHidden ? $this->t('Pokaż w katalogu') : $this->t('Ukryj w katalogu');
+      $toggleTitle = $isHidden ? $this->t('Pokaż na stronie') : $this->t('Ukryj');
+      $toggleStyle = $isHidden
+        ? 'margin-right:6px;background:#16a34a;color:#fff;border-color:#16a34a;'
+        : 'margin-right:6px;background:#d97706;color:#fff;border-color:#d97706;';
+      $toggleTooltip = $isHidden
+        ? 'Opublikuj ten projekt z powrotem na front-endzie'
+        : 'Ukryj ten projekt na front-endzie bez usuwania z bazy danych';
+
       $toggleUrl = Url::fromRoute('architect_studio.admin_project_toggle', ['id' => $project['id']]);
       $editUrl = Url::fromRoute('architect_studio.admin_project_edit', ['id' => $project['id']]);
       $deleteUrl = Url::fromRoute('architect_studio.admin_project_delete', ['id' => $project['id']]);
@@ -71,10 +82,12 @@ final class AdminController extends ControllerBase {
       $operations = [
         'data' => [
           '#markup' => sprintf(
-            '<a href="%s" class="button button--small" style="margin-right:6px;">%s</a>
+            '<a href="%s" class="button button--small" style="%s" title="%s">%s</a>
              <a href="%s" class="button button--small" style="margin-right:6px;">Edytuj</a>
-             <a href="%s" class="button button--small button--danger" onclick="return confirm(\'Czy na pewno usunąć?\')">Usuń</a>',
+             <a href="%s" class="button button--small button--danger" onclick="return confirm(\'Czy na pewno bezpowrotnie usunąć ten projekt? Aby tylko wycofać go ze strony, użyj opcji Ukryj.\')">Usuń</a>',
             $toggleUrl->toString(),
+            $toggleStyle,
+            $toggleTooltip,
             $toggleTitle,
             $editUrl->toString(),
             $deleteUrl->toString()
@@ -82,21 +95,42 @@ final class AdminController extends ControllerBase {
         ],
       ];
 
+      $titleMarkup = $isHidden
+        ? htmlspecialchars((string) $project['title'], ENT_QUOTES, 'UTF-8') . ' <small style="color:#d97706;font-weight:600;">(Ukryty)</small>'
+        : htmlspecialchars((string) $project['title'], ENT_QUOTES, 'UTF-8');
+
       $rows[] = [
-        $project['code'] . ' (#' . $project['id'] . ')',
-        $project['title'],
-        $project['category'],
-        $project['usable_area'] . ' m²',
-        number_format((float) $project['price_digital'], 2, ',', ' ') . ' zł',
-        number_format((float) $project['price_print'], 2, ',', ' ') . ' zł',
-        $statusBadge,
-        $operations,
+        'data' => [
+          $project['code'] . ' (#' . $project['id'] . ')',
+          ['data' => ['#markup' => $titleMarkup]],
+          $project['category'],
+          $project['usable_area'] . ' m²',
+          number_format((float) $project['price_digital'], 2, ',', ' ') . ' zł',
+          number_format((float) $project['price_print'], 2, ',', ' ') . ' zł',
+          $statusBadge,
+          $operations,
+        ],
+        'style' => $isHidden ? 'background-color:#f8fafc;' : '',
       ];
     }
 
     $addUrl = Url::fromRoute('architect_studio.admin_project_add')->toString();
 
+    $statsHtml = sprintf(
+      '<div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
+        <div style="background:#fff;border:1px solid #e2e8f0;padding:8px 14px;border-radius:6px;font-size:13px;"><strong>Wszystkie projekty:</strong> %d</div>
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;color:#166534;padding:8px 14px;border-radius:6px;font-size:13px;"><strong>Widoczne na stronie (front-end):</strong> %d</div>
+        <div style="background:#fffbeb;border:1px solid #fef3c7;color:#92400e;padding:8px 14px;border-radius:6px;font-size:13px;"><strong>Ukryte (szkice/robocze):</strong> %d</div>
+      </div>',
+      $totalCount,
+      $visibleCount,
+      $hiddenCount
+    );
+
     return [
+      'stats' => [
+        '#markup' => $statsHtml,
+      ],
       'add_button' => [
         '#markup' => sprintf(
           '<div style="margin-bottom:15px;">
@@ -118,7 +152,7 @@ final class AdminController extends ControllerBase {
   }
 
   /**
-   * Przełącza widoczność projektu (ukryj / pokaż).
+   * Przełącza widoczność projektu (ukryj / pokaż na front-endzie).
    *
    * @param int $id
    *   Identyfikator projektu.
@@ -129,13 +163,19 @@ final class AdminController extends ControllerBase {
       throw new NotFoundHttpException('Projekt nie istnieje.');
     }
 
+    $wasHidden = ((int) $project['is_hidden'] === 1);
     $this->projectRepository->toggleVisibility($id);
-    $newStatus = ((int) $project['is_hidden'] === 1) ? 'widoczny' : 'ukryty';
 
-    $this->messenger()->addStatus($this->t('Status widoczności projektu "%title" został zmieniony na: @status.', [
-      '%title' => $project['title'],
-      '@status' => $newStatus,
-    ]));
+    if ($wasHidden) {
+      $this->messenger()->addStatus($this->t('Projekt "%title" został przywrócony i jest teraz widoczny na front-endzie.', [
+        '%title' => $project['title'],
+      ]));
+    }
+    else {
+      $this->messenger()->addStatus($this->t('Projekt "%title" został ukryty — nie jest widoczny dla odwiedzających na front-endzie, ale pozostaje zachowany w panelu.', [
+        '%title' => $project['title'],
+      ]));
+    }
 
     return $this->redirect('architect_studio.admin_projects');
   }

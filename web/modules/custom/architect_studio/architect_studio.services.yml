@@ -1,7 +1,7 @@
 services:
   architect_studio.project_repository:
     class: Drupal\architect_studio\Repository\ProjectRepository
-    arguments: ['@database', '@datetime.time']
+    arguments: ['@database', '@datetime.time', '@cache_tags.invalidator']
 
   architect_studio.order_repository:
     class: Drupal\architect_studio\Repository\OrderRepository
