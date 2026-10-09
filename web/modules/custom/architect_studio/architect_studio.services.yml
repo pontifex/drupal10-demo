@@ -24,3 +24,7 @@ services:
     tags:
       - { name: event_subscriber }
 
+  architect_studio.seo_meta:
+    class: Drupal\architect_studio\Service\SeoMetaService
+    arguments: ['@request_stack', '@architect_studio.project_repository']
+

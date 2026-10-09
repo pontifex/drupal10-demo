@@ -6,7 +6,7 @@ test.describe('Katalog Projektów Architektonicznych', () => {
     await page.goto('/projekty');
 
     // Tytuł i nagłówek
-    await expect(page).toHaveTitle(/Katalog Autorskich Projektów/);
+    await expect(page).toHaveTitle(/Katalog Projektów/);
     await expect(page.locator('.catalog-header h1')).toContainText('Katalog Autorskich Projektów Architektonicznych');
 
     // Pasek filtrów
