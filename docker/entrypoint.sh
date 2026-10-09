@@ -54,8 +54,10 @@ if [ -n "$DB_HOST" ]; then
         echo "Database import complete!"
       fi
     else
-      echo "Database already contains tables ($TABLE_COUNT), skipping import."
+      echo "Database already contains tables ($TABLE_COUNT), running pending updates..."
+      /opt/drupal/vendor/bin/drush updb -y || true
     fi
+    /opt/drupal/vendor/bin/drush cr || true
   else
     echo "Warning: Database did not become ready in time, continuing anyway..."
   fi

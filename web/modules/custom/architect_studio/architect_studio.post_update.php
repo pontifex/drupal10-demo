@@ -192,3 +192,51 @@ function architect_studio_post_update_update_project_5_extradom_garage(): void {
     ->condition('id', 5)
     ->execute();
 }
+
+/**
+ * Aktualizuje projekty 6, 7, 8 i 9 o realne zdjęcia i rzuty z Extradom.pl.
+ */
+function architect_studio_post_update_use_real_extradom_images(): void {
+  $database = \Drupal::database();
+  $time = \Drupal::time()->getRequestTime();
+
+  // Projekt 6: Dębowa Polana.
+  $database->update('architect_projects')
+    ->fields([
+      'image_url' => '/modules/custom/architect_studio/images/debowa_polana.jpg',
+      'floor_plan_url' => '/modules/custom/architect_studio/images/plan_debowa_polana.jpg',
+      'updated' => $time,
+    ])
+    ->condition('id', 6)
+    ->execute();
+
+  // Projekt 7: Moderno 125.
+  $database->update('architect_projects')
+    ->fields([
+      'image_url' => '/modules/custom/architect_studio/images/moderno125.jpg',
+      'floor_plan_url' => '/modules/custom/architect_studio/images/plan_moderno125.jpg',
+      'updated' => $time,
+    ])
+    ->condition('id', 7)
+    ->execute();
+
+  // Projekt 8: Rezydencja Parkowa (Willa Miejska).
+  $database->update('architect_projects')
+    ->fields([
+      'image_url' => '/modules/custom/architect_studio/images/willa_miejska.jpg',
+      'floor_plan_url' => '/modules/custom/architect_studio/images/plan_willa_miejska.jpg',
+      'updated' => $time,
+    ])
+    ->condition('id', 8)
+    ->execute();
+
+  // Projekt 9: Garaż Dwustanowiskowy G54 z Wiatą.
+  $database->update('architect_projects')
+    ->fields([
+      'image_url' => '/modules/custom/architect_studio/images/garaz_g54.jpg',
+      'floor_plan_url' => '/modules/custom/architect_studio/images/plan_garaz_g54.jpg',
+      'updated' => $time,
+    ])
+    ->condition('id', 9)
+    ->execute();
+}
