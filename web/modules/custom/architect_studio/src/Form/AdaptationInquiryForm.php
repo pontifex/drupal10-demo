@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\architect_studio\Form;
 
 use Drupal\architect_studio\Repository\InquiryRepository;
+use Drupal\architect_studio\Service\MailNotificationService;
 use Drupal\Core\Flood\FloodInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -18,6 +19,7 @@ final class AdaptationInquiryForm extends FormBase {
   public function __construct(
     protected InquiryRepository $inquiryRepository,
     protected FloodInterface $flood,
+    protected MailNotificationService $mailNotification,
   ) {}
 
   /**
@@ -26,7 +28,8 @@ final class AdaptationInquiryForm extends FormBase {
   public static function create(ContainerInterface $container): static {
     return new static(
       $container->get('architect_studio.inquiry_repository'),
-      $container->get('flood')
+      $container->get('flood'),
+      $container->get('architect_studio.mail_notification')
     );
   }
 
@@ -195,6 +198,10 @@ final class AdaptationInquiryForm extends FormBase {
     ];
 
     $this->inquiryRepository->create($data);
+
+    // Powiadomienie e-mail do architekta oraz potwierdzenie dla klienta.
+    $this->mailNotification->notifyArchitectInquiry($data);
+    $this->mailNotification->confirmCustomerInquiry($data);
 
     $this->messenger()->addStatus($this->t('Dziękujemy za przesłanie zapytania! Architekt skontaktuje się z Tobą w ciągu 24h z analizą możliwości adaptacji i wyceną zmian.'));
   }

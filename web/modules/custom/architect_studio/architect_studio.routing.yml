@@ -63,6 +63,15 @@ architect_studio.privacy:
   requirements:
     _permission: 'access content'
 
+architect_studio.not_found:
+  path: '/nie-znaleziono'
+  defaults:
+    _controller: '\Drupal\architect_studio\Controller\NotFoundController::notFound'
+    _title: 'Strona nie została odnaleziona (404) | Pracownia Architektoniczna'
+  requirements:
+    _permission: 'access content'
+
+
 
 architect_studio.admin_projects:
   path: '/admin/architect/projekty'

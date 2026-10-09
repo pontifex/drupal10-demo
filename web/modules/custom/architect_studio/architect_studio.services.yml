@@ -28,3 +28,8 @@ services:
     class: Drupal\architect_studio\Service\SeoMetaService
     arguments: ['@request_stack', '@architect_studio.project_repository']
 
+  architect_studio.mail_notification:
+    class: Drupal\architect_studio\Service\MailNotificationService
+    arguments: ['@plugin.manager.mail', '@config.factory']
+
+

@@ -86,6 +86,45 @@ class SeoMetaService {
       'architect_studio_perf_preconnect_fonts_static',
     ];
 
+    // Dedykowany Favicon SVG oraz Apple Touch Icon pracowni.
+    $attachments['#attached']['html_head'][] = [
+      [
+        '#type' => 'html_tag',
+        '#tag' => 'link',
+        '#attributes' => [
+          'rel' => 'icon',
+          'type' => 'image/svg+xml',
+          'href' => '/modules/custom/architect_studio/images/favicon.svg',
+        ],
+      ],
+      'architect_studio_branding_favicon_svg',
+    ];
+    $attachments['#attached']['html_head'][] = [
+      [
+        '#type' => 'html_tag',
+        '#tag' => 'link',
+        '#attributes' => [
+          'rel' => 'alternate icon',
+          'type' => 'image/png',
+          'sizes' => '32x32',
+          'href' => '/modules/custom/architect_studio/images/favicon-32x32.png',
+        ],
+      ],
+      'architect_studio_branding_favicon_png',
+    ];
+    $attachments['#attached']['html_head'][] = [
+      [
+        '#type' => 'html_tag',
+        '#tag' => 'link',
+        '#attributes' => [
+          'rel' => 'apple-touch-icon',
+          'sizes' => '180x180',
+          'href' => '/modules/custom/architect_studio/images/apple-touch-icon.png',
+        ],
+      ],
+      'architect_studio_branding_apple_touch_icon',
+    ];
+
     if ($routeName === 'architect_studio.showcase') {
       $attachments['#attached']['html_head'][] = [
         [

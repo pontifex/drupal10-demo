@@ -1,0 +1,16 @@
+{# Template: architect-mobile-call-button.html.twig #}
+<div class="mobile-floating-contact" id="mobile-floating-contact" role="region" aria-label="Szybki kontakt z architektem">
+  <div class="mobile-floating-bar">
+    <a href="tel:{{ phone_raw|default('+48500123456') }}" class="mobile-call-btn" id="mobile-call-btn" aria-label="Zadzwoń do architekta">
+      <span class="call-btn-icon" aria-hidden="true">📞</span>
+      <span class="call-btn-text">
+        <strong class="call-btn-title">Zadzwoń do architekta</strong>
+        <small class="call-btn-sub">Kraśnik & Annopol: {{ phone_number|default('+48 500 123 456') }}</small>
+      </span>
+    </a>
+    <a href="/architekt#wycena" class="mobile-quote-btn" id="mobile-quote-btn" aria-label="Wycena adaptacji">
+      <span class="quote-btn-icon" aria-hidden="true">📐</span>
+      <span class="quote-btn-label">Wycena</span>
+    </a>
+  </div>
+</div>

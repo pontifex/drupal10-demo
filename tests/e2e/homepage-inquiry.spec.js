@@ -82,7 +82,7 @@ test.describe('Strona Główna i Formularz Zapytania o Adaptację', () => {
     await form.locator('.btn-architect-submit').click();
 
     // Weryfikacja komunikatu sukcesu Drupala
-    const alertSuccess = page.locator('.messages--status, [data-drupal-messages] .messages, .alert-success');
+    const alertSuccess = page.locator('.messages--status');
     await expect(alertSuccess).toBeVisible();
     await expect(alertSuccess).toContainText('Dziękujemy za przesłanie zapytania');
     await expect(alertSuccess).toContainText('Architekt skontaktuje się z Tobą w ciągu 24h');

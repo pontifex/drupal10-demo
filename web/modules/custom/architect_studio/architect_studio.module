@@ -58,6 +58,21 @@ function architect_studio_theme(): array {
       'variables' => [],
       'template' => 'architect-footer',
     ],
+    'architect_404' => [
+      'variables' => [],
+      'template' => 'architect-404',
+    ],
+    'architect_cookie_banner' => [
+      'variables' => [],
+      'template' => 'architect-cookie-banner',
+    ],
+    'architect_mobile_call_button' => [
+      'variables' => [
+        'phone_number' => '+48 500 123 456',
+        'phone_raw' => '+48500123456',
+      ],
+      'template' => 'architect-mobile-call-button',
+    ],
   ];
 }
 
@@ -73,6 +88,18 @@ function architect_studio_preprocess_page(array &$variables): void {
     $variables['page']['footer_bottom']['architect_footer'] = [
       '#theme' => 'architect_footer',
       '#weight' => -100,
+    ];
+  }
+
+  // Dołącz dyskretny baner cookies oraz pływający przycisk kontaktu na smartfonach.
+  if (isset($variables['page']['content'])) {
+    $variables['page']['content']['architect_cookie_banner'] = [
+      '#theme' => 'architect_cookie_banner',
+      '#weight' => 998,
+    ];
+    $variables['page']['content']['architect_mobile_call_button'] = [
+      '#theme' => 'architect_mobile_call_button',
+      '#weight' => 999,
     ];
   }
 }
@@ -122,3 +149,109 @@ function architect_studio_toolbar_alter(array &$items): void {
   // Usuń ostrzeżenie profilu demonstracyjnego w pasku administracyjnym.
   unset($items['experimental-profile-warning']);
 }
+
+/**
+ * Implements hook_mail().
+ *
+ * @param string $key
+ *   Klucz wiadomości.
+ * @param array<string, mixed> $message
+ *   Tablica wiadomości e-mail.
+ * @param array<string, mixed> $params
+ *   Parametry przekazane do maila.
+ */
+function architect_studio_mail(string $key, array &$message, array $params): void {
+  switch ($key) {
+    case 'inquiry_notify_architect':
+      $inquiry = $params['inquiry'] ?? [];
+      $message['subject'] = '🔔 [Nowe Zapytanie] Wycena adaptacji: ' . ($inquiry['customer_name'] ?? '');
+      $body = [];
+      $body[] = 'Otrzymano nowe zapytanie o adaptację projektu / wycenę ze strony internetowej:';
+      $body[] = '--------------------------------------------------';
+      $body[] = 'Inwestor: ' . ($inquiry['customer_name'] ?? '');
+      $body[] = 'E-mail: ' . ($inquiry['customer_email'] ?? '');
+      $body[] = 'Telefon: ' . ($inquiry['customer_phone'] ?? '');
+      $body[] = 'Rodzaj usługi: ' . ($inquiry['inquiry_type'] ?? '');
+      $body[] = 'Lokalizacja / Działka: ' . ($inquiry['plot_location'] ?? 'Brak podanej');
+      $body[] = 'Link do projektu gotowego: ' . ($inquiry['project_link'] ?? 'Brak');
+      $body[] = '--------------------------------------------------';
+      $body[] = 'Wiadomość / Zakres modyfikacji:';
+      $body[] = (string) ($inquiry['message'] ?? '');
+      $body[] = '--------------------------------------------------';
+      $body[] = 'Panel administracyjny: /admin/architect/inquiries';
+      $message['body'] = $body;
+      break;
+
+    case 'inquiry_confirm_customer':
+      $inquiry = $params['inquiry'] ?? [];
+      $message['subject'] = 'Potwierdzenie przyjęcia zapytania – Pracownia Architektoniczna Kraśnik & Annopol';
+      $body = [];
+      $body[] = 'Dzień dobry ' . ($inquiry['customer_name'] ?? '') . ',';
+      $body[] = '';
+      $body[] = 'Dziękujemy za kontakt z naszą Pracownią Architektoniczną. Twoje zapytanie dotyczące wyceny adaptacji zostało pomyślnie zarejestrowane.';
+      $body[] = 'Architekt zapozna się z uwarunkowaniami Twojej działki i skontaktuje się z Tobą w ciągu 24-48 godzin.';
+      $body[] = '';
+      $body[] = 'Podsumowanie zgłoszenia:';
+      $body[] = '- Usługa: ' . ($inquiry['inquiry_type'] ?? '');
+      $body[] = '- Działka: ' . ($inquiry['plot_location'] ?? 'Do uzgodnienia');
+      $body[] = '';
+      $body[] = 'Z poważaniem,';
+      $body[] = 'Pracownia Architektoniczna Kraśnik & Annopol';
+      $body[] = 'ul. Lubelska 14, 23-200 Kraśnik | tel. +48 500 123 456';
+      $message['body'] = $body;
+      break;
+
+    case 'order_notify_architect':
+      $order = $params['order'] ?? [];
+      $message['subject'] = '💳 [Nowe Zamówienie BLIK] ' . ($order['order_number'] ?? '') . ' – ' . ($order['project_title'] ?? '');
+      $body = [];
+      $body[] = 'Złożono i opłacono nowe zamówienie na projekt w serwisie:';
+      $body[] = '--------------------------------------------------';
+      $body[] = 'Numer zamówienia: ' . ($order['order_number'] ?? '');
+      $body[] = 'Projekt: ' . ($order['project_title'] ?? '');
+      $body[] = 'Wariant: ' . (($order['variant'] ?? '') === 'print' ? 'Drukowany (4 egzemplarze do urzędu)' : 'Cyfrowy (PDF)');
+      $body[] = 'Kwota: ' . number_format((float) ($order['amount'] ?? 0), 2, ',', ' ') . ' PLN (Opłacone BLIK)';
+      $body[] = 'Zamawiający: ' . ($order['customer_name'] ?? '');
+      $body[] = 'E-mail: ' . ($order['customer_email'] ?? '');
+      $body[] = 'Telefon: ' . ($order['customer_phone'] ?? '');
+      if (!empty($order['shipping_address'])) {
+        $body[] = 'Adres dostawy kurierskiej: ' . $order['shipping_address'];
+      }
+      if (!empty($order['invoice_nip'])) {
+        $body[] = 'Dane do faktury (NIP): ' . $order['invoice_nip'];
+      }
+      $body[] = '--------------------------------------------------';
+      $body[] = 'Panel administracyjny: /admin/architect/orders';
+      $message['body'] = $body;
+      break;
+
+    case 'order_confirm_customer':
+      $order = $params['order'] ?? [];
+      $message['subject'] = 'Potwierdzenie opłacenia zamówienia ' . ($order['order_number'] ?? '') . ' – Pracownia Architektoniczna';
+      $body = [];
+      $body[] = 'Dzień dobry ' . ($order['customer_name'] ?? '') . ',';
+      $body[] = '';
+      $body[] = 'Dziękujemy za zakup projektu architektonicznego w naszej pracowni!';
+      $body[] = 'Twoja płatność BLIK została zaksięgowana pomyślnie.';
+      $body[] = '';
+      $body[] = 'Szczegóły zamówienia:';
+      $body[] = '- Numer: ' . ($order['order_number'] ?? '');
+      $body[] = '- Projekt: ' . ($order['project_title'] ?? '');
+      $body[] = '- Wariant: ' . (($order['variant'] ?? '') === 'print' ? 'Wersja drukowana (4 egz. do urzędu z pieczęciami)' : 'Wersja cyfrowa (PDF)');
+      $body[] = '- Opłacona kwota: ' . number_format((float) ($order['amount'] ?? 0), 2, ',', ' ') . ' PLN';
+      $body[] = '';
+      if (($order['variant'] ?? '') === 'print') {
+        $body[] = 'Komplet dokumentacji zostanie wysłany przesyłką kurierską w ciągu 24-48h na podany adres.';
+      }
+      else {
+        $body[] = 'Pliki dokumentacji oraz zgoda autora na zmiany zostały dołączone do niniejszej korespondencji.';
+      }
+      $body[] = '';
+      $body[] = 'Z poważaniem,';
+      $body[] = 'Pracownia Architektoniczna Kraśnik & Annopol';
+      $body[] = 'ul. Lubelska 14, 23-200 Kraśnik | tel. +48 500 123 456';
+      $message['body'] = $body;
+      break;
+  }
+}
+

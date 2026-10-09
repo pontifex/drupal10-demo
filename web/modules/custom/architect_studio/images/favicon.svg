@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="archGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e60022" />
+      <stop offset="100%" stop-color="#b91c1c" />
+    </linearGradient>
+  </defs>
+  <!-- Background rounded square with blueprint feel -->
+  <rect width="64" height="64" rx="14" fill="url(#archGrad)" />
+  
+  <!-- Subtle architectural grid lines -->
+  <path d="M12 20h40M12 32h40M12 44h40M20 12v40M32 12v40M44 12v40" stroke="#334155" stroke-width="0.8" opacity="0.6" />
+  
+  <!-- Modern Geometric House Outline -->
+  <path d="M32 14L14 28v22h36V28L32 14z" fill="none" stroke="#f8fafc" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" />
+  
+  <!-- Inner floor plan partition -->
+  <path d="M14 36h36M32 28v22" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" />
+  
+  <!-- Drafting Compass / Triangle Accent (Red) -->
+  <polygon points="32,20 28,32 36,32" fill="url(#accentGrad)" />
+  <circle cx="32" cy="20" r="2.5" fill="#ffffff" />
+</svg>
